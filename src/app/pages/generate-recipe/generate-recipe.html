@@ -1,0 +1,122 @@
+<main class="generate-recipe">
+    <section class="generate-recipe-section">
+        <nav>
+            <img src="./assets/logo/Capa_3.svg" alt="logo">
+        </nav>
+        <article>
+            <h2>Generate recipe</h2>
+            <section>
+                <h3>Got random stuff in your kitchen? Pop it in-we've got the perfect recipe waiting.</h3>
+                <div class="ingredients-div">
+                    <div class="input-form">
+                        <div class="ingredient">
+                            <p>Ingredient</p>
+                            <div class="input-field">
+                                <input type="text" name="ingredient-search" autocomplete="off" maxlength="20"
+                                    [(ngModel)]="ingredientInput" (input)="sanitizeIngredientInput($event)">
+                                <div class="suggestions">
+                                    @for (ingredient of filteredIngredients; track ingredient) {
+                                    <button type="button" (click)="selectIngredient(ingredient)">
+                                        {{ ingredient }}
+                                    </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="size">
+                            <p>Serving size</p>
+                            <div>
+                                <input appOnlyNumbers type="text" maxlength="5" autocomplete="off" placeholder="100"
+                                    [(ngModel)]="servingSize">
+                                <div class="dropdown">
+                                    <button (click)="toggleDropdown()" class="dropdown-button">{{ servingUnit }} <img
+                                            [class.open]="isDropdownOpen" src="./assets/img/arrow-close.svg"
+                                            alt="arrow closed"></button>
+                                    @if (isDropdownOpen) {
+                                    <div class="dropdown-menu">
+                                        <div (click)="selectServingUnit('piece')">piece</div>
+                                        <div (click)="selectServingUnit('ml')">ml</div>
+                                        <div (click)="selectServingUnit('gram')">gram</div>
+                                    </div>
+                                    }
+
+                                </div>
+                                <img class="add-icon" src="./assets/img/add.svg" alt="add Icon"
+                                    (click)="addIngredient()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-list">
+                        <p>List of your ingredients</p>
+                        <div class="added-ingredients">
+                            @for (ingredient of addedIngredients; track $index; let i = $index) {
+                            <span class="one-ingerdient">
+
+                                <div class="ingredient-row">
+                                    <div class="ingredient-amount">
+                                        <div class="dot"></div>
+                                        @if (ingredient.isEditing) {
+                                        <input class="amount-input" appOnlyNumbers type="text" maxlength="5"
+                                            autocomplete="off" [(ngModel)]="ingredient.editAmount">
+                                        <div class="dropdown">
+                                            <button type="button" class="dropdown-button"
+                                                (click)="toggleEditDropdown(i)">
+                                                {{ ingredient.editUnit }}
+                                                <img [class.open]="ingredient.isDropdownOpen"
+                                                    src="./assets/img/arrow-close.svg" alt="arrow">
+                                            </button>
+                                            @if (ingredient.isDropdownOpen) {
+                                            <div class="dropdown-menu">
+                                                <div (click)="selectEditUnit(i, 'piece')">
+                                                    piece
+                                                </div>
+                                                <div (click)="selectEditUnit(i, 'ml')">
+                                                    ml
+                                                </div>
+                                                <div (click)="selectEditUnit(i, 'gram')">
+                                                    gram
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
+                                        } @else {
+                                        <span>{{ ingredient.amount }}</span>
+                                        @if (ingredient.unit === 'gram') {
+                                        <span class="gram">g</span>
+                                        } @else if (ingredient.unit !== 'piece') {
+                                        <span>{{ ingredient.unit }}</span>
+                                        }}
+                                    </div>
+                                    <span>{{ ingredient.name }}</span>
+                                </div>
+                                <div class="edit-div">
+                                    @if (ingredient.isEditing) {
+                                    <img class="check" src="./assets/img/check.svg" alt="save"
+                                        (click)="toggleEditIngredient(i)">
+                                    } @else {
+                                    <img class="edit" src="./assets/img/edit.svg" alt="edit"
+                                        (click)="toggleEditIngredient(i)">
+                                    }
+                                    <img (click)="removeIngredient(i)" class="delete" src="./assets/img/delete.svg"
+                                        alt="delete">
+                                </div>
+
+                            </span>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <div class="next-step-div"> 
+                @if (addedIngredients.length >= 3) {
+                <button type="button" class="next-step-button">
+                    Next step
+                </button>
+                }
+            </div>
+
+        </article>
+    </section>
+</main>
