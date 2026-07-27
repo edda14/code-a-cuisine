@@ -1,0 +1,114 @@
+<main class="preferences">
+    <section class="preferences-section">
+        <nav>
+            <div routerLink="/generate-recipe"><img src="./assets/logo/Capa_3.svg" alt="logo">
+                <div>
+                    <img src="./assets/img/Arrow-left.svg" alt="arrow left">
+                    <p>Ingredients</p>
+                </div>
+            </div>
+        </nav>
+        <article>
+            <section>
+                <h3>Choose your preferences</h3>
+                <section class="preferences-form">
+                    <section>
+                        <div class="form-div">
+                            <p>How many portions you need?</p>
+                            <div>
+                                <img src="./assets/img/Minus.svg" alt="Minus" (click)="decreasePortions()">
+                                <div>
+                                    <p>{{ portionCount }}</p>
+                                </div>
+                                <p>Portions</p>
+                                <img src="./assets/img/Plus.svg" alt="Plus" (click)="increasePortions()">
+                            </div>
+                        </div>
+                        <div class="form-div">
+                            <p>How many are cooking?</p>
+                            <div>
+                                <img src="./assets/img/Minus.svg" alt="Minus" (click)="decreaseHelpers()">
+                                <div>
+                                    <p>{{ helperCount }}</p>
+                                </div>
+                                <p>Person</p>
+                                <img src="./assets/img/Plus.svg" alt="Plus" (click)="increaseHelpers()">
+
+                            </div>
+                        </div>
+                    </section>
+                    <section class="preference">
+                        <section class="set">
+                            <legend><img src="./assets/img/schedule.svg" alt="schedule">
+                                <p>Cooking time:</p>
+                            </legend>
+                            <div>
+                                <span>
+                                    <button class="button" (click)="selectedCookingTime = 'quick'"
+                                        [class.active]="selectedCookingTime === 'quick'">Quick</button>
+                                    <p>up tp 20min</p>
+                                </span>
+                                <span>
+                                    <button class="button" (click)="selectedCookingTime = 'medium'"
+                                        [class.active]="selectedCookingTime === 'medium'">Medium</button>
+                                    <p>25-40min</p>
+                                </span>
+                                <span>
+                                    <button class="button" (click)="selectedCookingTime = 'complex'"
+                                        [class.active]="selectedCookingTime === 'complex'">Complex</button>
+                                    <p>over 45min</p>
+                                </span>
+                            </div>
+                        </section>
+                        <section class="set">
+                            <legend>
+                                <img src="./assets/img/public.svg" alt="public">
+                                <p>Cuisine</p>
+                            </legend>
+                            <span>
+                                <button class="button" (click)="selectedCuisine = 'german'"
+                                    [class.active]="selectedCuisine === 'german'">German</button>
+                                <button class="button" (click)="selectedCuisine = 'italian'"
+                                    [class.active]="selectedCuisine === 'italian'">Italian</button>
+                                <button class="button" (click)="selectedCuisine = 'indian'"
+                                    [class.active]="selectedCuisine === 'indian'">Indian</button>
+                                <button class="button" (click)="selectedCuisine = 'japanese'"
+                                    [class.active]="selectedCuisine === 'japanese'">Japanese</button>
+                                <button class="button" (click)="selectedCuisine = 'gourmet'"
+                                    [class.active]="selectedCuisine === 'gourmet'">Gourmet</button>
+                                <button class="button" (click)="selectedCuisine = 'fusion'"
+                                    [class.active]="selectedCuisine === 'fusion'">Fusion</button>
+                            </span>
+
+                        </section>
+                        <section class="set">
+                            <legend><img src="./assets/img/fork_spoon.svg" alt="fork">
+                                <p>Diet preferences</p>
+                            </legend>
+                            <span>
+                                <button class="button" (click)="selectedDiet = 'vegetarian'"
+                                    [class.active]="selectedDiet === 'vegetarian'">Vegetarian</button>
+                                <button class="button" (click)="selectedDiet = 'vegan'"
+                                    [class.active]="selectedDiet === 'vegan'">Vegan</button>
+                                <button class="button" (click)="selectedDiet = 'keto'"
+                                    [class.active]="selectedDiet === 'keto'">Keto</button>
+                                <button class="button" (click)="selectedDiet = 'no preferences'"
+                                    [class.active]="selectedDiet === 'no preferences'">No preferences</button>
+                            </span>
+
+                        </section>
+                    </section>
+
+                </section>
+            </section>
+            @if (isFormValid()) {
+
+            <button>Generate Recipe</button>
+
+            }
+
+
+        </article>
+
+    </section>
+</main>

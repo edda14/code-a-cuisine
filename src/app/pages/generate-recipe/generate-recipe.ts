@@ -2,6 +2,7 @@ import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { OnlyNumbersDirective } from '../../shared/directives/only-numbers';
+import { RouterLink } from '@angular/router';
 interface Ingredient {
   name: string;
   amount: string;
@@ -14,7 +15,7 @@ interface Ingredient {
 
 @Component({
   selector: 'app-generate-recipe',
-  imports: [FormsModule, OnlyNumbersDirective],
+  imports: [FormsModule, OnlyNumbersDirective, RouterLink],
   templateUrl: './generate-recipe.html',
   styleUrl: './generate-recipe.scss',
 })

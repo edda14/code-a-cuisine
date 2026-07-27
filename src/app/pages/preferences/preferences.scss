@@ -1,0 +1,286 @@
+.preferences {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    &-section {
+        height: 100%;
+        width: 100%;
+        max-width: 1840px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 64px;
+
+        >article {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 56px;
+
+            >section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 56px;
+
+                .preferences-form {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 32px;
+
+                    .preference {
+                        padding: 32px 24px;
+                        min-width: 657px;
+                        min-height: 364px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: start;
+                        justify-content: center;
+                        border-radius: 20px;
+                        background-color: rgba(57, 96, 57, 0.2);
+                        gap: 40px;
+
+                        .set {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 24px;
+
+                            >span {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 12px;
+                            }
+
+                            >div {
+                                >span {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    justify-content: center;
+                                    gap: 12px;
+
+                                    >p {
+                                        font-family: "Quicksand";
+                                        font-weight: 500;
+                                        font-size: 14px;
+                                        line-height: 10px;
+                                        color: rgba(30, 85, 21, 1);
+                                    }
+                                }
+                            }
+
+                            >legend {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: center;
+                                gap: 6px;
+                                border: none;
+
+                                >p {
+                                    font-family: "Quicksand";
+                                    font-weight: 500;
+                                    font-size: 24px;
+                                    line-height: 100%;
+                                    color: rgba(16, 49, 11, 1);
+                                }
+                            }
+
+                            >div {
+                                display: flex;
+                                flex-direction: row;
+                                gap: 20px;
+
+                                >span {
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                            }
+                        }
+                    }
+
+                    >section {
+                        .form-div {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 16px;
+
+
+                            >div {
+                                display: flex;
+                                flex-direction: row;
+                                gap: 8px;
+                                align-items: center;
+                                padding: 4px;
+                                border-radius: 4px;
+
+                                >img {
+                                    transition: 0.3s ease all;
+
+                                    &:hover {
+                                        cursor: pointer;
+                                        background-color: rgba(231, 236, 231, 1);
+                                    }
+
+                                    &:active {
+                                        background-color: rgba(196, 208, 196, 1);
+                                    }
+                                }
+
+                                >div {
+                                    background-color: rgba(57, 96, 57, 0.2);
+                                    width: 24px;
+                                    height: 24px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+
+                                    >p {
+                                        font-family: "Quicksand";
+                                        font-weight: 500;
+                                        font-size: 20px;
+                                        line-height: 20px;
+                                        color: rgba(16, 49, 11, 1);
+                                    }
+
+                                }
+
+                                >p {
+                                    font-family: "Quicksand";
+                                    font-weight: 500;
+                                    font-size: 20px;
+                                    line-height: 20px;
+                                    color: rgba(16, 49, 11, 1);
+                                }
+                            }
+
+                            >p {
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 20px;
+                                line-height: 20px;
+                                color: rgba(16, 49, 11, 1);
+                            }
+                        }
+
+                        display: flex;
+                        flex-direction: row;
+                        gap: 120px;
+                    }
+
+                }
+
+                >h3 {
+                    font-family: "Quicksand";
+                    font-size: 28px;
+                    font-weight: 600;
+                    color: rgba(16, 49, 11, 1);
+                    line-height: 100%;
+                }
+            }
+
+            >button {
+                font-family: "Quicksand";
+                font-weight: 600;
+                font-size: 24px;
+                color: rgba(250, 240, 230, 1);
+                background-color: rgba(57, 96, 57, 1);
+                border: none;
+                width: 258px;
+                height: 62px;
+                transition: ease 0.3s all;
+
+                &:hover {
+                    cursor: pointer;
+                    font-weight: 700;
+                    color: white;
+
+                }
+            }
+        }
+
+
+
+        >nav {
+            width: 100%;
+            height: 136px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            >div {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+
+                &:hover {
+                    cursor: pointer;
+
+                    >div {
+                        >img {
+                            content: url(/assets/img/Arrow-beige-left.svg);
+                        }
+
+                        >p {
+                            color: rgba(250, 240, 230, 1);
+                        }
+                    }
+
+                    >img {
+                        content: url(/assets/img/logo-beige.svg);
+                    }
+                }
+
+                >div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 10px;
+
+                    >p {
+                        font-family: "Quicksand";
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 10px;
+                        color: rgba(30, 85, 21, 1);
+                    }
+                }
+
+                >img {
+                    width: auto;
+                }
+            }
+        }
+    }
+}
+
+.button {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 30px;
+    background-color: rgba(250, 240, 230, 1);
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Quicksand";
+    color: rgba(30, 85, 21, 1);
+    transition: ease 0.3s all;
+
+    &:hover {
+        background-color: rgba(250, 224, 198, 1);
+        cursor: pointer;
+    }
+}
+
+
+
+.button.active {
+    background-color: rgba(57, 96, 57, 0.2);
+    color: rgba(16, 49, 11, 1);
+}
