@@ -1,0 +1,184 @@
+.results {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    background-color: rgba(57, 96, 57, 1);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    .results-section {
+        height: auto;
+        width: 100%;
+        max-width: 1740px;
+        padding: 0px 40px;
+        display: flex;
+        gap: 40px;
+        flex-direction: column;
+        align-items: start;
+
+        >nav {
+            width: 100%;
+            height: 136px;
+            display: flex;
+
+            >img {
+                width: 142px;
+            }
+        }
+
+        >article {
+            height: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+
+            .header {
+                width: 100%;
+                justify-content: space-between;
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                gap: 96px;
+
+                >span {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+
+                    >h3 {
+                        font-family: "Quicksand";
+                        font-weight: 600;
+                        font-size: 54px;
+                        line-height: 65px;
+                        color: rgba(250, 240, 230, 1);
+                    }
+
+                    >p {
+                        font-family: "Quicksand";
+                        font-weight: 300;
+                        font-size: 24px;
+                        line-height: 30px;
+                        color: rgba(250, 240, 230, 1);
+                    }
+
+                    >span {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 16px;
+
+                        >div {
+                            padding: 6px 12px;
+                            background-color: rgba(250, 240, 230, 1);
+                            border-radius: 30px;
+                            font-family: "Quicksand";
+                            font-weight: 500;
+                            font-size: 18px;
+                            line-height: 100%;
+                            color: rgba(30, 85, 21, 1);
+                        }
+                    }
+                }
+            }
+
+            .recipe-results {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .recipe-card {
+                    width: 363px;
+                    height: 274px;
+                    padding: 32px 24px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 48px;
+                    border-radius: 20px;
+                    background-color: rgba(219, 224, 219, 1);
+                    transition: all 0.3s ease;
+                    &:hover {
+                        background-color: rgba(215, 223, 215, 0.9);
+                    }
+
+                    &-content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+
+
+                        >h4 {
+                            font-family: "Quicksand";
+                            font-weight: 600;
+                            font-size: 32px;
+                            line-height: 100%;
+                            color: rgba(16, 49, 11, 1)
+                        }
+
+                        .recipe-card-header {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 16px;
+
+
+
+                            >p {
+                                font-family: "Quicksand";
+                                font-weight: 600;
+                                font-size: 24px;
+                                line-height: 100%;
+                                color: rgba(30, 85, 21, 1);
+                            }
+
+
+
+                        }
+
+                        .recipe-card-cooking-time {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: 4px;
+
+                            >span {
+                                display: flex;
+                                flex-direction: row;
+                            }
+
+                            >p {
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 20px;
+                                line-height: 20px;
+                                color: rgba(57, 96, 57, 1);
+                            }
+                        }
+                    }
+
+                    >button {
+                        border: none;
+                        width: 106px !important;
+                        height: 60px;
+                        width: fit-content;
+                        background-color: rgba(250, 240, 230, 1);
+                        font-family: "Quicksand";
+                        font-weight: 600;
+                        font-size: 24px;
+                        line-height: 100%;
+                        color: rgba(0, 128, 0, 1);
+                        transition: all 0.3s ease;
+                        &:hover {
+                            cursor: pointer;
+                            background-color: rgba(250, 224, 198, 1);
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
