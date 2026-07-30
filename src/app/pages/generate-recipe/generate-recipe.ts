@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { OnlyNumbersDirective } from '../../shared/directives/only-numbers';
 import { RouterLink } from '@angular/router';
+import { RecipeData } from './../../shared/services/recipe-data';
+import { Router } from '@angular/router';
 interface Ingredient {
   name: string;
   amount: string;
@@ -12,6 +14,7 @@ interface Ingredient {
   editUnit?: string;
   isDropdownOpen?: boolean;
 }
+
 
 @Component({
   selector: 'app-generate-recipe',
@@ -29,10 +32,13 @@ export class GenerateRecipe implements OnInit {
   allIngredients: string[] = [];
   addedIngredients: Ingredient[] = [];
   filteredIngredients: string[] = [];
+  constructor(private recipeData: RecipeData,
+    private router: Router
+  ) {}
   loadStatus = 'Noch nicht geladen';
   @HostListener('document:click', ['$event'])
 
-  @HostListener('document:click', ['$event'])
+  
   onDocumentClick(event: MouseEvent): void {
     const clickedElement = event.target as HTMLElement;
     const clickedInsideDropdown = clickedElement.closest('.dropdown');
@@ -45,6 +51,7 @@ export class GenerateRecipe implements OnInit {
   }
 
   ngOnInit(): void {
+    this.addedIngredients = this.recipeData.getIngredients();
     this.loadStatus = 'Wird geladen …';
     this.http
       .get<string[]>('/assets/data/ingredients.json')
@@ -154,4 +161,9 @@ export class GenerateRecipe implements OnInit {
     this.addedIngredients[index].editUnit = unit;
     this.addedIngredients[index].isDropdownOpen = false;
   }
+
+  goToPreferences(): void {
+  this.recipeData.setIngredients(this.addedIngredients);
+  this.router.navigate(['/preferences']);
+}
 }

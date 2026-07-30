@@ -107,16 +107,15 @@
                         </div>
                     </div>
                 </div>
-
             </section>
-            <div class="next-step-div"> 
+            <div class="next-step-div">
+
                 @if (addedIngredients.length >= 3) {
-                <button type="button" class="next-step-button" routerLink="/preferences">
+                <button type="button" class="next-step-button" (click)="goToPreferences()">
                     Next step
                 </button>
                 }
             </div>
-
         </article>
     </section>
 </main>

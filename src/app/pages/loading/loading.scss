@@ -1,0 +1,235 @@
+.loading {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    background-color: rgba(57, 96, 57, 1);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    &-section {
+        height: 100%;
+        width: 100%;
+        max-width: 1840px;
+        padding: 0px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 64px;
+
+        >nav {
+            width: 100%;
+            height: 136px;
+            display: flex;
+            align-items: center;
+
+            >img {
+                width: auto;
+            }
+        }
+
+        >div {
+            margin-top: 6%;
+
+            >article {
+                width: 260px;
+                height: 320px;
+                border-radius: 20px;
+                background-color: rgba(196, 208, 196, 1);
+                position: relative;
+                overflow: hidden;
+
+                .bowl-full {
+                    position: absolute;
+                    top: calc(70% - 50px);
+                    left: calc(50% - 50px);
+                    width: 100px;
+                    z-index: 0;
+                }
+
+                .bowl-front {
+                    position: absolute;
+                    top: calc(70% - 72px);
+                    left: calc(50% - 50px);
+                    height: 100px;
+                    width: 100px;
+                    z-index: 10;
+                }
+
+                .salat-light {
+                    position: absolute;
+                    width: 50px;
+                    z-index: 2;
+                    bottom: 200px;
+                    left: -60px;
+                    transform: rotate(320deg);
+                    animation: salat-light-move 1s ease-in-out forwards;
+                }
+
+                @keyframes salat-light-move {
+                    0% {
+                        transform: translate(0, 0) rotate(320deg);
+                    }
+
+                    60% {
+                        transform: translate(188px, 0) rotate(360deg);
+                    }
+
+                    85% {
+                        transform: translate(188px, 90px) rotate(388deg);
+                    }
+
+                    100% {
+                        transform: translate(188px, 85px) rotate(385deg);
+                    }
+                }
+
+
+                .salat-dark {
+                    position: absolute;
+                    width: 50px;
+                    z-index: 3;
+                    bottom: 200px;
+                    right: -60px;
+                    animation: salat-dark-move 1s ease-in-out forwards;
+                    animation-delay: 1s;
+                }
+
+                @keyframes salat-dark-move {
+                    0% {
+                        transform: translate(0, 0) rotate(360deg);
+                    }
+
+                    60% {
+                        transform: translate(-170px, 0) rotate(340deg);
+                    }
+
+                    85% {
+                        transform: translate(-170px, 90px) rotate(332deg);
+                    }
+
+                    100% {
+                        transform: translate(-170px, 85px) rotate(330deg);
+                    }
+                }
+
+
+                .carrot {
+                    position: absolute;
+                    width: 70px;
+                    z-index: 4;
+                    bottom: 190px;
+                    left: -80px;
+                    animation: carrot-move 1s ease-in-out forwards;
+                    animation-delay: 2s;
+                }
+
+                @keyframes carrot-move {
+                    0% {
+                        transform: translate(0, 0) rotate(-115deg);
+                    }
+
+                    60% {
+                        transform: translate(140px, 0) rotate(-110deg);
+                    }
+
+                    85% {
+                        transform: translate(140px, 100px) rotate(-102deg);
+                    }
+
+                    100% {
+                        transform: translate(140px, 95px) rotate(-100deg);
+                    }
+                }
+
+                .gurke {
+                    position: absolute;
+                    width: 35px;
+                    z-index: 5;
+                    bottom: 200px;
+                    right: -50px;
+                    animation: gurke-move 1s ease-in-out forwards;
+                    animation-delay: 3s;
+                }
+
+                @keyframes gurke-move {
+                    0% {
+                        transform: translate(0, 0) rotate(360deg);
+                    }
+
+                    60% {
+                        transform: translate(-135px, 0) rotate(340deg);
+                    }
+
+                    85% {
+                        transform: translate(-135px, 90px) rotate(332deg);
+                    }
+
+                    100% {
+                        transform: translate(-135px, 85px) rotate(330deg);
+                    }
+                }
+
+                .zitrone {
+                    position: absolute;
+                    width: 30px;
+                    z-index: 6;
+                    bottom: 200px;
+                    left: -50px;
+                    animation: lemon-move 1s ease-in-out forwards;
+                    animation-delay: 4s;
+                }
+
+                @keyframes lemon-move {
+                    0% {
+                        transform: translate(0, 0) rotate(-115deg);
+                    }
+
+                    60% {
+                        transform: translate(165px, 0) rotate(-110deg);
+                    }
+
+                    85% {
+                        transform: translate(165px, 90px) rotate(-102deg);
+                    }
+
+                    100% {
+                        transform: translate(165px, 85px) rotate(-100deg);
+                    }
+                }
+
+                .thym {
+                    position: absolute;
+                    width: 30px;
+                    z-index: 7;
+                    bottom: 200px;
+                    transform: rotate(290deg);
+                    right: -50px;
+                    animation: thym-move 1s ease-in-out forwards;
+                    animation-delay: 5s;
+                }
+
+                @keyframes thym-move {
+                    0% {
+                        transform: translate(0, 0) rotate(0deg);
+                    }
+
+                    60% {
+                        transform: translate(-135px, 0) rotate(0deg);
+                    }
+
+                    85% {
+                        transform: translate(-135px, 90px) rotate(0deg);
+                    }
+
+                    100% {
+                        transform: translate(-135px, 85px) rotate(0deg);
+                    }
+                }
+
+                
+            }
+        }
+
+    }
+}

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { GenerateRecipe } from './pages/generate-recipe/generate-recipe';
 import { Preferences } from './pages/preferences/preferences';
+import {Loading } from './pages/loading/loading';
 
 export const routes: Routes = [
   {
@@ -15,5 +16,9 @@ export const routes: Routes = [
     {
     path: 'preferences',
     component: Preferences,
+  },
+     {
+    path: 'loading',
+    component: Loading,
   },
 ];

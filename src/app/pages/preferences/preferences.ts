@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { Router } from '@angular/router';
+import { RecipeData } from '../../shared/services/recipe-data';
 
 @Component({
   selector: 'app-preferences',
@@ -9,7 +11,12 @@ import { RouterLink } from "@angular/router";
   styleUrl: './preferences.scss',
   
 })
-export class Preferences {
+
+export class Preferences implements OnInit {
+  constructor(
+  private recipeData: RecipeData,
+  private router: Router
+) {}
 portionCount = 2;
 helperCount = 1;
 selectedCookingTime = '';
@@ -46,5 +53,11 @@ isFormValid(): boolean {
     this.selectedCuisine !== '' &&
     this.selectedDiet !== ''
   );
+}
+
+ngOnInit(): void {
+  if (!this.recipeData.hasEnoughIngredients()) {
+    this.router.navigate(['/generate-recipe']);
+  }
 }
 }
