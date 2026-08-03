@@ -1,6 +1,6 @@
 <main class="results">
     <section class="results-section">
-        <nav><img src="./assets/logo/Capa_2.svg" alt="logo"></nav>
+        <nav><img routerLink="/" src="./assets/logo/Capa_2.svg" alt="logo"></nav>
         <article>
             <section class="header">
                 <span>
@@ -16,13 +16,13 @@
                 <img src="./assets/img/Visual.svg" alt="Essen">
             </section>
             <section class="recipe-results">
-                <article class="recipe-card">
+                <article class="recipe-card" routerLink="/recipe">
                     <div class="recipe-card-content">
                         <span class="recipe-card-header">
                             <img src="./assets/img/service.svg" alt="service">
-                            
+
                             <p>Recipe 1</p>
-                            
+
                         </span>
                         <h4>Pasta with spinach and cherry tomatos</h4>
                         <span class="recipe-card-cooking-time">
@@ -39,10 +39,10 @@
                     <div class="recipe-card-content">
                         <span class="recipe-card-header">
                             <img src="./assets/img/service.svg" alt="service">
-                            
+
                             <p>Recipe 2</p>
-                            
-                            
+
+
                         </span>
                         <h4>Creamy garlic shrimp pasta</h4>
                         <span class="recipe-card-cooking-time">
@@ -59,11 +59,11 @@
                     <div class="recipe-card-content">
                         <span class="recipe-card-header">
                             <img src="./assets/img/service.svg" alt="service">
-                            
+
                             <p>Recipe 3</p>
-                            
-                            
-                           
+
+
+
                         </span>
                         <h4>Pasta alla Trapanese (Sicilian Tomato Pesto)</h4>
                         <span class="recipe-card-cooking-time">
@@ -79,6 +79,12 @@
                 </article>
             </section>
         </article>
+        <section class="new-recipe-section">
+            <button>
+                <p>generate new recipe <img src="./assets/img/Arrow-beige.svg" alt="arrow"></p>
+            </button>
+
+        </section>
 
     </section>
 </main>

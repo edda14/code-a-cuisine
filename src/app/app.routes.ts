@@ -4,6 +4,8 @@ import { GenerateRecipe } from './pages/generate-recipe/generate-recipe';
 import { Preferences } from './pages/preferences/preferences';
 import { Loading } from './pages/loading/loading';
 import { Results } from './pages/results/results';
+import {Recipe } from './pages/recipe/recipe';
+import {Cookbook } from './pages/cookbook/cookbook';
 
 
 export const routes: Routes = [
@@ -27,5 +29,13 @@ export const routes: Routes = [
     path: 'results',
     loadComponent: () =>
       import('./pages/results/results').then((m) => m.Results)
+  },
+  {
+  path: 'recipe',
+  component: Recipe,
+  },
+  {
+  path: 'cookbook',
+  component: Cookbook,
   }
 ];
