@@ -1,0 +1,368 @@
+.cookbook {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    &-section {
+        height: auto;
+        width: 100%;
+        max-width: 1740px;
+        padding: 40px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 64px;
+
+        &-content {
+            width: 1248px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            gap: 64px;
+
+            .upper-section {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 17px;
+                border-radius: 20px;
+                padding: 40px 24px;
+                background-color: rgba(57, 96, 57, 0.04);
+
+                .title {
+                    width: 446px;
+
+                    >h2 {
+                        font-family: "Quicksand";
+                        font-weight: 600;
+                        font-size: 64px;
+                        line-height: 65px;
+                        color: rgba(30, 85, 21, 1);
+                    }
+
+                    >p {
+                        font-family: "Quicksand";
+                        font-weight: 500;
+                        font-size: 24px;
+                        line-height: 100%;
+                        color: rgba(16, 49, 11, 1);
+                    }
+                }
+
+                .most-liked-content {
+                    width: 800px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: start;
+                    gap: 16px;
+
+                    .most-liked-header {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: start;
+                        gap: 16px;
+
+                        >h3 {
+                            font-family: "Quicksand";
+                            font-weight: 600;
+                            font-size: 24px;
+                            line-height: 100%;
+                            color: rgba(30, 85, 21, 1);
+                        }
+
+                        >img {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+
+                    .most-liked-recipes {
+                        width: 100%;
+                        overflow-x: auto;
+                        overflow-y: hidden;
+                        display: flex;
+                        flex-direction: row;
+                        gap: 20px;
+
+                        .most-liked {
+                            width: 346px;
+                            height: 92px;
+                            flex: 0 0 346px;
+                            padding: 16px 12px;
+                            display: flex;
+                            flex-direction: row;
+                            gap: 24px;
+                            border-radius: 16px;
+                            background-color: rgba(219, 224, 219, 0.7);
+                            transition: all ease 0.3s;
+
+                            &:hover {
+                                cursor: pointer;
+                                background-color: rgba(219, 224, 219, 1);
+                            }
+
+                            &-like {
+                                display: flex;
+                                flex-direction: row;
+                                align-items: start;
+                                justify-content: center;
+                                border-radius: 30px;
+                                padding: 6px 12px;
+                                height: fit-content;
+                                background-color: rgba(57, 96, 57, 0.2);
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 18px;
+                                line-height: 100%;
+                                color: rgba(16, 49, 11, 1);
+                                gap: 2px;
+
+                                >img {
+                                    height: 18px;
+
+                                }
+                            }
+
+                            &-time {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: start;
+                                gap: 8px;
+
+                                >h3 {
+                                    font-family: "Quicksand";
+                                    font-weight: 500;
+                                    font-size: 24px;
+                                    line-height: 100%;
+                                    color: rgba(30, 85, 21, 1);
+                                }
+
+                                >span {
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    justify-content: start;
+                                    gap: 4px;
+
+                                    >p {
+                                        font-family: "Quicksand";
+                                        font-weight: 500;
+                                        font-size: 16px;
+                                        line-height: 20px;
+                                        color: rgba(57, 96, 57, 1);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            >header {
+                width: 100%;
+                height: 136px;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+
+                >div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 32px;
+
+                    >div {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 12px;
+
+                        >p {
+                            font-family: "Quicksand";
+                            font-weight: 500;
+                            font-size: 16px;
+                            line-height: 10px;
+                            color: rgba(57, 96, 57, 1);
+                        }
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+
+                        >div {
+
+                            >img {
+                                content: url(/assets/img/Arrow-beige-left.svg);
+                            }
+
+                            >p {
+                                color: rgba(250, 240, 230, 1);
+                            }
+                        }
+
+                        >img {
+                            content: url(/assets/img/logo-beige.svg);
+                        }
+                    }
+                }
+            }
+        }
+
+        >header {
+            width: 100%;
+            height: 136px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            >div {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+
+                >div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+
+                    >p {
+                        font-family: "Quicksand";
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 10px;
+                        color: rgba(57, 96, 57, 1);
+                    }
+                }
+
+                &:hover {
+                    cursor: pointer;
+
+                    >div {
+
+                        >img {
+                            content: url(/assets/img/Arrow-beige-left.svg);
+                        }
+
+                        >p {
+                            color: rgba(250, 240, 230, 1);
+                        }
+                    }
+
+                    >img {
+                        content: url(/assets/img/logo-beige.svg);
+                    }
+                }
+            }
+        }
+
+        .new-recipe-section {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+
+            >button {
+                display: flex;
+                flex-direction: row;
+                alifn-items: center;
+                gap: 10px;
+                background-color: transparent;
+                border: none;
+                padding: 16px 26px;
+                transition: ease 0.3s all;
+
+                >p {
+                    font-family: "Quicksand";
+                    font-weight: 500;
+                    font-size: 20px;
+                    line-height: 20px;
+                    color: rgba(57, 96, 57, 1);
+                }
+
+                &:hover {
+                    background-color: rgba(57, 96, 57, 0.1);
+                    cursor: pointer;
+                }
+
+            }
+        }
+
+        .cuisine-categories {
+            display: grid;
+            grid-template-columns: repeat(3, 400px);
+            gap: 35px;
+
+            >span {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                transition: ease all 0.3s;
+
+                .img-wrapper {
+                    display: block;
+                    width: 400px;
+                    height: 400px;
+                    overflow: hidden;
+                    border-radius: 16px;
+
+                    >img {
+                        width: 400px;
+                        height: 400px;
+                        transition: all 0.3s ease;
+                    }
+                }
+
+                >header {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.3s ease;
+
+                    >h3 {
+                        font-family: "Quicksand";
+                        font-weight: 600;
+                        font-size: 28px;
+                        line-height: 100%;
+                        color: rgba(30, 85, 21, 1);
+
+
+                    }
+
+
+                    >img {
+                        transition: all 0.3s ease;
+                    }
+
+                }
+
+                &:hover {
+                    cursor: pointer;
+
+                    .img-wrapper>img {
+                        transform: scale(1.05);
+                    }
+
+                    .wrapper>img {
+                        transform: rotate(40deg);
+                    }
+
+
+                }
+            }
+        }
+    }
+
+}
