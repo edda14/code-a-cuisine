@@ -1,0 +1,193 @@
+.categorie {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    &-section {
+        height: auto;
+        width: 100%;
+        max-width: 1740px;
+        padding: 40px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 64px;
+
+        >article {
+            width: 1248px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            gap: 40px;
+            >img {
+                width: 100%;
+            }
+            .recipe-list {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: start;
+                gap: 8px;
+                >span {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 6px 10px;
+                    border-radius: 16px;
+                    transition: all ease 0.3s;
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgba(250, 240, 230, 0.7);
+                    }
+                    .recipe-preference {
+                        display: flex;
+                        flex-direction: row;
+                        gap: 8px;
+                        >div {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 6px 12px;
+                            background-color: rgba(57, 96, 57, 0.2);
+                            border-radius: 30px;
+                            font-family: "Quicksand";
+                            font-weight: 500;
+                            font-size: 18px;
+                            line-height: 100%;
+                            color: rgba(16, 49, 11, 1);
+                        }
+                    }
+                    .recipe-title {
+                        .time {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            padding-left: 38px;
+                            gap: 4px;
+                            >p {
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 18px;
+                                line-height: 20px;
+                                color: rgba(57, 96, 57, 1);
+                            }
+                        }
+                        .title {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                            >p {
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 24px;
+                                line-height: 100%;
+                                color: rgba(30, 85, 21, 1);
+                            }
+                            >div {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                border-radius: 20px;
+                                width: 30px;
+                                height: 30px;
+                                background-color: rgba(246, 227, 207, 1);
+                                font-family: "Quicksand";
+                                font-weight: 500;
+                                font-size: 18px;
+                                line-height: 100%;
+                                color: rgba(30, 85, 21, 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .button-section {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                >button {
+                    width: 258px;
+                    height: 62px;
+                    background-color: rgba(57, 96, 57, 1);
+                    border: none;
+                    color: rgba(250, 240, 230, 1);
+                    font-family: "Quicksand";
+                    font-weight: 600;
+                    font-size: 24px;
+                    line-height: 100%;
+                    transition: ease 0.3s all;
+                    &:hover {
+                            cursor: pointer;
+                            color: rgba(255, 255, 255, 1);
+                            background-color: rgba(5, 94, 5, 1);
+                            font-weight: 700;
+                    }
+                }
+            }
+        }
+
+        >header {
+            width: 100%;
+            height: 136px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            >div {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 32px;
+
+                >div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+
+                    >p {
+                        font-family: "Quicksand";
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 10px;
+                        color: rgba(57, 96, 57, 1);
+                    }
+                }
+
+                &:hover {
+                    cursor: pointer;
+
+                    >div {
+
+                        >img {
+                            content: url(/assets/img/Arrow-beige-left.svg);
+                        }
+
+                        >p {
+                            color: rgba(250, 240, 230, 1);
+                        }
+                    }
+
+                    >img {
+                        content: url(/assets/img/logo-beige.svg);
+                    }
+                }
+            }
+        }
+    }
+}

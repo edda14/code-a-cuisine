@@ -4,8 +4,9 @@ import { GenerateRecipe } from './pages/generate-recipe/generate-recipe';
 import { Preferences } from './pages/preferences/preferences';
 import { Loading } from './pages/loading/loading';
 import { Results } from './pages/results/results';
-import {Recipe } from './pages/recipe/recipe';
-import {Cookbook } from './pages/cookbook/cookbook';
+import { Recipe } from './pages/recipe/recipe';
+import { Cookbook } from './pages/cookbook/cookbook';
+import { Categorie } from './pages/categorie/categorie';
 
 
 export const routes: Routes = [
@@ -31,11 +32,15 @@ export const routes: Routes = [
       import('./pages/results/results').then((m) => m.Results)
   },
   {
-  path: 'recipe',
-  component: Recipe,
+    path: 'recipe',
+    component: Recipe,
   },
   {
-  path: 'cookbook',
-  component: Cookbook,
+    path: 'cookbook',
+    component: Cookbook,
+  },
+  {
+    path: 'categorie',
+    component: Categorie,
   }
 ];
