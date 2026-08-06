@@ -1,0 +1,192 @@
+{
+  "name": "code-a-cuisine",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-recipes",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        0
+      ],
+      "id": "2f26a9ab-0b5a-4928-90a5-4c0ae1c4e120",
+      "name": "Webhook",
+      "webhookId": "c7e578cc-ab5f-4d11-96e5-0ddd71277392"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"message\": \"Hallo Code à Cuisine 👋\"\n}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "http://localhost:4200"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        576,
+        -32
+      ],
+      "id": "49bc145b-40a6-4c92-8047-d61bf95e7a73",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const request = $input.first().json.body;\n\nif (!request || typeof request !== 'object') {\n  throw new Error('Request body is missing.');\n}\n\nif (!Array.isArray(request.ingredients) || request.ingredients.length < 1) {\n  throw new Error('At least one ingredient is required.');\n}\n\nfor (const ingredient of request.ingredients) {\n  if (\n    typeof ingredient.name !== 'string' ||\n    ingredient.name.trim().length === 0\n  ) {\n    throw new Error('Every ingredient requires a name.');\n  }\n\n  if (\n    typeof ingredient.amount !== 'number' ||\n    !Number.isFinite(ingredient.amount) ||\n    ingredient.amount <= 0\n  ) {\n    throw new Error(\n      `Invalid amount for ingredient \"${ingredient.name}\".`\n    );\n  }\n\n  if (\n    typeof ingredient.unit !== 'string' ||\n    ingredient.unit.trim().length === 0\n  ) {\n    throw new Error(\n      `A unit is required for ingredient \"${ingredient.name}\".`\n    );\n  }\n}\n\nif (\n  !Number.isInteger(request.portionCount) ||\n  request.portionCount < 1 ||\n  request.portionCount > 12\n) {\n  throw new Error('portionCount must be between 1 and 12.');\n}\n\nif (\n  !Number.isInteger(request.cookCount) ||\n  request.cookCount < 1 ||\n  request.cookCount > 3\n) {\n  throw new Error('cookCount must be between 1 and 3.');\n}\n\nconst allowedCookingTimes = ['quick', 'medium', 'complex'];\nconst allowedCuisines = [\n  'german',\n  'italian',\n  'indian',\n  'japanese',\n  'gourmet',\n  'fusion',\n];\nconst allowedDiets = [\n  'vegetarian',\n  'vegan',\n  'keto',\n  'no-preference',\n];\n\nif (!allowedCookingTimes.includes(request.cookingTime)) {\n  throw new Error('Invalid cookingTime.');\n}\n\nif (!allowedCuisines.includes(request.cuisine)) {\n  throw new Error('Invalid cuisine.');\n}\n\nif (!allowedDiets.includes(request.diet)) {\n  throw new Error('Invalid diet.');\n}\n\nreturn [\n  {\n    json: {\n      request,\n      validated: true,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        -32
+      ],
+      "id": "1269b89d-1f7e-47fc-b991-2e8cdb90765d",
+      "name": "Validate Recipe Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional recipe generator.\n\nCreate exactly 3 distinct recipes based on this request:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count and cooking time.\n- Use at least 70 percent of the ingredients supplied by the user in every recipe.\n- Add no more than 3 extra basic ingredients per recipe.\n- Do not list user-provided ingredients as extra ingredients.\n- Adjust all ingredient amounts to the requested portion count.\n- cookingTimeMinutes must match:\n  - quick: maximum 20 minutes\n  - medium: 20 to 45 minutes\n  - complex: more than 45 minutes\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Steps that can happen simultaneously must have the same parallelGroup number.\n- Directions must still be listed in a logical chronological order.\n- Provide realistic estimated nutrition values both per portion and for the complete recipe.\n- Macro percentages should describe the calorie distribution and total approximately 100.\n- ingredientUsagePercent must be a number from 70 to 100.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks. If cookCount is 1, every step must have a different parallelGroup.",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are a professional cooking assistant. Follow every instruction precisely and return only valid structured data matching the required output format."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "396b6865-c986-4336-bbc0-09b04d29dbff",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.6-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        176
+      ],
+      "id": "c15f4352-7789-4c0d-b52e-731b7856fe56",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NZaMMxPhA51iwusj",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"recipes\": [\n    {\n      \"title\": \"Pasta with spinach and tomatoes\",\n      \"description\": \"A quick vegetarian pasta dish.\",\n      \"cuisine\": \"italian\",\n      \"diet\": \"vegetarian\",\n      \"cookingTimeMinutes\": 20,\n      \"portionCount\": 2,\n      \"cookCount\": 1,\n      \"ingredientUsagePercent\": 75,\n      \"ingredients\": [\n        {\n          \"name\": \"Pasta\",\n          \"amount\": 200,\n          \"unit\": \"gram\",\n          \"providedByUser\": true\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"Olive oil\",\n          \"amount\": 2,\n          \"unit\": \"tablespoon\"\n        }\n      ],\n      \"directions\": [\n        {\n          \"step\": 1,\n          \"title\": \"Cook the pasta\",\n          \"description\": \"Cook the pasta in salted water.\",\n          \"assignedCook\": 1,\n          \"parallelGroup\": 1\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": 520,\n          \"proteinGrams\": 18,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 72,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 18,\n          \"fatPercent\": 31\n        },\n        \"total\": {\n          \"calories\": 1040,\n          \"proteinGrams\": 36,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 144,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 36,\n          \"fatPercent\": 31\n        }\n      }\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        384,
+        176
+      ],
+      "id": "3bd96418-78cc-47d1-b330-8b739cb9b896",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Recipe Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Validate Recipe Request": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "f74bd2f0-bba1-4105-bec0-740685af8c5d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"
+  },
+  "nodeGroups": [],
+  "id": "IhSJGsZDlG0Z5kEL",
+  "tags": []
+}

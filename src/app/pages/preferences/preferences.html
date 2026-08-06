@@ -103,7 +103,7 @@
             </section>
             @if (isFormValid()) {
 
-            <button routerLink="/loading">Generate Recipe</button>
+            <button [disabled]="!isFormValid()" (click)="goToLoading()">Generate Recipe</button>
 
             }
 

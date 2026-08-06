@@ -23,6 +23,27 @@ selectedCookingTime = '';
 selectedCuisine = '';
 selectedDiet = '';
 
+/**
+ * Speichert die ausgewählten Rezeptpräferenzen
+ * und navigiert anschließend zur Loading-Seite.
+ */
+goToLoading(): void {
+  if (!this.isFormValid()) {
+    return;
+  }
+
+  this.recipeData.setPortionCount(this.portionCount);
+
+  this.recipeData.setPreferences({
+    cookingTime: this.selectedCookingTime,
+    cuisine: this.selectedCuisine,
+    diet: this.selectedDiet,
+    helperCount: this.helperCount,
+  });
+
+  this.router.navigate(['/loading']);
+}
+
 increasePortions(): void {
   if (this.portionCount < 12) {
     this.portionCount++;
