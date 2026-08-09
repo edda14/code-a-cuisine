@@ -21,7 +21,7 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "{\n  \"message\": \"Hallo Code à Cuisine 👋\"\n}",
+        "responseBody": "={{ $json.output }}",
         "options": {
           "responseHeaders": {
             "entries": [
@@ -58,7 +58,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a professional recipe generator.\n\nCreate exactly 3 distinct recipes based on this request:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count and cooking time.\n- Use at least 70 percent of the ingredients supplied by the user in every recipe.\n- Add no more than 3 extra basic ingredients per recipe.\n- Do not list user-provided ingredients as extra ingredients.\n- Adjust all ingredient amounts to the requested portion count.\n- cookingTimeMinutes must match:\n  - quick: maximum 20 minutes\n  - medium: 20 to 45 minutes\n  - complex: more than 45 minutes\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Steps that can happen simultaneously must have the same parallelGroup number.\n- Directions must still be listed in a logical chronological order.\n- Provide realistic estimated nutrition values both per portion and for the complete recipe.\n- Macro percentages should describe the calorie distribution and total approximately 100.\n- ingredientUsagePercent must be a number from 70 to 100.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks. If cookCount is 1, every step must have a different parallelGroup.",
+        "text": "=You are a professional recipe generator.\n\nCreate exactly 3 distinct recipes based on this request:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count and cooking time.\n- Use at least 70 percent of the ingredients supplied by the user in every recipe.\n- Add no more than 3 extra basic ingredients per recipe.\n- Do not list user-provided ingredients as extra ingredients.\n- Adjust all ingredient amounts to the requested portion count.\n- cookingTimeMinutes must match:\n  - quick: maximum 20 minutes\n  - medium: 20 to 45 minutes\n  - complex: more than 45 minutes\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Steps that can happen simultaneously must have the same parallelGroup number.\n- Directions must still be listed in a logical chronological order.\n- Provide realistic estimated nutrition values both per portion and for the complete recipe.\n- Macro percentages should describe the calorie distribution and total approximately 100.\n- ingredientUsagePercent must be a number from 70 to 100.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks. If cookCount is 1, every step must have a different parallelGroup.\n- The ingredients array must contain only ingredients supplied by the user and providedByUser must always be true there. Additional ingredients must appear only in extraIngredients and must not be duplicated in ingredients.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -80,7 +80,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-3.6-flash",
+        "modelName": "models/gemini-3.5-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -175,13 +175,13 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "f74bd2f0-bba1-4105-bec0-740685af8c5d",
+  "versionId": "ed76af5b-0666-455c-b441-626af3ec2a1e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"
