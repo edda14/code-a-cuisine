@@ -94,11 +94,13 @@
                         flex-direction: column;
                         align-items: start;
                         gap: 18px;
+                        width:fit-content;
 
                         .recipe-nutrition {
                             display: flex;
                             flex-direction: row;
                             align-items: start;
+                            justify-content: start;
                             gap: 16px;
 
                             >div {
@@ -106,11 +108,12 @@
                                 flex-direction: column;
                                 align-items: center;
                                 gap: 8px;
+                                min-width: 50px;
 
                                 >h3 {
                                     font-family: "Quicksand";
                                     font-weight: 700;
-                                    font-size: 22px;
+                                    font-size: 20px;
                                     line-height: 100%;
                                     color: rgba(16, 49, 11, 1);
                                 }
@@ -118,7 +121,8 @@
                                 >p {
                                     font-family: "Quicksand";
                                     font-weight: 500;
-                                    font-size: 20px;
+                                    font-size: 18px;
+                                    text-wrap: nowrap;
                                     line-height: 20px;
                                     color: rgba(16, 49, 11, 1);
                                 }
@@ -128,6 +132,7 @@
                         >p {
                             font-family: "Quicksand";
                             font-weight: 400;
+                            text-wrap: nowrap;
                             font-size: 18px;
                             line-height: 100%;
                             color: rgba(16, 49, 11, 1);
@@ -269,16 +274,17 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 2px 4px;
+    padding: 4px 8px;
     border-radius: 6px;
     gap: 4px;
-    width: 88px;
+    width: fit-content;
     height: 27px;
 
     >p {
         font-family: "Quicksand";
         font-weight: 500;
         font-size: 18px;
+        text-wrap: nowrap;
         line-height: 100%;
         color: rgba(16, 49, 11, 1);
     }
@@ -312,7 +318,7 @@
     flex-direction: row;
     gap: 16px;
     align-items: center;
-    margin-left: -8px;
+    margin-left: -12px;
 
     >div {
         padding: 6px 12px;
@@ -342,12 +348,12 @@
         gap: 64px;
 
         .direction {
-            width: 100%;
+            min-width: 400px;
             display: flex;
             flex-direction: column;
             align-items: start;
             justify-content: start;
-            gap: 32px;
+            gap: 16px;
 
             .direction-text {
                 font-family: "Quicksand";
@@ -359,7 +365,7 @@
             }
 
             >header {
-                width: 400px;
+                min-width: 400px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -367,9 +373,10 @@
                 gap: 16px;
 
                 >span {
+                    width: fit-content;
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
+                    align-items:first baseline;
                     gap: 16px;
 
                     >p {
@@ -427,7 +434,7 @@
         justify-content: center;
         gap: 80px;
 
-        >span {
+        >section {
             display: flex;
             flex-direction: column;
             align-items: start;

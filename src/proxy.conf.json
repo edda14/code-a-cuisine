@@ -2,5 +2,9 @@
   "/webhook-test/**": {
     "target": "http://127.0.0.1:5678",
     "secure": false
+  },
+  "/webhook/**": {
+    "target": "http://127.0.0.1:5678",
+    "secure": false
   }
 }

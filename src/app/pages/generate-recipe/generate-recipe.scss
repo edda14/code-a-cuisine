@@ -25,6 +25,9 @@
 
             >img {
                 width: auto;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
 

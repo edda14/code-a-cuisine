@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
+import { GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
+import { forkJoin, timer } from 'rxjs';
 
 @Component({
   selector: 'app-loading',
@@ -11,6 +13,8 @@ import { RecipeData } from '../../shared/services/recipe-data';
 })
 export class Loading implements OnInit {
   animationFinished = false;
+ errorTitle = signal('');
+errorMessage = signal('');
 
   constructor(
     private router: Router,
@@ -19,19 +23,11 @@ export class Loading implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('Zutaten:', this.recipeData.getIngredients());
-    console.log('Portionen:', this.recipeData.getPortionCount());
-    console.log('Preferences:', this.recipeData.getPreferences());
-
     this.testN8nConnection();
-
-    setTimeout(() => {
-      this.router.navigate(['/results']);
-    }, 8000);
   }
 
   private testN8nConnection(): void {
-    const url = '/webhook-test/generate-recipes';
+    const url = '/webhook/generate-recipes';
     const preferences = this.recipeData.getPreferences();
 
     const body = {
@@ -47,20 +43,57 @@ export class Loading implements OnInit {
       diet: preferences.diet,
     };
 
-    // console.log('JSON für n8n:', body);
+  
 
-    this.http.post<{ message: string }>(url, body).subscribe({
-      next: (response) => {
-        console.log('Antwort von n8n:', response);
+    forkJoin({
+      response: this.http.post<GenerateRecipesResponse>(url, body),
+      minimumLoadingTime: timer(7000),
+    }).subscribe({
+      next: ({ response }) => {
+
+        if (!response.recipes || response.recipes.length !== 3) {
+          this.errorTitle.set('Ups! Not quite enough....');
+          this.errorMessage.set('It looks like some ingredient quantitied aren`t sufficient for your selected servings. Please add or adjust quantities and try again.');
+          return;
+        }
+
+
+        this.recipeData.setGeneratedRecipes(response.recipes);
+        this.router.navigate(['/results']);
       },
       error: (error) => {
         console.error('Fehler bei n8n:', error);
-      }
+
+        this.errorTitle.set('Ups! Something went wrong...');
+        this.errorMessage.set('We could not generate your recipes right now. Please try again or adjust your ingredients.');
+      },
     });
   }
 
   onAnimationEnd(): void {
     this.animationFinished = true;
-    console.log('Animation ist fertig');
+  }
+
+  /**
+ * Starts the recipe request again without clearing the form data.
+ */
+  retryRequest(): void {
+    this.errorTitle.set('');
+    this.errorMessage.set('');
+    this.testN8nConnection();
+  }
+
+  /**
+   * Closes the error flow and returns to the ingredient form.
+   */
+  dismissError(): void {
+    this.backToIngredients();
+  }
+
+  /**
+   * Returns to the ingredient form without deleting its data.
+   */
+  backToIngredients(): void {
+    this.router.navigate(['/generate-recipe']);
   }
 }

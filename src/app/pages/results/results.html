@@ -9,14 +9,40 @@
                         Here are 3 easy reipes you can make right now!
                     </p>
                     <span>
-                        <div>Italian</div>
-                        <div> Quick</div>
+                        <div>{{ recipes[0]?.cuisine }}</div>
+                        <div>{{ recipes[0]?.diet }}</div>
                     </span>
                 </span>
                 <img src="./assets/img/Visual.svg" alt="Essen">
             </section>
             <section class="recipe-results">
-                <article class="recipe-card" routerLink="/recipe">
+                <section class="recipe-results">
+                    @for (recipe of recipes; track recipe.title; let index = $index) {
+                    <article class="recipe-card">
+                        <div class="recipe-card-content">
+                            <header class="recipe-card-header">
+                                <img src="./assets/img/service.svg" alt="" aria-hidden="true">
+                                <p>Recipe {{ index + 1 }}</p>
+                            </header>
+
+                            <h4>{{ recipe.title }}</h4>
+
+                            <div class="recipe-card-cooking-time">
+                                <img src="./assets/img/clock.svg" alt="" aria-hidden="true">
+                                <p>
+                                    Cooking time:
+                                    <span>{{ recipe.cookingTimeMinutes }} min</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <button class="recipe-card__link" type="button" (click)="openRecipe(recipe)">
+                            View
+                        </button>
+                    </article>
+                    }
+                </section>
+                <!-- <article class="recipe-card" routerLink="/recipe">
                     <div class="recipe-card-content">
                         <span class="recipe-card-header">
                             <img src="./assets/img/service.svg" alt="service">
@@ -76,11 +102,11 @@
                     </div>
                     <button class="recipe-card__link">View</button>
 
-                </article>
+                </article> -->
             </section>
         </article>
         <section class="new-recipe-section">
-            <button routerLink="/generate-recipe">
+            <button (click)="startNewRecipe()">
                 <p>generate new recipe <img src="./assets/img/Arrow-beige.svg" alt="arrow"></p>
             </button>
 

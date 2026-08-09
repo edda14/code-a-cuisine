@@ -92,8 +92,10 @@
                                     [class.active]="selectedDiet === 'vegan'">Vegan</button>
                                 <button class="button" (click)="selectedDiet = 'keto'"
                                     [class.active]="selectedDiet === 'keto'">Keto</button>
-                                <button class="button" (click)="selectedDiet = 'no preferences'"
-                                    [class.active]="selectedDiet === 'no preferences'">No preferences</button>
+                                <button class="button" type="button" (click)="selectedDiet = 'no-preference'"
+                                    [class.active]="selectedDiet === 'no-preference'">
+                                    No preferences
+                                </button>
                             </span>
 
                         </section>
