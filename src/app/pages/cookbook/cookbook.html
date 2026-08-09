@@ -21,61 +21,35 @@
                         <img src="./assets/img/heart-empty.svg" alt="heart">
                     </header>
                     <div class="most-liked-recipes">
-                        <article class="most-liked">
+                        @if (isLoading()) {
+                        <p>Recipes are loading...</p>
+                        } @else if (hasLoadingError()) {
+                        <p>The recipes could not be loaded.</p>
+                        } @else {
+                        @for (recipe of mostLikedRecipes(); track recipe.id) {
+                        <article class="most-liked" role="button" tabindex="0" (click)="openRecipe(recipe)"
+                            (keydown.enter)="openRecipe(recipe)" (keydown.space)="openRecipe(recipe)">
                             <div class="most-liked-time">
-                                <span><img src="./assets/img/clock.svg" alt="clock">
-                                    <p>Cooking time: 20min</p>
+                                <span>
+                                    <img src="./assets/img/clock.svg" alt="clock">
+                                    <p>
+                                        Cooking time:
+                                        {{ recipe.cookingTimeMinutes }}min
+                                    </p>
                                 </span>
-                                <h3>Pasta with spinach and cherry tomatoes</h3>
+
+                                <h3>{{ recipe.title }}</h3>
                             </div>
+
                             <div class="most-liked-like">
-                                <img src="./assets/img/favorite.svg" alt="favorite">57
+                                <img src="./assets/img/favorite.svg" alt="favorite">
+                                {{ recipe.likes ?? 0 }}
                             </div>
                         </article>
-                        <article class="most-liked">
-                            <div class="most-liked-time">
-                                <span><img src="./assets/img/clock.svg" alt="clock">
-                                    <p>Cooking time: 20min</p>
-                                </span>
-                                <h3>Pasta with spinach and cherry tomatoes</h3>
-                            </div>
-                            <div class="most-liked-like">
-                                <img src="./assets/img/favorite.svg" alt="favorite">57
-                            </div>
-                        </article>
-                        <article class="most-liked">
-                            <div class="most-liked-time">
-                                <span><img src="./assets/img/clock.svg" alt="clock">
-                                    <p>Cooking time: 20min</p>
-                                </span>
-                                <h3>Pasta with spinach and cherry tomatoes</h3>
-                            </div>
-                            <div class="most-liked-like">
-                                <img src="./assets/img/favorite.svg" alt="favorite">57
-                            </div>
-                        </article>
-                        <article class="most-liked">
-                            <div class="most-liked-time">
-                                <span><img src="./assets/img/clock.svg" alt="clock">
-                                    <p>Cooking time: 20min</p>
-                                </span>
-                                <h3>Pasta with spinach and cherry tomatoes</h3>
-                            </div>
-                            <div class="most-liked-like">
-                                <img src="./assets/img/favorite.svg" alt="favorite">57
-                            </div>
-                        </article>
-                        <article class="most-liked">
-                            <div class="most-liked-time">
-                                <span><img src="./assets/img/clock.svg" alt="clock">
-                                    <p>Cooking time: 20min</p>
-                                </span>
-                                <h3>Pasta with spinach and cherry tomatoes</h3>
-                            </div>
-                            <div class="most-liked-like">
-                                <img src="./assets/img/favorite.svg" alt="favorite">57
-                            </div>
-                        </article>
+                        } @empty {
+                        <p>No recipes have been saved yet.</p>
+                        }
+                        }
                     </div>
                 </section>
             </section>
@@ -92,7 +66,7 @@
                         <h3>German cuisine</h3><img src="./assets/img/german-icon.png" alt="German icon">
                     </header>
                     <span class="img-wrapper">
-                    <img src="./assets/img/german.svg" alt="German">
+                        <img src="./assets/img/german.svg" alt="German">
                     </span>
                 </span>
                 <span>
@@ -106,13 +80,13 @@
                         <h3>Gourmet cuisine</h3><img src="./assets/img/gourmet-icon.png" alt="Gourmet icon">
                     </header>
                     <span class="img-wrapper">
-                    <img src="./assets/img/gourmet.png" alt="Gourmet"></span>
+                        <img src="./assets/img/gourmet.png" alt="Gourmet"></span>
                 </span>
                 <span>
                     <header class="wrapper">
                         <h3>Indian cuisine</h3><img src="./assets/img/indian-icon.png" alt="Indian icon">
                     </header>
-                   <span class="img-wrapper"> <img src="./assets/img/indian.png" alt="Indian"></span>
+                    <span class="img-wrapper"> <img src="./assets/img/indian.png" alt="Indian"></span>
                 </span>
                 <span>
                     <header class="wrapper">

@@ -35,6 +35,9 @@ export interface RecipeNutrition {
 }
 
 export interface GeneratedRecipe {
+  id?: string;
+  likes?: number;
+
   title: string;
   description: string;
   cuisine: string;

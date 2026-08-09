@@ -47,7 +47,7 @@
                             <div>{{ getCookingTimeLabel() }}</div>
                             <div class="row">
                                 <img src="./assets/img/favorite.svg" alt="Likes">
-                                0
+                                {{ likeCount() }}
                             </div>
                         </section>
                         <p>Nutritional information per portion</p>
@@ -142,7 +142,14 @@
                         <h3>Just finished this meal?</h3>
                         <p>Give it a heart, so that the others know this is delicious.</p>
                     </span>
-                    <img src="./assets/img/heart-empty.svg" alt="heart empty" />
+                    <button class="like-button" type="button" [class.liked]="hasLiked()" [disabled]="isLiking()"
+                        [attr.aria-pressed]="hasLiked()" [attr.aria-label]="hasLiked()
+    ? 'Remove like from this recipe'
+    : 'Like this recipe'" (click)="likeRecipe()">
+                        <img [src]="hasLiked()
+            ? './assets/img/heart-full.svg'
+            : './assets/img/heart-empty.svg'" alt="" aria-hidden="true">
+                    </button>
                 </section>
             </article>
             <div class="go-to-cookbook">

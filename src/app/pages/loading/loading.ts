@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
 import { GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
 import { forkJoin, timer } from 'rxjs';
+import { FirebaseRecipes } from '../../shared/services/firebase-recipes';
 
 @Component({
   selector: 'app-loading',
@@ -13,13 +14,14 @@ import { forkJoin, timer } from 'rxjs';
 })
 export class Loading implements OnInit {
   animationFinished = false;
- errorTitle = signal('');
-errorMessage = signal('');
+  errorTitle = signal('');
+  errorMessage = signal('');
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private recipeData: RecipeData
+    private recipeData: RecipeData,
+    private firebaseRecipes: FirebaseRecipes
   ) { }
 
   ngOnInit(): void {
@@ -43,29 +45,42 @@ errorMessage = signal('');
       diet: preferences.diet,
     };
 
-  
+
 
     forkJoin({
       response: this.http.post<GenerateRecipesResponse>(url, body),
       minimumLoadingTime: timer(7000),
     }).subscribe({
-      next: ({ response }) => {
-
-        if (!response.recipes || response.recipes.length !== 3) {
-          this.errorTitle.set('Ups! Not quite enough....');
-          this.errorMessage.set('It looks like some ingredient quantitied aren`t sufficient for your selected servings. Please add or adjust quantities and try again.');
+      next: async ({ response }) => {
+        if (!response?.recipes || response.recipes.length !== 3) {
+          this.errorTitle.set('Oops! Something is missing...');
+          this.errorMessage.set(
+            'We could not create three suitable recipes. Please adjust your ingredients and try again.'
+          );
           return;
         }
 
+        try {
+          const recipeIds = await this.firebaseRecipes.saveRecipes(
+            response.recipes
+          );
 
-        this.recipeData.setGeneratedRecipes(response.recipes);
-        this.router.navigate(['/results']);
-      },
-      error: (error) => {
-        console.error('Fehler bei n8n:', error);
+          const savedRecipes = response.recipes.map((recipe, index) => ({
+            ...recipe,
+            id: recipeIds[index],
+            likes: 0,
+          }));
 
-        this.errorTitle.set('Ups! Something went wrong...');
-        this.errorMessage.set('We could not generate your recipes right now. Please try again or adjust your ingredients.');
+          this.recipeData.setGeneratedRecipes(savedRecipes);
+          this.router.navigate(['/results']);
+        } catch (error) {
+          console.error('Fehler beim Speichern in Firebase:', error);
+
+          this.errorTitle.set('Oops! Saving failed...');
+          this.errorMessage.set(
+            'Your recipes were generated, but could not be saved. Please try again.'
+          );
+        }
       },
     });
   }

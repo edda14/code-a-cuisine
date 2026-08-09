@@ -94,7 +94,7 @@
                         flex-direction: column;
                         align-items: start;
                         gap: 18px;
-                        width:fit-content;
+                        width: fit-content;
 
                         .recipe-nutrition {
                             display: flex;
@@ -376,7 +376,7 @@
                     width: fit-content;
                     display: flex;
                     flex-direction: row;
-                    align-items:first baseline;
+                    align-items: first baseline;
                     gap: 16px;
 
                     >p {
@@ -497,22 +497,33 @@
         }
     }
 
-    >img {
+    .like-button {
         display: flex;
+        align-items: center;
+        justify-content: center;
         padding: 7px 6px;
+        border: none;
         border-radius: 5px;
-        width: 42px;
-        height: 42px;
+        background-color: transparent;
         transition: ease 0.3s all;
 
-        &:hover {
-            cursor: pointer;
-            background-color: rgba(215, 223, 215, 0.6)
+        >img {
+            width: 42px;
+            height: 42px;
         }
 
-        &:active {
-            content: url("/assets/img/heart-full.svg");
+        &:not(:disabled):hover {
+            cursor: pointer;
+            background-color: rgba(215, 223, 215, 0.6);
+        }
+
+        &:disabled {
+            cursor: default;
+        }
+
+        &:focus-visible {
+            outline: 2px solid rgba(30, 85, 21, 1);
+            outline-offset: 3px;
         }
     }
-
 }
