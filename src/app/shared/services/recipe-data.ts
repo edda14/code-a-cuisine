@@ -48,30 +48,53 @@ export class RecipeData {
     return [...this.generatedRecipes];
   }
 
+  /**
+ * Stores a copy of the provided ingredient list.
+ *
+ */
   setIngredients(ingredients: Ingredient[]): void {
     this.ingredients = [...ingredients];
   }
 
+  /**
+ * Returns a copy of the currently stored ingredients.
+ */
   getIngredients(): Ingredient[] {
     return [...this.ingredients];
   }
 
+  /**
+ * Stores the selected number of portions.
+ */
   setPortionCount(portionCount: number): void {
     this.portionCount = portionCount;
   }
 
+  /**
+ * Returns the selected number of portions.
+ */
   getPortionCount(): number {
     return this.portionCount;
   }
 
+  /**
+ * Stores a copy of the selected recipe preferences.
+ */
   setPreferences(preferences: RecipePreferences): void {
     this.preferences = { ...preferences };
   }
 
+  /**
+ * Returns a copy of the stored recipe preferences.
+ *
+ */
   getPreferences(): RecipePreferences {
     return { ...this.preferences };
   }
 
+  /**
+ * Checks whether enough ingredients have been entered.
+ */
   hasEnoughIngredients(): boolean {
     return this.ingredients.length >= 3;
   }
@@ -90,6 +113,9 @@ export class RecipeData {
     return this.selectedRecipe;
   }
 
+  /**
+ * Clears all recipe data and restores the default values.
+ */
   clear(): void {
     this.ingredients = [];
     this.portionCount = 2;
@@ -100,7 +126,6 @@ export class RecipeData {
       diet: '',
       helperCount: 1,
     };
-
     this.generatedRecipes = [];
     this.selectedRecipe = null;
   }

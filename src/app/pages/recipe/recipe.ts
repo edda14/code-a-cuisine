@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { GeneratedRecipe } from '../../shared/interfaces/generated-recipe';
 import { RecipeData } from '../../shared/services/recipe-data';
 import { FirebaseRecipes } from '../../shared/services/firebase-recipes';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-recipe',
@@ -16,49 +17,58 @@ export class Recipe implements OnInit {
   isLiking = signal(false);
   recipe: GeneratedRecipe | null = null;
 
-constructor(
-  private recipeData: RecipeData,
-  private router: Router,
-  private firebaseRecipes: FirebaseRecipes
-) {}
+  constructor(
+    private recipeData: RecipeData,
+    private router: Router,
+    private firebaseRecipes: FirebaseRecipes,
+    private location: Location
+  ) { }
 
   /**
- * Loads the selected recipe and its current like state.
- */
-async ngOnInit(): Promise<void> {
-  const selectedRecipe =
-    this.recipeData.getSelectedRecipe();
+  * Loads the selected recipe and its current like state.
+  */
+  async ngOnInit(): Promise<void> {
+    const selectedRecipe =
+      this.recipeData.getSelectedRecipe();
 
-  if (!selectedRecipe) {
-    this.router.navigate(['/results']);
-    return;
+    if (!selectedRecipe) {
+      this.router.navigate(['/results']);
+      return;
+    }
+
+    this.setSelectedRecipe(selectedRecipe);
+
+    if (selectedRecipe.id) {
+      await this.loadLikeState(selectedRecipe.id);
+    }
   }
 
-  this.recipe = selectedRecipe;
-  this.likeCount.set(selectedRecipe.likes ?? 0);
-
-  if (!selectedRecipe.id) {
-    return;
+  /**
+   * Sets the selected recipe and its current like count.
+   */
+  private setSelectedRecipe(recipe: GeneratedRecipe): void {
+    this.recipe = recipe;
+    this.likeCount.set(recipe.likes ?? 0);
   }
 
-  this.isLiking.set(true);
+  /**
+   * Loads the current user's like state for a recipe.
+   */
+  private async loadLikeState(recipeId: string): Promise<void> {
+    this.isLiking.set(true);
 
-  try {
-    const hasLiked =
-      await this.firebaseRecipes.hasLikedRecipe(
-        selectedRecipe.id
-      );
+    try {
+      const hasLiked =
+        await this.firebaseRecipes.hasLikedRecipe(recipeId);
 
-    this.hasLiked.set(hasLiked);
-  } catch (error) {
-    console.error(
-      'Fehler beim Laden des Like-Status:',
-      error
-    );
-  } finally {
-    this.isLiking.set(false);
+      this.hasLiked.set(hasLiked);
+    } catch (error) {
+      console.error('Fehler beim Laden des Like-Status:', error);
+    } finally {
+      this.isLiking.set(false);
+    }
   }
-}
+
   /**
   * Returns the cooking-time category of the selected recipe.
   */
@@ -66,15 +76,12 @@ async ngOnInit(): Promise<void> {
     if (!this.recipe) {
       return '';
     }
-
     if (this.recipe.cookingTimeMinutes <= 20) {
       return 'Quick';
     }
-
     if (this.recipe.cookingTimeMinutes <= 45) {
       return 'Medium';
     }
-
     return 'Complex';
   }
 
@@ -86,32 +93,44 @@ async ngOnInit(): Promise<void> {
     this.router.navigate(['/generate-recipe']);
   }
 
- /**
- * Adds or removes the like for the selected recipe.
- */
-async likeRecipe(): Promise<void> {
-  if (!this.recipe?.id || this.isLiking()) {
-    return;
+  /**
+   * Adds or removes the current user's like for the selected recipe.
+   */
+  async likeRecipe(): Promise<void> {
+    const recipeId = this.recipe?.id;
+    if (!recipeId || this.isLiking()) {
+      return;
+    }
+    this.isLiking.set(true);
+    try {
+      const result =
+        await this.firebaseRecipes.toggleRecipeLike(recipeId);
+      this.applyLikeResult(result);
+    } catch (error) {
+      console.error('Fehler beim Ändern des Likes:', error);
+    } finally {
+      this.isLiking.set(false);
+    }
   }
 
-  this.isLiking.set(true);
-
-  try {
-    const result =
-      await this.firebaseRecipes.toggleRecipeLike(
-        this.recipe.id
-      );
-
+  /**
+   * Applies the updated like state to the selected recipe.
+   */
+  private applyLikeResult(
+    result: { likeCount: number; hasLiked: boolean }
+  ): void {
     this.likeCount.set(result.likeCount);
     this.hasLiked.set(result.hasLiked);
-    this.recipe.likes = result.likeCount;
-  } catch (error) {
-    console.error(
-      'Fehler beim Ändern des Likes:',
-      error
-    );
-  } finally {
-    this.isLiking.set(false);
+
+    if (this.recipe) {
+      this.recipe.likes = result.likeCount;
+    }
   }
-}
+
+  /**
+   * Returns to the page from which the recipe was opened.
+   */
+  goBack(): void {
+    this.location.back();
+  }
 }

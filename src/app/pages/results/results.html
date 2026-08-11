@@ -24,9 +24,7 @@
                                 <img src="./assets/img/service.svg" alt="" aria-hidden="true">
                                 <p>Recipe {{ index + 1 }}</p>
                             </header>
-
                             <h4>{{ recipe.title }}</h4>
-
                             <div class="recipe-card-cooking-time">
                                 <img src="./assets/img/clock.svg" alt="" aria-hidden="true">
                                 <p>
@@ -35,82 +33,18 @@
                                 </p>
                             </div>
                         </div>
-
                         <button class="recipe-card__link" type="button" (click)="openRecipe(recipe)">
                             View
                         </button>
                     </article>
                     }
                 </section>
-                <!-- <article class="recipe-card" routerLink="/recipe">
-                    <div class="recipe-card-content">
-                        <span class="recipe-card-header">
-                            <img src="./assets/img/service.svg" alt="service">
-
-                            <p>Recipe 1</p>
-
-                        </span>
-                        <h4>Pasta with spinach and cherry tomatos</h4>
-                        <span class="recipe-card-cooking-time">
-                            <img src="./assets/img/clock.svg" alt="clock">
-
-                            <p>Cooking time: </p>
-                            <p>22min</p>
-
-                        </span>
-                    </div>
-                    <button class="recipe-card__link">View</button>
-                </article>
-                <article class="recipe-card">
-                    <div class="recipe-card-content">
-                        <span class="recipe-card-header">
-                            <img src="./assets/img/service.svg" alt="service">
-
-                            <p>Recipe 2</p>
-
-
-                        </span>
-                        <h4>Creamy garlic shrimp pasta</h4>
-                        <span class="recipe-card-cooking-time">
-                            <img src="./assets/img/clock.svg" alt="clock">
-
-                            <p>Cooking time: </p>
-                            <p>22min</p>
-
-                        </span>
-                    </div>
-                    <button class="recipe-card__link">View</button>
-                </article>
-                <article class="recipe-card">
-                    <div class="recipe-card-content">
-                        <span class="recipe-card-header">
-                            <img src="./assets/img/service.svg" alt="service">
-
-                            <p>Recipe 3</p>
-
-
-
-                        </span>
-                        <h4>Pasta alla Trapanese (Sicilian Tomato Pesto)</h4>
-                        <span class="recipe-card-cooking-time">
-                            <img src="./assets/img/clock.svg" alt="clock">
-
-                            <p>Cooking time: </p>
-                            <p>22min</p>
-
-                        </span>
-                    </div>
-                    <button class="recipe-card__link">View</button>
-
-                </article> -->
             </section>
         </article>
         <section class="new-recipe-section">
             <button (click)="startNewRecipe()">
                 <p>generate new recipe <img src="./assets/img/Arrow-beige.svg" alt="arrow"></p>
             </button>
-
         </section>
-
     </section>
 </main>

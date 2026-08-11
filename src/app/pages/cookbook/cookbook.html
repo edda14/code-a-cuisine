@@ -40,7 +40,6 @@
 
                                 <h3>{{ recipe.title }}</h3>
                             </div>
-
                             <div class="most-liked-like">
                                 <img src="./assets/img/favorite.svg" alt="favorite">
                                 {{ recipe.likes ?? 0 }}
@@ -54,14 +53,13 @@
                 </section>
             </section>
             <section class="cuisine-categories">
-                <span routerLink="/categorie">
+                <span [routerLink]="['/categorie', 'italian']">
                     <header class="wrapper">
                         <h3>Italian cuisine</h3><img src="./assets/img/italian-icon.png" alt="Italian icon">
                     </header>
                     <span class="img-wrapper"><img src="./assets/img/italian.svg" alt="italian"></span>
-
                 </span>
-                <span>
+                <span [routerLink]="['/categorie', 'german']">
                     <header class="wrapper">
                         <h3>German cuisine</h3><img src="./assets/img/german-icon.png" alt="German icon">
                     </header>
@@ -69,39 +67,36 @@
                         <img src="./assets/img/german.svg" alt="German">
                     </span>
                 </span>
-                <span>
+                <span [routerLink]="['/categorie', 'japanese']">
                     <header class="wrapper">
                         <h3>Japanese cuisine</h3><img src="./assets/img/japanese-icon.png" alt="japanese icon">
                     </header>
                     <span class="img-wrapper"><img src="./assets/img/japanese.png" alt="Japanese"></span>
                 </span>
-                <span>
+                <span [routerLink]="['/categorie', 'gourmet']">
                     <header class="wrapper">
                         <h3>Gourmet cuisine</h3><img src="./assets/img/gourmet-icon.png" alt="Gourmet icon">
                     </header>
                     <span class="img-wrapper">
                         <img src="./assets/img/gourmet.png" alt="Gourmet"></span>
                 </span>
-                <span>
+                <span [routerLink]="['/categorie', 'indian']">
                     <header class="wrapper">
                         <h3>Indian cuisine</h3><img src="./assets/img/indian-icon.png" alt="Indian icon">
                     </header>
                     <span class="img-wrapper"> <img src="./assets/img/indian.png" alt="Indian"></span>
                 </span>
-                <span>
+                <span [routerLink]="['/categorie', 'fusion']">
                     <header class="wrapper">
                         <h3>Fusion cuisine</h3><img src="./assets/img/fusion-icon.png" alt="Fusion icon">
                     </header>
                     <span class="img-wrapper"><img src="./assets/img/fusion.png" alt="Fusion"></span>
                 </span>
-
             </section>
         </article>
-        <div class="new-recipe-section"><button class="recipe-card__link" routerLink="/generate-recipe">
+        <div class="new-recipe-section"><button class="recipe-card__link" (click)="startNewRecipe()">
                 <p>Generate new recipe</p><img src="./assets/img/Arrow-green.svg" alt="arrow">
             </button>
         </div>
-
     </section>
-
 </main>

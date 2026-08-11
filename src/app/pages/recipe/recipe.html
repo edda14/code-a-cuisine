@@ -1,12 +1,12 @@
 @if (recipe) {
-
 <main class="recipe">
     <section class="recipe-section">
         <header>
-            <div routerLink="/results"><img src="./assets/logo/Capa_3.svg" alt="logo">
+            <div role="button" tabindex="0" (click)="goBack()" (keydown.enter)="goBack()" (keydown.space)="goBack()">
+                <img src="./assets/logo/Capa_3.svg" alt="logo">
                 <div>
                     <img src="./assets/img/Arrow-left.svg" alt="arrow left">
-                    <p>Recipe results</p>
+                    <p>Back</p>
                 </div>
             </div>
         </header>
@@ -76,7 +76,6 @@
                     <div class="ingredients">
                         <section>
                             <p>Your ingredients</p>
-
                             <ul>
                                 @for (ingredient of recipe.ingredients; track $index) {
                                 <li>
@@ -87,10 +86,8 @@
                                 }
                             </ul>
                         </section>
-
                         <section>
                             <p>Extra ingredients</p>
-
                             <ul>
                                 @for (ingredient of recipe.extraIngredients; track $index) {
                                 <li>

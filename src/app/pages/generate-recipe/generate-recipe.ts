@@ -15,7 +15,6 @@ interface Ingredient {
   isDropdownOpen?: boolean;
 }
 
-
 @Component({
   selector: 'app-generate-recipe',
   imports: [FormsModule, OnlyNumbersDirective, RouterLink],
@@ -34,11 +33,13 @@ export class GenerateRecipe implements OnInit {
   filteredIngredients: string[] = [];
   constructor(private recipeData: RecipeData,
     private router: Router
-  ) {}
+  ) { }
   loadStatus = 'Noch nicht geladen';
   @HostListener('document:click', ['$event'])
 
-  
+  /**
+   * Closes all unit dropdowns when the user clicks outside them.
+   */
   onDocumentClick(event: MouseEvent): void {
     const clickedElement = event.target as HTMLElement;
     const clickedInsideDropdown = clickedElement.closest('.dropdown');
@@ -50,6 +51,9 @@ export class GenerateRecipe implements OnInit {
     }
   }
 
+  /**
+ * Restores saved ingredients and loads the autocomplete data.
+ */
   ngOnInit(): void {
     this.addedIngredients = this.recipeData.getIngredients();
     this.loadStatus = 'Wird geladen …';
@@ -66,6 +70,9 @@ export class GenerateRecipe implements OnInit {
       });
   }
 
+  /**
+ * Filters autocomplete suggestions using the current input.
+ */
   filterIngredients(): void {
     const searchTerm = this.ingredientInput.trim().toLowerCase();
     if (searchTerm.length < 2) {
@@ -78,11 +85,19 @@ export class GenerateRecipe implements OnInit {
       )
       .slice(0, 3);
   }
+
+  /**
+ * Selects an ingredient from the autocomplete suggestions.
+ *
+ */
   selectIngredient(ingredient: string): void {
     this.ingredientInput = ingredient;
     this.filteredIngredients = [];
   }
 
+  /**
+ * Removes invalid characters from the ingredient input.
+ */
   sanitizeIngredientInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const cleanedValue = input.value
@@ -94,76 +109,134 @@ export class GenerateRecipe implements OnInit {
     this.filterIngredients();
   }
 
+  /**
+ * Removes non-numeric characters from the serving amount.
+ */
   filterServingSize(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.servingSize = input.value.replace(/\D/g, '');
   }
 
+  /**
+ * Opens or closes the serving-unit dropdown.
+ */
   toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+  /**
+ * Selects a serving unit and closes its dropdown.
+ */
   selectServingUnit(unit: string): void {
     this.servingUnit = unit;
     this.isDropdownOpen = false;
   }
 
+  /**
+ * Adds a valid and unique ingredient to the ingredient list.
+ */
   addIngredient(): void {
     const name = this.ingredientInput.trim();
     const amount = this.servingSize.trim();
-    if (!name || !amount) {
-      return;
-    }
-    const alreadyExists = this.addedIngredients.some(
-      (ingredient) => ingredient.name.toLowerCase() === name.toLowerCase()
-    );
-    if (alreadyExists) {
+    if (this.cannotAddIngredient(name, amount)) {
       return;
     }
     this.addedIngredients.push({
-      name: name,
-      amount: amount,
+      name,
+      amount,
       unit: this.servingUnit,
       isEditing: false,
     });
+    this.resetIngredientForm();
+  }
+
+  /**
+   * Checks whether an ingredient cannot be added.
+   */
+  private cannotAddIngredient(
+    name: string,
+    amount: string
+  ): boolean {
+    if (!name || !amount) {
+      return true;
+    }
+
+    return this.addedIngredients.some(
+      (ingredient) =>
+        ingredient.name.toLowerCase() === name.toLowerCase()
+    );
+  }
+
+  /**
+   * Resets all ingredient input fields.
+   */
+  private resetIngredientForm(): void {
     this.ingredientInput = '';
     this.servingSize = '';
     this.servingUnit = 'gram';
     this.filteredIngredients = [];
   }
-
   removeIngredient(index: number): void {
     this.addedIngredients.splice(index, 1);
   }
 
+  /**
+ * Starts or finishes editing an ingredient.
+ */
   toggleEditIngredient(index: number): void {
     const ingredient = this.addedIngredients[index];
-    if (!ingredient.isEditing) {
-      ingredient.editAmount = ingredient.amount;
-      ingredient.editUnit = ingredient.unit;
+    if (ingredient.isEditing) {
+      this.saveIngredientChanges(ingredient);
     } else {
-      if (ingredient.editAmount?.trim()) {
-        ingredient.amount = ingredient.editAmount;
-      }
-      if (ingredient.editUnit) {
-        ingredient.unit = ingredient.editUnit;
-      }
+      this.prepareIngredientEdit(ingredient);
     }
     ingredient.isEditing = !ingredient.isEditing;
   }
 
+  /**
+   * Copies the current values into the edit fields.
+   */
+  private prepareIngredientEdit(ingredient: Ingredient): void {
+    ingredient.editAmount = ingredient.amount;
+    ingredient.editUnit = ingredient.unit;
+  }
+
+  /**
+   * Applies valid edited values to an ingredient.
+   */
+  private saveIngredientChanges(ingredient: Ingredient): void {
+    if (ingredient.editAmount?.trim()) {
+      ingredient.amount = ingredient.editAmount;
+    }
+    if (ingredient.editUnit) {
+      ingredient.unit = ingredient.editUnit;
+    }
+  }
+
+  /**
+   * Opens or closes an ingredient's unit dropdown.
+   */
   toggleEditDropdown(index: number): void {
-    this.addedIngredients[index].isDropdownOpen =
-      !this.addedIngredients[index].isDropdownOpen;
+    const ingredient = this.addedIngredients[index];
+
+    ingredient.isDropdownOpen = !ingredient.isDropdownOpen;
   }
 
+  /**
+   * Selects a unit while editing an ingredient.
+   */
   selectEditUnit(index: number, unit: string): void {
-    this.addedIngredients[index].editUnit = unit;
-    this.addedIngredients[index].isDropdownOpen = false;
+    const ingredient = this.addedIngredients[index];
+
+    ingredient.editUnit = unit;
+    ingredient.isDropdownOpen = false;
   }
 
+  /**
+   * Saves the ingredients and opens the preferences page.
+   */
   goToPreferences(): void {
-  this.recipeData.setIngredients(this.addedIngredients);
-  this.router.navigate(['/preferences']);
-}
+    this.recipeData.setIngredients(this.addedIngredients);
+    this.router.navigate(['/preferences']);
+  }
 }

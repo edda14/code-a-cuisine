@@ -25,9 +25,11 @@
             justify-content: start;
             align-items: center;
             gap: 40px;
+
             >img {
                 width: 100%;
             }
+
             .recipe-list {
                 width: 100%;
                 display: flex;
@@ -35,6 +37,7 @@
                 align-items: start;
                 justify-content: start;
                 gap: 8px;
+
                 >span {
                     width: 100%;
                     display: flex;
@@ -44,14 +47,17 @@
                     padding: 6px 10px;
                     border-radius: 16px;
                     transition: all ease 0.3s;
+
                     &:hover {
                         cursor: pointer;
                         background-color: rgba(250, 240, 230, 0.7);
                     }
+
                     .recipe-preference {
                         display: flex;
                         flex-direction: row;
                         gap: 8px;
+
                         >div {
                             display: flex;
                             flex-direction: row;
@@ -67,6 +73,7 @@
                             color: rgba(16, 49, 11, 1);
                         }
                     }
+
                     .recipe-title {
                         .time {
                             display: flex;
@@ -74,6 +81,7 @@
                             align-items: center;
                             padding-left: 38px;
                             gap: 4px;
+
                             >p {
                                 font-family: "Quicksand";
                                 font-weight: 500;
@@ -82,12 +90,14 @@
                                 color: rgba(57, 96, 57, 1);
                             }
                         }
+
                         .title {
                             display: flex;
                             flex-direction: row;
                             align-items: center;
                             justify-content: center;
                             gap: 8px;
+
                             >p {
                                 font-family: "Quicksand";
                                 font-weight: 500;
@@ -95,6 +105,7 @@
                                 line-height: 100%;
                                 color: rgba(30, 85, 21, 1);
                             }
+
                             >div {
                                 display: flex;
                                 justify-content: center;
@@ -119,6 +130,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: end;
+
                 >button {
                     width: 258px;
                     height: 62px;
@@ -130,11 +142,12 @@
                     font-size: 24px;
                     line-height: 100%;
                     transition: ease 0.3s all;
+
                     &:hover {
-                            cursor: pointer;
-                            color: rgba(255, 255, 255, 1);
-                            background-color: rgba(5, 94, 5, 1);
-                            font-weight: 700;
+                        cursor: pointer;
+                        color: rgba(255, 255, 255, 1);
+                        background-color: rgba(5, 94, 5, 1);
+                        font-weight: 700;
                     }
                 }
             }
@@ -171,18 +184,14 @@
 
                 &:hover {
                     cursor: pointer;
-
                     >div {
-
                         >img {
                             content: url(/assets/img/Arrow-beige-left.svg);
                         }
-
                         >p {
                             color: rgba(250, 240, 230, 1);
                         }
                     }
-
                     >img {
                         content: url(/assets/img/logo-beige.svg);
                     }
@@ -190,4 +199,69 @@
             }
         }
     }
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+
+    >span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        >button {
+            font-family: "Quicksand";
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 100%;
+            color: rgba(16, 49, 11, 1);
+            border: none;
+            background: transparent;
+            transition: ease 0.3s all;
+            border-radius: 2px;
+            width: 26px;
+            height: 27px;
+
+            &:hover {
+                background-color: rgba(196, 208, 196, 0.4);
+                cursor: pointer;
+            }
+
+            &:active {
+                background-color: rgba(196, 208, 196, 1);
+            }
+        }
+    }
+
+    >button {
+        border: none;
+        background: transparent;
+        transition: ease 0.3s all;
+        border-radius: 2px;
+        width: 33px;
+        height: 27px;
+
+        &:hover {
+            background-color: rgba(196, 208, 196, 0.4);
+            cursor: pointer;
+        }
+
+        &:active {
+            background-color: rgba(196, 208, 196, 1);
+        }
+
+    }
+}
+
+.hint {
+    font-family: "Quicksand";
+    font-size: 20px;
+    line-height: 100%;
+    font-weight: 600;
+    color: rgba(16, 49, 11, 1);
 }

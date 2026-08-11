@@ -28,6 +28,7 @@
             >div {
                 display: flex;
                 flex-direction: column;
+                align-items: start;
                 gap: 32px;
 
                 >div {
@@ -139,7 +140,6 @@
                         }
                     }
 
-
                     &__text {
                         display: flex;
                         flex-direction: column;
@@ -184,7 +184,6 @@
                             }
                         }
                     }
-
                 }
 
                 width: 1248px;
@@ -244,7 +243,7 @@
             >button {
                 display: flex;
                 flex-direction: row;
-                alifn-items: center;
+                align-items: center;
                 gap: 10px;
                 background-color: transparent;
                 border: none;
@@ -263,7 +262,6 @@
                     background-color: rgba(57, 96, 57, 0.1);
                     cursor: pointer;
                 }
-
             }
         }
     }
@@ -288,10 +286,7 @@
         line-height: 100%;
         color: rgba(16, 49, 11, 1);
     }
-
 }
-
-
 
 .orange {
     background-color: rgba(255, 217, 179, 1);
@@ -309,8 +304,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-
-
 }
 
 .recipe-preferences {
@@ -361,7 +354,6 @@
                 font-size: 20px;
                 line-height: 25px;
                 color: rgba(16, 49, 11, 1);
-
             }
 
             >header {
@@ -376,7 +368,7 @@
                     width: fit-content;
                     display: flex;
                     flex-direction: row;
-                    align-items: first baseline;
+                    align-items: baseline;
                     gap: 16px;
 
                     >p {

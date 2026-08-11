@@ -33,7 +33,6 @@
                                 </div>
                                 <p>Person</p>
                                 <img src="./assets/img/Plus.svg" alt="Plus" (click)="increaseHelpers()">
-
                             </div>
                         </div>
                     </section>
@@ -79,7 +78,6 @@
                                 <button class="button" (click)="selectedCuisine = 'fusion'"
                                     [class.active]="selectedCuisine === 'fusion'">Fusion</button>
                             </span>
-
                         </section>
                         <section class="set">
                             <legend><img src="./assets/img/fork_spoon.svg" alt="fork">
@@ -97,20 +95,13 @@
                                     No preferences
                                 </button>
                             </span>
-
                         </section>
                     </section>
-
                 </section>
             </section>
             @if (isFormValid()) {
-
             <button [disabled]="!isFormValid()" (click)="goToLoading()">Generate Recipe</button>
-
             }
-
-
         </article>
-
     </section>
 </main>

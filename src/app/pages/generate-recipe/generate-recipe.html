@@ -39,7 +39,6 @@
                                         <div (click)="selectServingUnit('gram')">gram</div>
                                     </div>
                                     }
-
                                 </div>
                                 <img class="add-icon" src="./assets/img/add.svg" alt="add Icon"
                                     (click)="addIngredient()">
@@ -51,7 +50,6 @@
                         <div class="added-ingredients">
                             @for (ingredient of addedIngredients; track $index; let i = $index) {
                             <span class="one-ingerdient">
-
                                 <div class="ingredient-row">
                                     <div class="ingredient-amount">
                                         <div class="dot"></div>
@@ -100,16 +98,13 @@
                                     <img (click)="removeIngredient(i)" class="delete" src="./assets/img/delete.svg"
                                         alt="delete">
                                 </div>
-
                             </span>
-
                             }
                         </div>
                     </div>
                 </div>
             </section>
             <div class="next-step-div">
-
                 @if (addedIngredients.length >= 3) {
                 <button type="button" class="next-step-button" (click)="goToPreferences()">
                     Next step

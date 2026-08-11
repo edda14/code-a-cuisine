@@ -45,7 +45,6 @@
                         cursor: pointer;
                         font-weight: 700;
                         background-color: rgba(250, 224, 198, 1);
-
                     }
                 }
 
@@ -60,7 +59,6 @@
                         font-family: "Ubuntu";
                         font-weight: 700;
                         font-size: 104px;
-
                     }
 
                     >h2 {
@@ -70,17 +68,20 @@
                     }
                 }
             }
+
             .go-to-cookbook {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 42px;
+
                 >h3 {
-                    font-family:"Quicksand";
+                    font-family: "Quicksand";
                     font-weight: 500;
                     font-size: 32px;
                     color: rgba(250, 240, 230, 1);
                 }
+
                 >button {
                     font-family: "Quicksand";
                     font-size: 20px;
@@ -90,12 +91,12 @@
                     background-color: transparent;
                     padding: 16px 26px;
                     transition: ease 0.3s all;
+
                     &:hover {
                         background-color: rgba(250, 224, 198, 0.2);
                         cursor: pointer;
                     }
                 }
-
             }
 
             >nav {

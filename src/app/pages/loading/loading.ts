@@ -2,9 +2,22 @@ import { Component, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
-import { GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
+import { GeneratedRecipe, GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
 import { forkJoin, timer } from 'rxjs';
 import { FirebaseRecipes } from '../../shared/services/firebase-recipes';
+
+interface RecipeRequestBody {
+  ingredients: {
+    name: string;
+    amount: number;
+    unit: string;
+  }[];
+  portionCount: number;
+  cookCount: number;
+  cookingTime: string;
+  cuisine: string;
+  diet: string;
+}
 
 @Component({
   selector: 'app-loading',
@@ -24,67 +37,131 @@ export class Loading implements OnInit {
     private firebaseRecipes: FirebaseRecipes
   ) { }
 
+  /**
+ * Starts the recipe-generation request when the component initializes.
+ */
   ngOnInit(): void {
     this.testN8nConnection();
   }
 
+  /**
+ * Sends the recipe data to n8n and waits for the animation.
+ */
   private testN8nConnection(): void {
-    const url = '/webhook/generate-recipes';
-    const preferences = this.recipeData.getPreferences();
+    const body = this.createRecipeRequestBody();
+    forkJoin({
+      response: this.http.post<GenerateRecipesResponse>(
+        '/webhook/generate-recipes',
+        body
+      ),
+      minimumLoadingTime: timer(7000),
+    }).subscribe({
+      next: ({ response }) => {
+        void this.handleRecipeResponse(response);
+      },
+      error: (error) => {
+        this.handleRequestError(error);
+      },
+    });
+  }
 
-    const body = {
-      ingredients: this.recipeData.getIngredients().map((ingredient) => ({
-        name: ingredient.name,
-        amount: Number(ingredient.amount),
-        unit: ingredient.unit,
-      })),
+  /**
+   * Creates the request body for the n8n workflow.
+   */
+  private createRecipeRequestBody(): RecipeRequestBody {
+    const preferences = this.recipeData.getPreferences();
+    return {
+      ingredients: this.recipeData
+        .getIngredients()
+        .map((ingredient) => ({
+          name: ingredient.name,
+          amount: Number(ingredient.amount),
+          unit: ingredient.unit,
+        })),
       portionCount: this.recipeData.getPortionCount(),
       cookCount: preferences.helperCount,
       cookingTime: preferences.cookingTime,
       cuisine: preferences.cuisine,
       diet: preferences.diet,
     };
-
-
-
-    forkJoin({
-      response: this.http.post<GenerateRecipesResponse>(url, body),
-      minimumLoadingTime: timer(7000),
-    }).subscribe({
-      next: async ({ response }) => {
-        if (!response?.recipes || response.recipes.length !== 3) {
-          this.errorTitle.set('Oops! Something is missing...');
-          this.errorMessage.set(
-            'We could not create three suitable recipes. Please adjust your ingredients and try again.'
-          );
-          return;
-        }
-
-        try {
-          const recipeIds = await this.firebaseRecipes.saveRecipes(
-            response.recipes
-          );
-
-          const savedRecipes = response.recipes.map((recipe, index) => ({
-            ...recipe,
-            id: recipeIds[index],
-            likes: 0,
-          }));
-
-          this.recipeData.setGeneratedRecipes(savedRecipes);
-          this.router.navigate(['/results']);
-        } catch (error) {
-          console.error('Fehler beim Speichern in Firebase:', error);
-
-          this.errorTitle.set('Oops! Saving failed...');
-          this.errorMessage.set(
-            'Your recipes were generated, but could not be saved. Please try again.'
-          );
-        }
-      },
-    });
   }
 
+  /**
+   * Validates and stores the generated recipes.
+   */
+  private async handleRecipeResponse(
+    response: GenerateRecipesResponse
+  ): Promise<void> {
+    if (!response?.recipes || response.recipes.length !== 3) {
+      this.showMissingRecipesError();
+      return;
+    }
+    try {
+      await this.saveRecipesAndOpenResults(response.recipes);
+    } catch (error) {
+      this.handleSavingError(error);
+    }
+  }
+
+  /**
+   * Saves recipes and opens the results page.
+   */
+  private async saveRecipesAndOpenResults(
+    recipes: GeneratedRecipe[]
+  ): Promise<void> {
+    const ids = await this.firebaseRecipes.saveRecipes(recipes);
+    const savedRecipes = recipes.map((recipe, index) => ({
+      ...recipe,
+      id: ids[index],
+      likes: 0,
+    }));
+    this.recipeData.setGeneratedRecipes(savedRecipes);
+    this.router.navigate(['/results']);
+  }
+
+  /**
+   * Displays an error when n8n did not return three recipes.
+   */
+  private showMissingRecipesError(): void {
+    this.setError(
+      'Oops! Something is missing...',
+      'We could not create three suitable recipes. Please adjust your ingredients and try again.'
+    );
+  }
+
+  /**
+   * Handles a Firebase saving error.
+   */
+  private handleSavingError(error: unknown): void {
+    console.error('Fehler beim Speichern in Firebase:', error);
+    this.setError(
+      'Oops! Saving failed...',
+      'Your recipes were generated, but could not be saved. Please try again.'
+    );
+  }
+
+  /**
+   * Handles an unsuccessful n8n request.
+   */
+  private handleRequestError(error: unknown): void {
+    console.error('Fehler bei n8n:', error);
+    this.setError(
+      'Oops! Something went wrong...',
+      'We could not generate your recipes right now. Please try again.'
+    );
+  }
+
+  /**
+   * Updates the error-dialog content.
+   */
+  private setError(title: string, message: string): void {
+    this.errorTitle.set(title);
+    this.errorMessage.set(message);
+  }
+
+  /**
+ * Marks the loading animation as completed.
+ */
   onAnimationEnd(): void {
     this.animationFinished = true;
   }

@@ -10,28 +10,75 @@
         </header>
         <article>
             <section class="button-section">
-                <button>Generate a recipe</button>
+                <button (click)="startNewRecipe()">Generate a recipe</button>
             </section>
-            <img src="./assets/img/Hero for cuisine page.svg" alt="header">
+            <img [src]="headerImage" [alt]="cuisineTitle + ' header'">
             <section class="recipe-list">
-                <span>
+                @if (isLoading()) {
+                <p class="hint">Recipes are loading...</p>
+                } @else if (hasLoadingError()) {
+                <p class="hint">The recipes could not be loaded.</p>
+                } @else {
+                @for (recipe of recipes(); track recipe.id) {
+                <span role="button" tabindex="0" (click)="openRecipe(recipe)" (keydown.enter)="openRecipe(recipe)"
+                    (keydown.space)="openRecipe(recipe)">
                     <div class="recipe-title">
-                        <span class="time"><img src="./assets/img/clock.svg" alt="clock">
-                            <p>Cooking time: 20min</p>
+                        <span class="time">
+                            <img src="./assets/img/clock.svg" alt="" aria-hidden="true">
+                            <p>
+                                Cooking time:
+                                {{ recipe.cookingTimeMinutes }}min
+                            </p>
                         </span>
                         <span class="title">
-                            <div class="number-div">1.</div>
-                            <p>Pasta with spinach and cherry tommatoes</p>
+                            <div class="number-div">
+                                {{ $index + 1 }}.
+                            </div>
+                            <p>{{ recipe.title }}</p>
                         </span>
                     </div>
                     <div class="recipe-preference">
-                        <div class="preference">Vegetarian</div>
-                        <div class="time">Quick</div>
-                        <div class="likes"><img src="./assets/img/favorite.svg" alt="heart">67</div>
-                    </div>
+                        <div class="preference">
+                            {{ recipe.diet }}
+                        </div>
+                        <div class="time">
+                            @if (recipe.cookingTimeMinutes <= 20) { Quick } @else if (recipe.cookingTimeMinutes <=45) {
+                                Medium } @else { Complex } </div>
+                                <div class="likes">
+                                    <img src="./assets/img/favorite.svg" alt="" aria-hidden="true">
+                                    {{ recipe.likes ?? 0 }}
+                                </div>
+                        </div>
                 </span>
-
+                } @empty {
+                <p class="hint">
+                    No {{ cuisineTitle }} recipes have been saved yet.
+                </p>
+                }
+                }
             </section>
+            @if (totalPages() > 1) {
+            <nav class="pagination" aria-label="Recipe pages">
+                <button type="button" aria-label="Previous page" [disabled]="currentPage() === 1 || isLoadingMore()"
+                    (click)="goToPage(currentPage() - 1)">
+                    <img src="./assets/img/pagination-left.svg" alt="left">
+                </button>
+                <span>
+                    @for (pageNumber of pageNumbers(); track pageNumber) {
+                    <button type="button" [class.active]="currentPage() === pageNumber" [attr.aria-current]="
+                    currentPage() === pageNumber ? 'page' : null
+                " [disabled]="isLoadingMore()" (click)="goToPage(pageNumber)">
+                        {{ pageNumber }}
+                    </button>
+                    }
+                </span>
+                <button type="button" aria-label="Next page" [disabled]="
+                currentPage() === totalPages() || isLoadingMore()
+            " (click)="goToPage(currentPage() + 1)">
+                    <img src="./assets/img/pagination-right.svg" alt="right">
+                </button>
+            </nav>
+            }
         </article>
     </section>
 </main>

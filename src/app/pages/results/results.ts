@@ -16,14 +16,13 @@ export class Results implements OnInit {
   constructor(
     private recipeData: RecipeData,
     private router: Router
-  ) {}
+  ) { }
 
   /**
    * Loads the generated recipes or redirects to the recipe form.
    */
   ngOnInit(): void {
     this.recipes = this.recipeData.getGeneratedRecipes();
-
     if (this.recipes.length !== 3) {
       this.router.navigate(['/generate-recipe']);
     }
@@ -32,16 +31,16 @@ export class Results implements OnInit {
   /**
  * Stores the selected recipe and opens its detail page.
  */
-openRecipe(recipe: GeneratedRecipe): void {
-  this.recipeData.setSelectedRecipe(recipe);
-  this.router.navigate(['/recipe']);
-}
+  openRecipe(recipe: GeneratedRecipe): void {
+    this.recipeData.setSelectedRecipe(recipe);
+    this.router.navigate(['/recipe']);
+  }
 
-/**
- * Clears the current recipe session and opens the ingredient form.
- */
-startNewRecipe(): void {
-  this.recipeData.clear();
-  this.router.navigate(['/generate-recipe']);
-}
+  /**
+   * Clears the current recipe session and opens the ingredient form.
+   */
+  startNewRecipe(): void {
+    this.recipeData.clear();
+    this.router.navigate(['/generate-recipe']);
+  }
 }

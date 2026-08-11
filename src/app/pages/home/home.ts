@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

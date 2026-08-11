@@ -40,7 +40,7 @@ export const routes: Routes = [
     component: Cookbook,
   },
   {
-    path: 'categorie',
+    path: 'categorie/:cuisine',
     component: Categorie,
   }
 ];

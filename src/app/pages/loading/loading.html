@@ -5,16 +5,11 @@
         <button class="error-dialog__close" type="button" aria-label="Close error message" (click)="dismissError()">
             <img src="./assets/img/close.svg" alt="close">
         </button>
-
-        
         <h2 id="error-title">{{ errorTitle() }}</h2>
-
         <p id="error-description">
             {{ errorMessage() }}
         </p>
-
         <div class="error-dialog__actions">
-
             <button type="button" (click)="backToIngredients()">
                 Go back to ingredients
                 <img src="./assets/img/Arrow-beige.svg" alt="" aria-hidden="true">
@@ -23,7 +18,6 @@
     </section>
 </div>
 }
-
 <main class="loading">
     <section class="loading-section">
         <nav><img src="./assets/logo/Capa_2.svg" alt="logo"></nav>
@@ -40,6 +34,5 @@
             </article>
             <h2></h2>
         </div>
-
     </section>
 </main>
