@@ -11,7 +11,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -224,
+        -800,
         0
       ],
       "id": "2f26a9ab-0b5a-4928-90a5-4c0ae1c4e120",
@@ -36,21 +36,21 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        576,
-        -32
+        1040,
+        -48
       ],
       "id": "49bc145b-40a6-4c92-8047-d61bf95e7a73",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
-        "jsCode": "const request = $input.first().json.body;\n\nif (!request || typeof request !== 'object') {\n  throw new Error('Request body is missing.');\n}\n\nif (!Array.isArray(request.ingredients) || request.ingredients.length < 1) {\n  throw new Error('At least one ingredient is required.');\n}\n\nfor (const ingredient of request.ingredients) {\n  if (\n    typeof ingredient.name !== 'string' ||\n    ingredient.name.trim().length === 0\n  ) {\n    throw new Error('Every ingredient requires a name.');\n  }\n\n  if (\n    typeof ingredient.amount !== 'number' ||\n    !Number.isFinite(ingredient.amount) ||\n    ingredient.amount <= 0\n  ) {\n    throw new Error(\n      `Invalid amount for ingredient \"${ingredient.name}\".`\n    );\n  }\n\n  if (\n    typeof ingredient.unit !== 'string' ||\n    ingredient.unit.trim().length === 0\n  ) {\n    throw new Error(\n      `A unit is required for ingredient \"${ingredient.name}\".`\n    );\n  }\n}\n\nif (\n  !Number.isInteger(request.portionCount) ||\n  request.portionCount < 1 ||\n  request.portionCount > 12\n) {\n  throw new Error('portionCount must be between 1 and 12.');\n}\n\nif (\n  !Number.isInteger(request.cookCount) ||\n  request.cookCount < 1 ||\n  request.cookCount > 3\n) {\n  throw new Error('cookCount must be between 1 and 3.');\n}\n\nconst allowedCookingTimes = ['quick', 'medium', 'complex'];\nconst allowedCuisines = [\n  'german',\n  'italian',\n  'indian',\n  'japanese',\n  'gourmet',\n  'fusion',\n];\nconst allowedDiets = [\n  'vegetarian',\n  'vegan',\n  'keto',\n  'no-preference',\n];\n\nif (!allowedCookingTimes.includes(request.cookingTime)) {\n  throw new Error('Invalid cookingTime.');\n}\n\nif (!allowedCuisines.includes(request.cuisine)) {\n  throw new Error('Invalid cuisine.');\n}\n\nif (!allowedDiets.includes(request.diet)) {\n  throw new Error('Invalid diet.');\n}\n\nreturn [\n  {\n    json: {\n      request,\n      validated: true,\n    },\n  },\n];"
+        "jsCode": "const request = $('Webhook').first().json.body;\n\nif (!request || typeof request !== 'object') {\n  throw new Error('Request body is missing.');\n}\n\nif (!Array.isArray(request.ingredients) || request.ingredients.length < 1) {\n  throw new Error('At least one ingredient is required.');\n}\n\nfor (const ingredient of request.ingredients) {\n  if (\n    typeof ingredient.name !== 'string' ||\n    ingredient.name.trim().length === 0\n  ) {\n    throw new Error('Every ingredient requires a name.');\n  }\n\n  if (\n    typeof ingredient.amount !== 'number' ||\n    !Number.isFinite(ingredient.amount) ||\n    ingredient.amount <= 0\n  ) {\n    throw new Error(\n      `Invalid amount for ingredient \"${ingredient.name}\".`\n    );\n  }\n\n  if (\n    typeof ingredient.unit !== 'string' ||\n    ingredient.unit.trim().length === 0\n  ) {\n    throw new Error(\n      `A unit is required for ingredient \"${ingredient.name}\".`\n    );\n  }\n}\n\nif (\n  !Number.isInteger(request.portionCount) ||\n  request.portionCount < 1 ||\n  request.portionCount > 12\n) {\n  throw new Error('portionCount must be between 1 and 12.');\n}\n\nif (\n  !Number.isInteger(request.cookCount) ||\n  request.cookCount < 1 ||\n  request.cookCount > 3\n) {\n  throw new Error('cookCount must be between 1 and 3.');\n}\n\nconst allowedCookingTimes = ['quick', 'medium', 'complex'];\nconst allowedCuisines = [\n  'german',\n  'italian',\n  'indian',\n  'japanese',\n  'gourmet',\n  'fusion',\n];\nconst allowedDiets = [\n  'vegetarian',\n  'vegan',\n  'keto',\n  'no-preference',\n];\n\nif (!allowedCookingTimes.includes(request.cookingTime)) {\n  throw new Error('Invalid cookingTime.');\n}\n\nif (!allowedCuisines.includes(request.cuisine)) {\n  throw new Error('Invalid cuisine.');\n}\n\nif (!allowedDiets.includes(request.diet)) {\n  throw new Error('Invalid diet.');\n}\n\nreturn [\n  {\n    json: {\n      request,\n      validated: true,\n    },\n  },\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        32,
-        -32
+        512,
+        -48
       ],
       "id": "1269b89d-1f7e-47fc-b991-2e8cdb90765d",
       "name": "Validate Recipe Request"
@@ -72,8 +72,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
       "position": [
-        240,
-        -32
+        736,
+        -48
       ],
       "id": "396b6865-c986-4336-bbc0-09b04d29dbff",
       "name": "Basic LLM Chain"
@@ -86,8 +86,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        176,
-        176
+        672,
+        96
       ],
       "id": "c15f4352-7789-4c0d-b52e-731b7856fe56",
       "name": "Google Gemini Chat Model",
@@ -100,16 +100,319 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"recipes\": [\n    {\n      \"title\": \"Pasta with spinach and tomatoes\",\n      \"description\": \"A quick vegetarian pasta dish.\",\n      \"cuisine\": \"italian\",\n      \"diet\": \"vegetarian\",\n      \"cookingTimeMinutes\": 20,\n      \"portionCount\": 2,\n      \"cookCount\": 1,\n      \"ingredientUsagePercent\": 75,\n      \"ingredients\": [\n        {\n          \"name\": \"Pasta\",\n          \"amount\": 200,\n          \"unit\": \"gram\",\n          \"providedByUser\": true\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"Olive oil\",\n          \"amount\": 2,\n          \"unit\": \"tablespoon\"\n        }\n      ],\n      \"directions\": [\n        {\n          \"step\": 1,\n          \"title\": \"Cook the pasta\",\n          \"description\": \"Cook the pasta in salted water.\",\n          \"assignedCook\": 1,\n          \"parallelGroup\": 1\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": 520,\n          \"proteinGrams\": 18,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 72,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 18,\n          \"fatPercent\": 31\n        },\n        \"total\": {\n          \"calories\": 1040,\n          \"proteinGrams\": 36,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 144,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 36,\n          \"fatPercent\": 31\n        }\n      }\n    }\n  ]\n}"
+        "jsonSchemaExample": "{\n  \"recipes\": [\n    {\n      \"title\": \"Pasta with spinach and tomatoes\",\n      \"description\": \"A quick vegetarian pasta dish.\",\n      \"cuisine\": \"italian\",\n      \"diet\": \"vegetarian\",\n      \"cookingTimeMinutes\": 20,\n      \"portionCount\": 2,\n      \"cookCount\": 1,\n      \"ingredientUsagePercent\": 75,\n      \"ingredients\": [\n        {\n          \"name\": \"Pasta\",\n          \"amount\": 200,\n          \"unit\": \"gram\",\n          \"providedByUser\": true\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"Olive oil\",\n          \"amount\": 2,\n          \"unit\": \"tablespoon\"\n        }\n      ],\n      \"directions\": [\n        {\n          \"step\": 1,\n          \"title\": \"Cook the pasta\",\n          \"description\": \"Cook the pasta in salted water.\",\n          \"assignedCook\": 1,\n          \"parallelGroup\": 1\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": 520,\n          \"proteinGrams\": 18,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 72,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 18,\n          \"fatPercent\": 31\n        },\n        \"total\": {\n          \"calories\": 1040,\n          \"proteinGrams\": 36,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 144,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 36,\n          \"fatPercent\": 31\n        }\n      }\n    }\n  ]\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        384,
-        176
+        800,
+        144
       ],
       "id": "3bd96418-78cc-47d1-b330-8b739cb9b896",
       "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        272
+      ],
+      "id": "9b98fba6-f0ff-450e-9246-ce29c923559f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "NZaMMxPhA51iwusj",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "863e5716-5586-4bbb-96c8-62fd4a50bbbb",
+              "name": "requestDate",
+              "value": "={{ $now.setZone('Europe/Berlin').toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "58565781-8a55-47a5-a662-b277b8ba8acc",
+              "name": "ipAddress",
+              "value": "={{ ($json.headers['x-forwarded-for'] || $json.headers['x-real-ip'] || $json.headers['sec-ch-ua-platform'] || 'unknown').split(',')[0].trim() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -608,
+        0
+      ],
+      "id": "0452483d-f4fe-42c9-a967-78c40f07cf49",
+      "name": "Prepare Limit Check"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Q7cVhJLu4XA9qmYf",
+          "mode": "list",
+          "cachedResultName": "generation_limits",
+          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "date",
+              "keyValue": "={{ $json.requestDate }}"
+            },
+            {
+              "keyName": "ipAdress",
+              "keyValue": "={{ $json.ipAddress }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -448,
+        0
+      ],
+      "id": "f13df2ad-2c10-4af0-b03d-83f982707a65",
+      "name": "Get IP Daily Usage",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "79dccba1-77fd-4672-83e0-28c40b180953",
+              "leftValue": "={{ Number($json.requestCount ?? 0) }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -304,
+        16
+      ],
+      "id": "687a8ef1-f44c-4592-a16e-629babfb87a7",
+      "name": "IP Limit Reached?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"error\": \"IP_LIMIT_REACHED\",\n  \"message\": \"You have reached your daily limit of 3 recipe generations. Please try again tomorrow.\"\n}",
+        "options": {
+          "responseCode": 429
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -16,
+        -96
+      ],
+      "id": "6298bec9-25e3-47d5-9c8f-1c071f8c143a",
+      "name": "Respond IP Limit Reached"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Q7cVhJLu4XA9qmYf",
+          "mode": "list",
+          "cachedResultName": "generation_limits",
+          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "date",
+              "keyValue": "={{ $('Prepare Limit Check').item.json.requestDate }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -208,
+        208
+      ],
+      "id": "6a414fa1-6da9-4cce-bec4-a9672603a688",
+      "name": "Get Total Daily Usage",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const totalCount = $input\n  .all()\n  .reduce(\n    (sum, item) => sum + Number(item.json.requestCount ?? 0),\n    0\n  );\n\nreturn [\n  {\n    json: {\n      totalCount,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        352
+      ],
+      "id": "fbca77ae-2c0a-4df1-890b-5c14d8093dd5",
+      "name": "Calculate Total Daily Usage"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a39abc33-1df7-4685-86d8-0c4452524468",
+              "leftValue": "={{ Number($json.totalCount ?? 0) }}",
+              "rightValue": 12,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        128,
+        416
+      ],
+      "id": "9e63adb2-fb18-4348-aaec-5e67b5661190",
+      "name": "Total Limit Reached?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"error\": \"TOTAL_LIMIT_REACHED\",\n  \"message\": \"The daily recipe generation limit has been reached. Please try again tomorrow.\"\n}",
+        "options": {
+          "responseCode": 429
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        272,
+        80
+      ],
+      "id": "aafec687-3bfd-4ab8-aa0b-fa391726ae23",
+      "name": "Respond Total Limit Reached"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Q7cVhJLu4XA9qmYf",
+          "mode": "list",
+          "cachedResultName": "generation_limits",
+          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "date",
+              "keyValue": "={{ $('Prepare Limit Check').first().json.requestDate }}"
+            },
+            {
+              "keyName": "ipAdress",
+              "keyValue": "={{ $('Prepare Limit Check').first().json.ipAddress }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date": "={{ $('Prepare Limit Check').first().json.requestDate }}",
+            "ipAdress": "={{ $('Prepare Limit Check').first().json.ipAddress }}",
+            "requestCount": "={{ Number($('Get IP Daily Usage').first().json.requestCount ?? 0) + 1 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ipAdress",
+              "displayName": "ipAdress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "requestCount",
+              "displayName": "requestCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        352
+      ],
+      "id": "9b96f8ef-578d-4270-a984-ac808396f403",
+      "name": "Increment IP Daily Usage"
     }
   ],
   "pinData": {},
@@ -118,7 +421,7 @@
       "main": [
         [
           {
-            "node": "Validate Recipe Request",
+            "node": "Prepare Limit Check",
             "type": "main",
             "index": 0
           }
@@ -173,15 +476,120 @@
           }
         ]
       ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Limit Check": {
+      "main": [
+        [
+          {
+            "node": "Get IP Daily Usage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get IP Daily Usage": {
+      "main": [
+        [
+          {
+            "node": "IP Limit Reached?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IP Limit Reached?": {
+      "main": [
+        [
+          {
+            "node": "Respond IP Limit Reached",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Total Daily Usage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Total Daily Usage": {
+      "main": [
+        [
+          {
+            "node": "Calculate Total Daily Usage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Total Daily Usage": {
+      "main": [
+        [
+          {
+            "node": "Total Limit Reached?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Total Limit Reached?": {
+      "main": [
+        [
+          {
+            "node": "Respond Total Limit Reached",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Increment IP Daily Usage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increment IP Daily Usage": {
+      "main": [
+        [
+          {
+            "node": "Validate Recipe Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "Fbwr9GoIqSU0p0QN",
+    "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "ed76af5b-0666-455c-b441-626af3ec2a1e",
+  "versionId": "dc69a9fe-ef7c-40fe-9afe-88ca6e661056",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"

@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
 import { GeneratedRecipe, GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
@@ -140,15 +140,36 @@ export class Loading implements OnInit {
     );
   }
 
+
   /**
-   * Handles an unsuccessful n8n request.
+   * Handles unsuccessful n8n requests and daily limits.
    */
   private handleRequestError(error: unknown): void {
     console.error('Fehler bei n8n:', error);
+
+    if (error instanceof HttpErrorResponse && error.status === 429) {
+      this.showLimitError(error);
+      return;
+    }
+
     this.setError(
       'Oops! Something went wrong...',
       'We could not generate your recipes right now. Please try again.'
     );
+  }
+
+  /**
+   * Displays the appropriate daily-limit message.
+   */
+  private showLimitError(error: HttpErrorResponse): void {
+    const isIpLimit =
+      error.error?.error === 'IP_LIMIT_REACHED';
+
+    const message = isIpLimit
+      ? 'You have already generated 3 recipes today. Please try again tomorrow.'
+      : 'The daily recipe generation limit has been reached. Please try again tomorrow.';
+
+    this.setError('Daily limit reached', message);
   }
 
   /**

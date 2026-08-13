@@ -1,0 +1,127 @@
+{
+  "name": "Code a cuisine - Error Handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ab0d75aa-fab7-48ee-947e-1c9c17c7baf0",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a5e32b01-5fb0-418f-aaf6-18c08a3ad489",
+              "name": "workflowName",
+              "value": "={{ $json.workflow?.name || 'Unknown workflow' }}",
+              "type": "string"
+            },
+            {
+              "id": "825fdf6d-b320-4f0f-9f3d-eba762ff8454",
+              "name": "errorMessage",
+              "value": "={{ $json.execution?.error?.message || $json.trigger?.error?.message || 'Unknown error' }}",
+              "type": "string"
+            },
+            {
+              "id": "80f2aa41-ac9e-46aa-a755-f559a6fe771c",
+              "name": "executionId",
+              "value": "={{ $json.execution?.id || 'Unknown execution' }}",
+              "type": "string"
+            },
+            {
+              "id": "1d46c62e-76c5-4d61-b09d-ee37b998a618",
+              "name": "failedNode",
+              "value": "={{ $json.execution?.lastNodeExecuted || 'Unknown node' }}",
+              "type": "string"
+            },
+            {
+              "id": "89fe675c-c7ec-4977-81c2-293490e3386b",
+              "name": "errorTime",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": "={{ false }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d6c57465-c5c9-46a9-85e7-333ebfce598b",
+      "name": "Prepare Error Details"
+    },
+    {
+      "parameters": {
+        "sendTo": "juliaschaeffer96@gmail.com",
+        "subject": "=Code à Cuisine error: {{ $json.workflowName }}",
+        "emailType": "text",
+        "message": "=A Code à Cuisine workflow has failed.  Workflow: {{ $json.workflowName }} Failed node: {{ $json.failedNode }} Error: {{ $json.errorMessage }} Execution ID: {{ $json.executionId }} Time: {{ $json.errorTime }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a4a6bcd5-9b94-4a60-84c6-edeb8d750a3d",
+      "name": "Send Error Notification",
+      "webhookId": "1d85a53b-b101-4439-9bc6-739d1816127c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uYrBtVJdchc1mOEs",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Error Details": {
+      "main": [
+        [
+          {
+            "node": "Send Error Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "941fddc0-d4fb-45f7-8b16-76f94e4374f2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"
+  },
+  "nodeGroups": [],
+  "id": "Fbwr9GoIqSU0p0QN",
+  "tags": []
+}
