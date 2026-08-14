@@ -4,6 +4,7 @@ import { GeneratedRecipe } from '../../shared/interfaces/generated-recipe';
 import { FirebaseRecipes } from '../../shared/services/firebase-recipes';
 import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cookbook',
@@ -19,7 +20,8 @@ export class Cookbook implements OnInit {
   constructor(
     private firebaseRecipes: FirebaseRecipes,
     private recipeData: RecipeData,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   /**
@@ -52,5 +54,12 @@ export class Cookbook implements OnInit {
   startNewRecipe(): void {
     this.recipeData.clear();
     this.router.navigate(['/generate-recipe']);
+  }
+
+   /**
+   * Returns to the previously visited page.
+   */
+  goBack(): void {
+    this.location.back();
   }
 }

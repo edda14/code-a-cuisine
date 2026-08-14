@@ -1,12 +1,13 @@
 <main class="cookbook">
     <section class="cookbook-section">
         <header>
-            <div routerLink="/recipe"><img src="./assets/logo/Capa_3.svg" alt="logo">
+            <div (click)="goBack()" aria-label="Go back"><img src="./assets/logo/Capa_3.svg" alt="logo">
                 <div>
                     <img src="./assets/img/Arrow-left.svg" alt="arrow left">
                     <p>Back</p>
                 </div>
             </div>
+            <div class="impressum-div" routerLink="/impressum"><button>i</button></div>
         </header>
         <article class="cookbook-section-content">
             <section class="upper-section">

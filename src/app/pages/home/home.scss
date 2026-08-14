@@ -8,7 +8,7 @@
     justify-content: center;
 
     .home {
-        height: 100%;
+        min-height: 100%;
         width: 100%;
         max-width: 1740px;
         padding: 0px 40px;
@@ -104,6 +104,7 @@
                 height: 136px;
                 display: flex;
                 align-items: center;
+                gap: 32px;
 
                 >img {
                     width: auto;
@@ -116,8 +117,34 @@
 
             .example {
                 z-index: 1;
-                max-height: 100vh;
+                height: 100vh;
             }
+        }
+    }
+}
+
+.impressum-div {
+    max-width: 1740px;
+    display: flex;
+    align-items: start;
+
+    >button {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background-color: transparent;
+        color: rgba(250, 240, 230, 1);
+        font-family: "Quicksand";
+        font-size: 20px;
+        font-weight: 500;
+        background-color: rgba(250, 240, 230, 0.1);
+        padding: 4px;
+        transition: all ease 0.3s;
+        border-radius: 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(250, 240, 230, 0.3);
         }
     }
 }

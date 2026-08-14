@@ -7,6 +7,7 @@ import { Results } from './pages/results/results';
 import { Recipe } from './pages/recipe/recipe';
 import { Cookbook } from './pages/cookbook/cookbook';
 import { Categorie } from './pages/categorie/categorie';
+import {Impressum} from './pages/impressum/impressum';
 
 
 export const routes: Routes = [
@@ -42,5 +43,9 @@ export const routes: Routes = [
   {
     path: 'categorie/:cuisine',
     component: Categorie,
+  },
+   {
+    path: 'impressum',
+    component: Impressum,
   }
 ];

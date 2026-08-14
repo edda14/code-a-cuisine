@@ -24,6 +24,7 @@
             display: flex;
             justify-content: start;
             align-items: center;
+            gap: 32px;
 
             >div {
                 display: flex;
@@ -516,6 +517,32 @@
         &:focus-visible {
             outline: 2px solid rgba(30, 85, 21, 1);
             outline-offset: 3px;
+        }
+    }
+}
+
+.impressum-div {
+    max-width: 1740px;
+    display: flex;
+    align-items: start;
+
+    >button {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background-color: transparent;
+        color: rgba(16, 49, 11, 1);
+        font-family: "Quicksand";
+        font-size: 20px;
+        font-weight: 500;
+        background-color: rgba(57, 96, 57, 0.1);
+        padding: 4px;
+        transition: all ease 0.3s;
+        border-radius: 20px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(57, 96, 57, 0.3);
         }
     }
 }
