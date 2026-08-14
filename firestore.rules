@@ -1,0 +1,95 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /recipes/{recipeId} {
+      allow read: if true;
+
+      allow create: if
+        request.auth != null
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.likes == 0
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.keys().hasOnly([
+          'title',
+          'description',
+          'cuisine',
+          'diet',
+          'cookingTimeMinutes',
+          'portionCount',
+          'cookCount',
+          'ingredientUsagePercent',
+          'ingredients',
+          'extraIngredients',
+          'directions',
+          'nutrition',
+          'likes',
+          'createdBy',
+          'createdAt'
+        ]);
+
+      allow update: if
+        request.auth != null
+        && request.resource.data
+          .diff(resource.data)
+          .affectedKeys()
+          .hasOnly(['likes'])
+        && (
+          (
+            request.resource.data.likes == resource.data.likes + 1
+            && !exists(
+              /databases/$(database)/documents/recipes/$(recipeId)/likes/$(request.auth.uid)
+            )
+            && existsAfter(
+              /databases/$(database)/documents/recipes/$(recipeId)/likes/$(request.auth.uid)
+            )
+          )
+          ||
+          (
+            resource.data.likes > 0
+            && request.resource.data.likes == resource.data.likes - 1
+            && exists(
+              /databases/$(database)/documents/recipes/$(recipeId)/likes/$(request.auth.uid)
+            )
+            && !existsAfter(
+              /databases/$(database)/documents/recipes/$(recipeId)/likes/$(request.auth.uid)
+            )
+          )
+        );
+
+      allow delete: if false;
+
+      match /likes/{userId} {
+        allow read: if
+          request.auth != null
+          && request.auth.uid == userId;
+
+        allow create: if
+          request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['createdAt'])
+          && request.resource.data.createdAt == request.time
+          && getAfter(
+            /databases/$(database)/documents/recipes/$(recipeId)
+          ).data.likes
+          ==
+          get(
+            /databases/$(database)/documents/recipes/$(recipeId)
+          ).data.likes + 1;
+
+        allow delete: if
+          request.auth != null
+          && request.auth.uid == userId
+          && getAfter(
+            /databases/$(database)/documents/recipes/$(recipeId)
+          ).data.likes
+          ==
+          get(
+            /databases/$(database)/documents/recipes/$(recipeId)
+          ).data.likes - 1;
+
+        allow update: if false;
+      }
+    }
+  }
+}
