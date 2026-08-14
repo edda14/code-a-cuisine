@@ -131,19 +131,11 @@ Make sure the following tools and services are available:
 ### Installation
 
 ```bash
-git clone <repository-url>
+git clone `https://github.com/edda14/code-a-cuisine.git`
 cd code-a-cuisine
 npm install
 ng serve --open
 ```
-
-The development application is available at:
-
-```text
-http://localhost:4200
-```
-
-Replace `<repository-url>` with the URL of this repository.
 
 ## n8n configuration
 
