@@ -8,6 +8,16 @@
         <h2 id="error-title">{{ errorTitle() }}</h2>
         <p id="error-description">
             {{ errorMessage() }}
+            @if (conflictingIngredients().length) {
+        <ul class="conflicting-ingredients">
+            @for (
+            ingredient of conflictingIngredients();
+            track ingredient
+            ) {
+            <li>{{ ingredient }}</li>
+            }
+        </ul>
+        }
         </p>
         <div class="error-dialog__actions">
             <button type="button" (click)="backToIngredients()">
@@ -32,7 +42,14 @@
                 <img class="thym" src="./assets/animation/thym.svg" alt="thym">
                 <img class="bowl-front" src="./assets/animation/bowl-front.svg" alt="bowl-front">
             </article>
-            <h2></h2>
+            <h2 class="generating">
+                Generating
+                <span class="generating__dots" aria-hidden="true">
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                </span>
+            </h2>
         </div>
     </section>
 </main>

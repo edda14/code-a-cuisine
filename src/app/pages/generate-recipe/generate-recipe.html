@@ -10,47 +10,65 @@
                 <h3>Got random stuff in your kitchen? Pop it in-we've got the perfect recipe waiting.</h3>
                 <div class="ingredients-div">
                     <div class="input-form">
-                        <div class="ingredient">
-                            <p>Ingredient</p>
-                            <div class="input-field">
-                                <input type="text" name="ingredient-search" autocomplete="off" maxlength="20"
-                                    [(ngModel)]="ingredientInput" (input)="sanitizeIngredientInput($event)">
-                                <div class="suggestions">
-                                    @for (ingredient of filteredIngredients; track ingredient) {
-                                    <button type="button" (click)="selectIngredient(ingredient)">
-                                        {{ ingredient }}
-                                    </button>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="size">
-                            <p>Serving size</p>
-                            <div>
-                                <input appOnlyNumbers type="text" maxlength="5" autocomplete="off" placeholder="100"
-                                    [(ngModel)]="servingSize">
-                                <div class="dropdown">
-                                    <button (click)="toggleDropdown()" class="dropdown-button">{{ servingUnit }} <img
-                                            [class.open]="isDropdownOpen" src="./assets/img/arrow-close.svg"
-                                            alt="arrow closed"></button>
-                                    @if (isDropdownOpen) {
-                                    <div class="dropdown-menu">
-                                        <div (click)="selectServingUnit('piece')">piece</div>
-                                        <div (click)="selectServingUnit('ml')">ml</div>
-                                        <div (click)="selectServingUnit('gram')">gram</div>
+                        <div class="input-div">
+                            <div class="ingredient">
+                                <p>Ingredient</p>
+                                <div class="input-field">
+                                    <input type="text" name="ingredient-search" autocomplete="off" maxlength="20"
+                                        (keydown)="handleSuggestionKeydown($event)" [(ngModel)]="ingredientInput"
+                                        (input)="sanitizeIngredientInput($event)">
+                                    <div class="suggestions">
+                                        @for (
+                                        ingredient of filteredIngredients;
+                                        track ingredient;
+                                        let index = $index
+                                        ) {
+                                        <button type="button"
+                                            [class.suggestion-active]="index === activeSuggestionIndex"
+                                            (click)="selectIngredient(ingredient)">
+                                            {{ ingredient }}
+                                        </button>
+                                        }
                                     </div>
-                                    }
                                 </div>
-                                <img class="add-icon" src="./assets/img/add.svg" alt="add Icon"
-                                    (click)="addIngredient()">
+                            </div>
+                            <div class="size">
+                                <p>Serving size</p>
+                                <div>
+                                    <input appOnlyNumbers type="text" maxlength="5" autocomplete="off" placeholder="100"
+                                        [(ngModel)]="servingSize">
+                                    <div class="dropdown">
+                                        <button (click)="toggleDropdown()" class="dropdown-button">{{ servingUnit }}
+                                            <img [class.open]="isDropdownOpen" src="./assets/img/arrow-close.svg"
+                                                alt="arrow closed"></button>
+                                        @if (isDropdownOpen) {
+                                        <div class="dropdown-menu">
+                                            <div (click)="selectServingUnit('piece')">piece</div>
+                                            <div (click)="selectServingUnit('ml')">ml</div>
+                                            <div (click)="selectServingUnit('gram')">gram</div>
+                                        </div>
+                                        }
+                                    </div>
+                                    <img class="add-icon" src="./assets/img/add.svg" alt="add Icon"
+                                        (click)="addIngredient()">
+                                </div>
                             </div>
                         </div>
+                        @if (ingredientError) {
+                        <p class="ingredient-error" role="alert">
+                            {{ ingredientError }}
+                        </p>
+                        }
                     </div>
+
+
                     <div class="input-list">
                         <p>List of your ingredients</p>
                         <div class="added-ingredients">
                             @for (ingredient of addedIngredients; track $index; let i = $index) {
-                            <span class="one-ingerdient">
+                            <span class="one-ingerdient" [class.diet-conflict]="
+        isIngredientConflicting(ingredient.name)
+    ">
                                 <div class="ingredient-row">
                                     <div class="ingredient-amount">
                                         <div class="dot"></div>

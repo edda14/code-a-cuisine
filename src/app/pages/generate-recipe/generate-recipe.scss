@@ -88,8 +88,23 @@
                         border-radius: 20px;
                         padding: 24px;
                         display: flex;
-                        flex-direction: row;
-                        gap: 32px;
+                        flex-direction: column;
+
+                        .ingredient-error {
+                            font-family: "Quicksand";
+                            color: rgb(158, 0, 0);
+                            font-weight: 500;
+                            margin-left: 4px;
+                        }
+
+
+                        .input-div {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: start;
+                            gap: 32px;
+                        }
 
                         .ingredient {
                             display: flex;
@@ -104,6 +119,7 @@
                                 color: rgba(16, 49, 11, 1);
 
                             }
+
 
                             .suggestions {
                                 display: flex;
@@ -125,11 +141,11 @@
                                     color: rgba(16, 49, 11, 1);
                                     border-radius: 8px;
 
-                                    &:hover {
+                                    &:hover,
+                                    &.suggestion-active {
                                         cursor: pointer;
                                         background-color: rgba(250, 240, 230, 0.6);
                                     }
-
                                 }
                             }
 
@@ -264,6 +280,7 @@
 
 .dropdown {
     position: relative;
+    z-index: 2;
 
     .dropdown-button {
         width: 72px;
@@ -280,6 +297,7 @@
         font-weight: 500;
         line-height: 20px;
         color: rgba(16, 49, 11, 1);
+        z-index: 4;
 
         &:hover {
             cursor: pointer;
@@ -293,16 +311,21 @@
 
 .dropdown-menu {
     position: absolute;
-    top: 42px;
-    left: 10px;
+    top: 20px;
+    width: 64px;
+    left: 0px;
     color: rgba(16, 49, 11, 1);
+    background-color: rgba(250, 240, 230, 1);
     font-family: "Quicksand";
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
     display: flex;
     flex-direction: column;
+    z-index: -1;
     gap: 8px;
+    border-radius: 0px 0px 20px 20px;
+    padding: 18px 4px 4px 4px;
 
     >div {
         padding: 2px 4px;
@@ -348,6 +371,11 @@ button:focus {
         align-items: center;
         justify-content: space-between;
         transition: all ease 0.3s;
+
+        &.diet-conflict {
+            background-color: rgba(190, 60, 45, 0.18);
+            border: 1px solid rgba(158, 0, 0, 0.7);
+        }
 
         &:hover {
             background-color: rgba(250, 240, 230, 0.6);
@@ -427,6 +455,7 @@ button:focus {
     background-color: rgba(250, 240, 230, 0.8);
     gap: 16px;
 }
+
 .impressum-div {
     max-width: 1740px;
     display: flex;
@@ -441,7 +470,7 @@ button:focus {
         font-family: "Quicksand";
         font-size: 20px;
         font-weight: 500;
-        background-color:  rgba(57, 96, 57, 0.1);
+        background-color: rgba(57, 96, 57, 0.1);
         padding: 4px;
         transition: all ease 0.3s;
         border-radius: 20px;

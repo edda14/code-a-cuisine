@@ -28,6 +28,8 @@ export class GenerateRecipe implements OnInit {
   servingSize = '';
   servingUnit = 'gram';
   isDropdownOpen = false;
+  ingredientError = '';
+  activeSuggestionIndex = -1;
   allIngredients: string[] = [];
   addedIngredients: Ingredient[] = [];
   filteredIngredients: string[] = [];
@@ -50,6 +52,8 @@ export class GenerateRecipe implements OnInit {
       });
     }
   }
+
+
 
   /**
  * Restores saved ingredients and loads the autocomplete data.
@@ -74,6 +78,7 @@ export class GenerateRecipe implements OnInit {
  * Filters autocomplete suggestions using the current input.
  */
   filterIngredients(): void {
+    this.activeSuggestionIndex = -1;
     const searchTerm = this.ingredientInput.trim().toLowerCase();
     if (searchTerm.length < 2) {
       this.filteredIngredients = [];
@@ -95,18 +100,78 @@ export class GenerateRecipe implements OnInit {
     this.filteredIngredients = [];
   }
 
-  /**
- * Removes invalid characters from the ingredient input.
- */
   sanitizeIngredientInput(event: Event): void {
+    this.ingredientError = '';
+
     const input = event.target as HTMLInputElement;
     const cleanedValue = input.value
       .replace(/[^\p{L}\s-]/gu, '')
       .replace(/\s{2,}/g, ' ')
       .replace(/^\s+/, '');
+
     this.ingredientInput = cleanedValue;
     input.value = cleanedValue;
     this.filterIngredients();
+  }
+
+  /**
+ * Handles keyboard navigation within the ingredient suggestions.
+ */
+  handleSuggestionKeydown(event: KeyboardEvent): void {
+    if (!this.filteredIngredients.length) {
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.selectNextSuggestion();
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.selectPreviousSuggestion();
+    }
+    if (event.key === 'Enter') {
+      this.selectActiveSuggestion(event);
+    }
+  }
+
+  /**
+ * Highlights the next ingredient suggestion.
+ */
+  private selectNextSuggestion(): void {
+    const lastIndex = this.filteredIngredients.length - 1;
+
+    this.activeSuggestionIndex =
+      this.activeSuggestionIndex >= lastIndex
+        ? 0
+        : this.activeSuggestionIndex + 1;
+  }
+
+  /**
+   * Highlights the previous ingredient suggestion.
+   */
+  private selectPreviousSuggestion(): void {
+    const lastIndex = this.filteredIngredients.length - 1;
+
+    this.activeSuggestionIndex =
+      this.activeSuggestionIndex <= 0
+        ? lastIndex
+        : this.activeSuggestionIndex - 1;
+  }
+
+  /**
+   * Selects the currently highlighted suggestion.
+   */
+  private selectActiveSuggestion(event: KeyboardEvent): void {
+    if (this.activeSuggestionIndex < 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const ingredient =
+      this.filteredIngredients[this.activeSuggestionIndex];
+
+    this.selectIngredient(ingredient);
   }
 
   /**
@@ -133,51 +198,108 @@ export class GenerateRecipe implements OnInit {
   }
 
   /**
- * Adds a valid and unique ingredient to the ingredient list.
- */
+  * Validates and adds the entered ingredient.
+  */
   addIngredient(): void {
     const name = this.ingredientInput.trim();
     const amount = this.servingSize.trim();
+
+    this.ingredientError = '';
+
     if (this.cannotAddIngredient(name, amount)) {
       return;
     }
+
+    this.addIngredientToList(name, amount);
+    this.resetIngredientForm();
+  }
+
+  /**
+   * Adds an ingredient to the ingredient list.
+   */
+  private addIngredientToList(
+    name: string,
+    amount: string
+  ): void {
     this.addedIngredients.push({
       name,
       amount,
       unit: this.servingUnit,
       isEditing: false,
     });
-    this.resetIngredientForm();
   }
 
   /**
-   * Checks whether an ingredient cannot be added.
-   */
+ * Checks whether an ingredient can be added.
+ */
   private cannotAddIngredient(
     name: string,
     amount: string
   ): boolean {
-    if (!name || !amount) {
-      return true;
+    if (!name && !amount) {
+      return this.rejectIngredient(
+        'Please enter an ingredient and a serving size.'
+      );
     }
-
-    return this.addedIngredients.some(
-      (ingredient) =>
-        ingredient.name.toLowerCase() === name.toLowerCase()
-    );
+    if (!name) {
+      return this.rejectIngredient('Please enter an ingredient.');
+    }
+    if (!amount) {
+      return this.rejectIngredient('Please enter a serving size.');
+    }
+    return this.hasIngredientValidationError(name);
   }
 
   /**
-   * Resets all ingredient input fields.
+   * Checks the ingredient name and duplicate entries.
+   */
+  private hasIngredientValidationError(name: string): boolean {
+    if (!this.isIngredientInputValid(name)) {
+      return this.rejectIngredient(
+        'Please enter a valid ingredient.'
+      );
+    }
+    return this.checkDuplicateIngredient(name);
+  }
+
+  /**
+ * Checks whether an ingredient conflicts with the selected diet.
+ */
+isIngredientConflicting(name: string): boolean {
+  return this.recipeData.isIngredientConflicting(name);
+}
+
+  /**
+   * Clears the ingredient input fields.
    */
   private resetIngredientForm(): void {
     this.ingredientInput = '';
     this.servingSize = '';
     this.servingUnit = 'gram';
     this.filteredIngredients = [];
+    this.ingredientError = '';
   }
-  removeIngredient(index: number): void {
-    this.addedIngredients.splice(index, 1);
+
+  /**
+ * Checks whether an ingredient has already been added.
+ */
+  private checkDuplicateIngredient(name: string): boolean {
+    const alreadyExists = this.addedIngredients.some(
+      (ingredient) =>
+        ingredient.name.toLowerCase() === name.toLowerCase()
+    );
+
+    return alreadyExists
+      ? this.rejectIngredient('This ingredient is already in your list.')
+      : false;
+  }
+
+  /**
+   * Stores an ingredient validation message.
+   */
+  private rejectIngredient(message: string): boolean {
+    this.ingredientError = message;
+    return true;
   }
 
   /**
@@ -238,5 +360,23 @@ export class GenerateRecipe implements OnInit {
   goToPreferences(): void {
     this.recipeData.setIngredients(this.addedIngredients);
     this.router.navigate(['/preferences']);
+  }
+
+  /**
+ * Removes an ingredient from the ingredient list.
+ */
+  removeIngredient(index: number): void {
+    this.addedIngredients.splice(index, 1);
+  }
+
+  /**
+ * Checks the basic format of a freely entered ingredient.
+ */
+  private isIngredientInputValid(name: string): boolean {
+    return (
+      name.length >= 2 &&
+      /\p{L}/u.test(name) &&
+      !/^(.)\1+$/u.test(name)
+    );
   }
 }

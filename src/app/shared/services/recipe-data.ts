@@ -26,6 +26,7 @@ export class RecipeData {
   private generatedRecipes: GeneratedRecipe[] = [];
   private portionCount = 2;
   private selectedRecipe: GeneratedRecipe | null = null;
+  private conflictingIngredients: string[] = [];
 
   private preferences: RecipePreferences = {
     cookingTime: '',
@@ -114,9 +115,35 @@ export class RecipeData {
   }
 
   /**
+ * Stores ingredients that conflict with the selected diet.
+ */
+setConflictingIngredients(ingredients: string[]): void {
+  this.conflictingIngredients = ingredients.map(
+    (ingredient) => ingredient.trim().toLowerCase()
+  );
+}
+
+/**
+ * Checks whether an ingredient conflicts with the selected diet.
+ */
+isIngredientConflicting(name: string): boolean {
+  return this.conflictingIngredients.includes(
+    name.trim().toLowerCase()
+  );
+}
+
+/**
+ * Clears the stored diet conflicts.
+ */
+clearConflictingIngredients(): void {
+  this.conflictingIngredients = [];
+}
+
+  /**
  * Clears all recipe data and restores the default values.
  */
   clear(): void {
+    this.conflictingIngredients = [];
     this.ingredients = [];
     this.portionCount = 2;
 

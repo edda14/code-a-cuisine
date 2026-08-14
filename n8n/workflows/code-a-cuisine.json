@@ -36,8 +36,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1040,
-        -48
+        1280,
+        112
       ],
       "id": "49bc145b-40a6-4c92-8047-d61bf95e7a73",
       "name": "Respond to Webhook"
@@ -58,7 +58,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a professional recipe generator.\n\nCreate exactly 3 distinct recipes based on this request:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count and cooking time.\n- Use at least 70 percent of the ingredients supplied by the user in every recipe.\n- Add no more than 3 extra basic ingredients per recipe.\n- Do not list user-provided ingredients as extra ingredients.\n- Adjust all ingredient amounts to the requested portion count.\n- cookingTimeMinutes must match:\n  - quick: maximum 20 minutes\n  - medium: 20 to 45 minutes\n  - complex: more than 45 minutes\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Steps that can happen simultaneously must have the same parallelGroup number.\n- Directions must still be listed in a logical chronological order.\n- Provide realistic estimated nutrition values both per portion and for the complete recipe.\n- Macro percentages should describe the calorie distribution and total approximately 100.\n- ingredientUsagePercent must be a number from 70 to 100.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks. If cookCount is 1, every step must have a different parallelGroup.\n- The ingredients array must contain only ingredients supplied by the user and providedByUser must always be true there. Additional ingredients must appear only in extraIngredients and must not be duplicated in ingredients.",
+        "text": "=You are a professional recipe generator.\n\nFirst validate whether the supplied ingredients are compatible with the requested diet. Only create exactly 3 distinct recipes when the request is valid.\n\nRequest:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\nDIET VALIDATION RULES — HIGHEST PRIORITY:\n\n- Perform this validation before selecting ingredients or creating recipes.\n- Validate every ingredient supplied by the user against the requested diet.\n- An ingredient must be validated even when it would not be used in a recipe.\n- If any supplied ingredient conflicts with the requested diet, the complete request is invalid.\n- Never resolve a diet conflict by omitting, ignoring, replacing, or moving the conflicting ingredient.\n- Do not generate recipes when a diet conflict exists.\n- These validation rules have priority over every recipe-generation and ingredient-usage rule.\n\n- For a vegetarian diet, reject meat, poultry, fish, seafood, animal fat, gelatin, and other clearly non-vegetarian ingredients.\n- For a vegan diet, reject meat, poultry, fish, seafood, dairy products, eggs, honey, animal fat, gelatin, and other clearly animal-derived ingredients.\n- Eggs and all egg products always conflict with a vegan diet.\n- Mozzarella, cheese, milk, cream, butter, yoghurt, and other dairy products always conflict with a vegan diet.\n- Plant-based alternatives such as oat milk, soy milk, vegan cheese, vegan mozzarella, vegan meat substitutes, and egg substitutes are compatible with a vegan diet.\n- Consider the complete ingredient name before deciding whether it conflicts.\n- If the diet is \"no preferences\", skip diet-conflict validation.\n\nIf at least one conflict exists, return exactly:\n\n- valid: false\n- errorCode: \"DIET_CONFLICT\"\n- message: \"Some ingredients do not match the selected diet.\"\n- conflictingIngredients: all conflicting user-provided ingredient names\n- recipes: an empty array\n\nIf no conflict exists, return:\n\n- valid: true\n- errorCode: an empty string\n- message: an empty string\n- conflictingIngredients: an empty array\n- recipes: exactly 3 recipes following all remaining rules\n\nGENERAL RULES:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count, and cooking time.\n- If valid is true, create exactly 3 genuinely distinct recipes.\n- If valid is false, do not create any recipes.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n\nINGREDIENT USAGE RULES:\n\n- Use at least 70 percent of the ingredient types supplied by the user in every recipe.\n- The provided ingredient amounts represent the maximum amounts available.\n- A recipe does not need to use every provided ingredient, but it must use at least 70 percent of the provided ingredient types.\n- Use only ingredients and quantities that are appropriate for the dish and the requested portion count.\n- A recipe may use only part of an available ingredient amount.\n- Never use more than the amount provided by the user.\n- In the recipe output, list only the amount actually used, not the full available amount.\n- Any unused quantity remains unused and must not appear in the recipe.\n- For example, if 100 tomatoes are available but the recipe requires only 4 tomatoes, return an amount of 4 tomatoes.\n- Do not force excessive quantities into a recipe merely to increase ingredient usage.\n- Adjust all used ingredient amounts to the requested portion count.\n- Calculate ingredientUsagePercent from the number of provided ingredient types actually used, not from the quantities consumed.\n- ingredientUsagePercent must be a number from 70 to 100.\n- The ingredients array must contain only user-provided ingredients that are actually used.\n- providedByUser must always be true for every entry in the ingredients array.\n- Do not list user-provided ingredients in extraIngredients.\n- Additional ingredients must appear only in extraIngredients.\n- Ingredients must not be duplicated between ingredients and extraIngredients.\n- Add no more than 3 extra basic ingredients per recipe.\n\nCOOKING-TIME RULES:\n\n- cookingTimeMinutes must match the requested cooking-time category:\n  - quick: maximum 20 minutes\n  - medium: 21 to 45 minutes\n  - complex: more than 45 minutes\n\nCOOKING-DIRECTION RULES:\n\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be an integer between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Directions must be listed in a logical chronological order.\n- Steps that can happen simultaneously must use the same parallelGroup number.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks.\n- If cookCount is 1, every step must have a different parallelGroup.\n\nNUTRITION RULES:\n\n- Provide realistic estimated nutrition values per portion and for the complete recipe.\n- Total nutrition values must correspond to the requested portion count.\n- Macro percentages must describe the approximate calorie distribution.\n- The protein, carbohydrate, and fat percentages should total approximately 100.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -100,7 +100,7 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"recipes\": [\n    {\n      \"title\": \"Pasta with spinach and tomatoes\",\n      \"description\": \"A quick vegetarian pasta dish.\",\n      \"cuisine\": \"italian\",\n      \"diet\": \"vegetarian\",\n      \"cookingTimeMinutes\": 20,\n      \"portionCount\": 2,\n      \"cookCount\": 1,\n      \"ingredientUsagePercent\": 75,\n      \"ingredients\": [\n        {\n          \"name\": \"Pasta\",\n          \"amount\": 200,\n          \"unit\": \"gram\",\n          \"providedByUser\": true\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"Olive oil\",\n          \"amount\": 2,\n          \"unit\": \"tablespoon\"\n        }\n      ],\n      \"directions\": [\n        {\n          \"step\": 1,\n          \"title\": \"Cook the pasta\",\n          \"description\": \"Cook the pasta in salted water.\",\n          \"assignedCook\": 1,\n          \"parallelGroup\": 1\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": 520,\n          \"proteinGrams\": 18,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 72,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 18,\n          \"fatPercent\": 31\n        },\n        \"total\": {\n          \"calories\": 1040,\n          \"proteinGrams\": 36,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 144,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 36,\n          \"fatPercent\": 31\n        }\n      }\n    }\n  ]\n}",
+        "jsonSchemaExample": "{\n  \"valid\": true,\n  \"errorCode\": \"\",\n  \"message\": \"\",\n  \"conflictingIngredients\": [],\n  \"recipes\": [\n    {\n      \"title\": \"Pasta with spinach and tomatoes\",\n      \"description\": \"A quick vegetarian pasta dish.\",\n      \"cuisine\": \"italian\",\n      \"diet\": \"vegetarian\",\n      \"cookingTimeMinutes\": 20,\n      \"portionCount\": 2,\n      \"cookCount\": 1,\n      \"ingredientUsagePercent\": 75,\n      \"ingredients\": [\n        {\n          \"name\": \"Pasta\",\n          \"amount\": 200,\n          \"unit\": \"gram\",\n          \"providedByUser\": true\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"Olive oil\",\n          \"amount\": 2,\n          \"unit\": \"tablespoon\"\n        }\n      ],\n      \"directions\": [\n        {\n          \"step\": 1,\n          \"title\": \"Cook the pasta\",\n          \"description\": \"Cook the pasta in salted water.\",\n          \"assignedCook\": 1,\n          \"parallelGroup\": 1\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": 520,\n          \"proteinGrams\": 18,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 72,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 18,\n          \"fatPercent\": 31\n        },\n        \"total\": {\n          \"calories\": 1040,\n          \"proteinGrams\": 36,\n          \"proteinPercent\": 14,\n          \"carbohydratesGrams\": 144,\n          \"carbohydratesPercent\": 55,\n          \"fatGrams\": 36,\n          \"fatPercent\": 31\n        }\n      }\n    }\n  ]\n}",
         "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
@@ -413,6 +413,57 @@
       ],
       "id": "9b96f8ef-578d-4270-a984-ac808396f403",
       "name": "Increment IP Daily Usage"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "667da656-bc31-4d7a-84f3-0fdc5981e920",
+              "leftValue": "={{ $json.output.valid }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1104,
+        -32
+      ],
+      "id": "b7a2487b-934a-4cfc-81db-40b7b59acb15",
+      "name": "Diet Conflict?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{\n  {\n    error: $json.output.errorCode,\n    message: $json.output.message,\n    conflictingIngredients: $json.output.conflictingIngredients\n  }\n}}",
+        "options": {
+          "responseCode": 422
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1296,
+        -192
+      ],
+      "id": "c87259da-6a56-4eab-af09-af60bb1425c0",
+      "name": "Respond Diet Conflict"
     }
   ],
   "pinData": {},
@@ -448,7 +499,7 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook",
+            "node": "Diet Conflict?",
             "type": "main",
             "index": 0
           }
@@ -578,6 +629,24 @@
           }
         ]
       ]
+    },
+    "Diet Conflict?": {
+      "main": [
+        [
+          {
+            "node": "Respond Diet Conflict",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -589,7 +658,7 @@
     "errorWorkflow": "Fbwr9GoIqSU0p0QN",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "dc69a9fe-ef7c-40fe-9afe-88ca6e661056",
+  "versionId": "1acca5d1-7912-4912-ae8b-36784979dceb",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"

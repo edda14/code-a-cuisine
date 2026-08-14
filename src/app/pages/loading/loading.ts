@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse, } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RecipeData } from '../../shared/services/recipe-data';
 import { GeneratedRecipe, GenerateRecipesResponse } from '../../shared/interfaces/generated-recipe';
@@ -29,6 +29,7 @@ export class Loading implements OnInit {
   animationFinished = false;
   errorTitle = signal('');
   errorMessage = signal('');
+  conflictingIngredients = signal<string[]>([]);
 
   constructor(
     private router: Router,
@@ -142,16 +143,47 @@ export class Loading implements OnInit {
 
 
   /**
-   * Handles unsuccessful n8n requests and daily limits.
+   * Handles unsuccessful n8n requests.
    */
   private handleRequestError(error: unknown): void {
     console.error('Fehler bei n8n:', error);
-
-    if (error instanceof HttpErrorResponse && error.status === 429) {
+    if (!(error instanceof HttpErrorResponse)) {
+      this.showGenericRequestError();
+      return;
+    }
+    if (error.status === 429) {
       this.showLimitError(error);
       return;
     }
+    if (error.status === 422) {
+      this.showDietConflictError(error);
+      return;
+    }
+    this.showGenericRequestError();
+  }
 
+  /**
+   * Displays ingredients that conflict with the selected diet.
+   */
+  private showDietConflictError(error: HttpErrorResponse): void {
+    const ingredients = error.error?.conflictingIngredients;
+    const conflicts = Array.isArray(ingredients)
+      ? ingredients
+      : [];
+
+    this.setError(
+      'Diet preference conflict',
+      'These ingredients do not match your selected diet:'
+    );
+
+    this.conflictingIngredients.set(conflicts);
+    this.recipeData.setConflictingIngredients(conflicts);
+  }
+
+  /**
+   * Displays a generic request error.
+   */
+  private showGenericRequestError(): void {
     this.setError(
       'Oops! Something went wrong...',
       'We could not generate your recipes right now. Please try again.'
@@ -176,6 +208,8 @@ export class Loading implements OnInit {
    * Updates the error-dialog content.
    */
   private setError(title: string, message: string): void {
+    this.conflictingIngredients.set([]);
+    this.recipeData.clearConflictingIngredients();
     this.errorTitle.set(title);
     this.errorMessage.set(message);
   }
