@@ -10,15 +10,16 @@
     .home {
         min-height: 100%;
         width: 100%;
-        max-width: 1740px;
-        padding: 0px 40px;
+        box-sizing: border-box;
+        max-width: 1440px;
+        padding-left: 40px;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         align-items: start;
 
         .left {
-            width: 70%;
-            height: 90vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -113,18 +114,22 @@
         }
 
         .right {
-            width: 30%;
+            flex: 0 1 30%;
+            min-width: 0;
+            overflow: hidden;
 
             .example {
-                z-index: 1;
+                display: block;
                 height: 100vh;
+                width: auto;
+                max-width: none;
             }
         }
     }
 }
 
 .impressum-div {
-    max-width: 1740px;
+    max-width: 1440px;
     display: flex;
     align-items: start;
 
@@ -145,6 +150,111 @@
         &:hover {
             cursor: pointer;
             background-color: rgba(250, 240, 230, 0.3);
+        }
+    }
+}
+
+@media (min-width: 1440px) {
+    .example {
+        content: url('/assets/img/Visuals-big.png');
+    }
+}
+
+@media (max-width: 1440px) {
+    .right {
+        overflow: hidden !important;
+    }
+}
+
+@media (max-width: 1000px) {
+    .home-section {
+        .home {
+            padding-left: 20px;
+
+            .right {
+                width: auto;
+            }
+
+            .left {
+                .get-started {
+                    flex-wrap: wrap;
+                    width: 220px;
+                    gap: 40px;
+
+                    >section {
+                        >h1 {
+                            font-size: 64px;
+                        }
+
+                        >h2 {
+                            font-size: 24px;
+                        }
+                    }
+
+                    >button {
+                        width: 119px;
+                        height: 52px;
+                        font-size: 16px;
+                    }
+                }
+
+                .go-to-cookbook {
+                    flex-direction: column;
+                    align-items: start;
+                    gap: 16px;
+
+                    >h3 {
+                        margin-left: 16px;
+                        font-size: 24px;
+                    }
+
+                    >button {
+                        display: flex;
+                        font-size: 18px;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 4px 16px;
+
+                    }
+                }
+
+                >nav {
+                    >img {
+                        width: 95px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .home-section {
+        .home {
+            padding-left: 16px;
+
+            .left {
+                .get-started {
+                    width: 190px;
+
+                    >section {
+                        >h1 {
+                            font-size: 48px;
+                        }
+
+                        >h2 {
+                            font-size: 20px;
+                        }
+                    }
+                }
+
+                .go-to-cookbook {
+                    >h3 {
+                        margin-left: 0;
+                        font-size: 20px;
+                    }
+                }
+            }
         }
     }
 }
