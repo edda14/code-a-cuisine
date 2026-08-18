@@ -481,3 +481,196 @@ button:focus {
         }
     }
 }
+
+@media (max-width: 1400px) {
+    .generate-recipe {
+        &-section {
+            >article {
+                padding-bottom: 40px;
+
+                .next-step-div {
+                    justify-content: center;
+                }
+
+                >section {
+                    .ingredients-div {
+                        flex-direction: column;
+                        align-items: center;
+
+                        .input-form {
+                            width: 476px;
+                            height: fit-content;
+
+                            .input-div {
+                                flex-direction: column;
+                                gap: 16px;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .generate-recipe {
+        &-section {
+            max-width: 550px;
+            gap: 42px;
+
+            >nav {
+                height: 100px;
+            }
+
+            >article {
+                >section {
+                    gap: 42px;
+
+                    .ingredients-div {
+                        align-items: start;
+
+                        .input-form {
+                            width: 476px;
+                            height: fit-content;
+
+                            .input-div {
+                                flex-direction: column;
+                                gap: 16px;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 630px) {
+    .generate-recipe {
+        &-section {
+            width: 372px;
+            padding: 0px 20px;
+            gap: 32px;
+
+            >nav {
+                >img {
+                    width: 95px;
+                }
+            }
+
+
+            >article {
+                height: 100%;
+                justify-content: space-between;
+                gap:inherit;
+
+                >h2 {
+                    font-size: 32px;
+                }
+
+                >section {
+                    >h3 {
+                        font-size: 18px;
+                    }
+
+                    .ingredients-div {
+                        align-items: center;
+                        gap: 24px;
+
+                        .input-list {
+                            width: 324px;
+                        }
+
+                        .input-form {
+                            width: fit-content;
+                            height: fit-content;
+
+                            .input-div {
+                                flex-direction: column;
+                                gap: 16px;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    .added-ingredients {
+        .one-ingerdient {
+            width: 318px;
+        }
+    }
+}
+
+@media(max-width: 430px) {
+    .generate-recipe {
+        &-section {
+            width: 320px;
+            padding: 0px 0px;
+
+            >article {
+                align-items: start;
+
+
+                >h2 {
+                    font-size: 32px;
+                }
+
+                >section {
+                    >h3 {
+                        font-size: 18px;
+                    }
+
+                    .ingredients-div {
+                        align-items: center;
+
+                        .input-list {
+                            width: 290px;
+                            padding: 10px;
+                        }
+
+                        .input-form {
+                            padding: 10px;
+                            width: 290px;
+                            height: fit-content;
+
+                            .ingredient {
+                                .input-field {
+                                    >input {
+                                        width: 260px;
+                                    }
+
+                                }
+
+                                .suggestion {
+                                    >button {
+                                        width: 260px;
+                                    }
+                                }
+                            }
+
+                            .input-div {
+                                flex-direction: column;
+                                gap: 16px;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    .added-ingredients {
+        .one-ingerdient {
+            width: 290px;
+        }
+    }
+
+
+}

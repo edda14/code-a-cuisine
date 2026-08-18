@@ -37,7 +37,7 @@
 
                     .preference {
                         padding: 32px 24px;
-                        min-width: 657px;
+                        width: auto;
                         min-height: 364px;
                         display: flex;
                         flex-direction: column;
@@ -282,7 +282,6 @@
 }
 
 .impressum-div {
-    max-width: 1740px;
     display: flex;
     align-items: start;
 
@@ -303,6 +302,87 @@
         &:hover {
             cursor: pointer;
             background-color: rgba(57, 96, 57, 0.3);
+        }
+    }
+}
+
+@media(max-width:1000px) {
+    .preferences {
+        &-section {
+            max-width: 550px;
+            padding: 0px 20px 100px 20px;
+
+            >nav {
+                height: 120px;
+
+                >div {
+                    gap: 16px;
+                }
+            }
+
+            >article {
+                >section {
+                    align-items: start;
+
+                    .preferences-form {
+                        >section {
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            gap: 24px;
+                        }
+
+                        .preference {
+                            width: fit-content;
+
+                            .set {
+                                >span {
+                                    flex-wrap: wrap;
+                                    justify-content: start;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .preferences {
+        &-section {
+            gap: 32px;
+            max-width: 320px;
+            padding: 0px 0px 40px 0px;
+            >nav {
+                >div {
+                    >img {
+                        width: 95px;
+                    }
+                }
+            }
+
+            >article {
+                >section {
+                    gap: 32px;
+                    width: 320px;
+                    .preferences-form {
+                        >section {
+                            width: 100%;
+                        }
+                        .preference {
+                            width: 272px;
+                            .set {
+                                >span {}
+                                >div {
+                                    flex-wrap: wrap;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
