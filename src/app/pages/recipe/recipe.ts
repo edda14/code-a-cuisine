@@ -17,7 +17,8 @@ export class Recipe implements OnInit {
   isLiking = signal(false);
   recipe: GeneratedRecipe | null = null;
   ingredientsOpen = true;
-directionsOpen = true;
+  directionsOpen = true;
+  showTotalNutrition = false;
 
   constructor(
     private recipeData: RecipeData,
@@ -135,18 +136,25 @@ directionsOpen = true;
   goBack(): void {
     this.location.back();
   }
-  
+
   /**
  * Opens or closes the ingredient section.
  */
-toggleIngredients(): void {
-  this.ingredientsOpen = !this.ingredientsOpen;
-}
+  toggleIngredients(): void {
+    this.ingredientsOpen = !this.ingredientsOpen;
+  }
 
-/**
- * Opens or closes the directions section.
+  /**
+   * Opens or closes the directions section.
+   */
+  toggleDirections(): void {
+    this.directionsOpen = !this.directionsOpen;
+  }
+
+  /**
+ * Switches between per-portion and total nutrition values.
  */
-toggleDirections(): void {
-  this.directionsOpen = !this.directionsOpen;
+toggleNutritionView(): void {
+  this.showTotalNutrition = !this.showTotalNutrition;
 }
 }

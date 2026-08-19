@@ -51,25 +51,60 @@
                                 {{ likeCount() }}
                             </div>
                         </section>
-                        <p>Nutritional information per portion</p>
+                        <p>
+                            Nutritional information
+                            {{ showTotalNutrition ? 'total' : 'per portion' }}
+                        </p>
+
                         <section class="recipe-nutrition">
                             <div>
                                 <h3>Energy</h3>
-                                <p>{{ recipe.nutrition.perPortion.calories }} kcal</p>
+                                <p>
+                                    {{
+                                    showTotalNutrition
+                                    ? recipe.nutrition.total.calories
+                                    : recipe.nutrition.perPortion.calories
+                                    }} kcal
+                                </p>
                             </div>
+
                             <div>
                                 <h3>Protein</h3>
-                                <p>{{ recipe.nutrition.perPortion.proteinGrams }} g</p>
+                                <p>
+                                    {{
+                                    showTotalNutrition
+                                    ? recipe.nutrition.total.proteinGrams
+                                    : recipe.nutrition.perPortion.proteinGrams
+                                    }} g
+                                </p>
                             </div>
+
                             <div>
                                 <h3>Fat</h3>
-                                <p>{{ recipe.nutrition.perPortion.fatGrams }} g</p>
+                                <p>
+                                    {{
+                                    showTotalNutrition
+                                    ? recipe.nutrition.total.fatGrams
+                                    : recipe.nutrition.perPortion.fatGrams
+                                    }} g
+                                </p>
                             </div>
+
                             <div>
                                 <h3>Carbs</h3>
-                                <p>{{ recipe.nutrition.perPortion.carbohydratesGrams }} g</p>
+                                <p>
+                                    {{
+                                    showTotalNutrition
+                                    ? recipe.nutrition.total.carbohydratesGrams
+                                    : recipe.nutrition.perPortion.carbohydratesGrams
+                                    }} g
+                                </p>
                             </div>
                         </section>
+
+                        <button class="nutrition-toggle" type="button" (click)="toggleNutritionView()">
+                            {{ showTotalNutrition ? 'Show per portion' : 'Show total' }}
+                        </button>
                     </aside>
                 </header>
                 <section class="recipe-ingredients-content">
