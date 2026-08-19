@@ -10,10 +10,14 @@
             <div class="impressum-div" routerLink="/impressum"><button>i</button></div>
         </header>
         <article>
-            <section class="button-section">
+            <section class="button-section button-desktop">
                 <button (click)="startNewRecipe()">Generate a recipe</button>
             </section>
-            <img [src]="headerImage" [alt]="cuisineTitle + ' header'">
+            <picture class="categorie-header-image">
+                <source media="(max-width: 1000px)" [srcset]="mobileHeaderImage">
+
+                <img [src]="headerImage" [alt]="cuisineTitle + ' header'">
+            </picture>
             <section class="recipe-list">
                 @if (isLoading()) {
                 <p class="hint">Recipes are loading...</p>
@@ -33,7 +37,7 @@
                         </span>
                         <span class="title">
                             <div class="number-div">
-                                {{ $index + 1 }}.
+                                {{ (currentPage() - 1) * pageSize + $index + 1 }}.
                             </div>
                             <p>{{ recipe.title }}</p>
                         </span>
@@ -80,6 +84,9 @@
                 </button>
             </nav>
             }
+            <section class="button-section button-mobile">
+                <button (click)="startNewRecipe()">Generate a recipe</button>
+            </section>
         </article>
     </section>
 </main>

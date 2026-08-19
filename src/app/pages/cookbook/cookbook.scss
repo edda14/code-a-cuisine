@@ -179,6 +179,7 @@
             >div {
                 display: flex;
                 flex-direction: column;
+                align-items: start;
                 gap: 32px;
 
                 >div {
@@ -338,7 +339,7 @@
 @media (max-width: 1400px) {
     .cookbook {
         &-section {
-            width: auto;
+            width: 100%;
 
             &-content {
                 width: auto;
@@ -369,6 +370,7 @@
 @media (max-width: 1000px) {
     .cookbook {
         &-section {
+            padding: 40px 20px;
             &-content {
                 .upper-section {
                     width: 450px;
@@ -394,7 +396,10 @@
             }
 
             >header {
+                height: 100px;
+                margin-left: 40px;
                 >div {
+                    gap: 18px;
                     >img {
                         width: 95px
                     }
@@ -403,6 +408,9 @@
                 }
             }
         }
+    }
+    .ingredients {
+        gap: 24px;
     }
 }
 

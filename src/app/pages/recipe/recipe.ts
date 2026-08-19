@@ -16,6 +16,8 @@ export class Recipe implements OnInit {
   hasLiked = signal(false);
   isLiking = signal(false);
   recipe: GeneratedRecipe | null = null;
+  ingredientsOpen = true;
+directionsOpen = true;
 
   constructor(
     private recipeData: RecipeData,
@@ -133,4 +135,18 @@ export class Recipe implements OnInit {
   goBack(): void {
     this.location.back();
   }
+  
+  /**
+ * Opens or closes the ingredient section.
+ */
+toggleIngredients(): void {
+  this.ingredientsOpen = !this.ingredientsOpen;
+}
+
+/**
+ * Opens or closes the directions section.
+ */
+toggleDirections(): void {
+  this.directionsOpen = !this.directionsOpen;
+}
 }

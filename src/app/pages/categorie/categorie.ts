@@ -7,6 +7,7 @@ import { RecipeData } from '../../shared/services/recipe-data';
 interface CuisineHeader {
   title: string;
   image: string;
+  mobileImage: string;
 }
 
 @Component({
@@ -19,6 +20,7 @@ export class Categorie implements OnInit {
   cuisine = '';
   cuisineTitle = '';
   headerImage = '';
+  mobileHeaderImage = '';
   recipes = signal<GeneratedRecipe[]>([]);
   isLoading = signal(true);
   hasLoadingError = signal(false);
@@ -40,32 +42,44 @@ export class Categorie implements OnInit {
       italian: {
         title: 'Italian cuisine',
         image:
-          './assets/header-imgs/Property 1=Italian.svg',
+          './assets/header-imgs/Property-Italian.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/Property-Italian-mobile.svg',
       },
       german: {
         title: 'German cuisine',
         image:
-          './assets/header-imgs/Property 1=German.svg',
+          './assets/header-imgs/Property-German.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/Property-germany-mobile.svg',
       },
       japanese: {
         title: 'Japanese cuisine',
         image:
-          './assets/header-imgs/Property 1=Japanese.svg',
+          './assets/header-imgs/Property-Japanese.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/Property-Japanese-mobile.svg',
       },
       gourmet: {
         title: 'Gourmet cuisine',
         image:
-          './assets/header-imgs/Property 1=Gourmet.svg',
+          './assets/header-imgs/Property-Gourmet.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/property-gourmet-mobile.svg',
       },
       indian: {
         title: 'Indian cuisine',
         image:
-          './assets/header-imgs/Property 1=Indian.svg',
+          './assets/header-imgs/Property-Indian.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/Property-indian-mobile.svg',
       },
       fusion: {
         title: 'Fusion cuisine',
         image:
-          './assets/header-imgs/Property 1=Fusion.svg',
+          './assets/header-imgs/Property-Fusion.svg',
+        mobileImage:
+          './assets/header-imgs-mobile/Property-Fusion-mobile.svg',
       },
     };
 
@@ -107,6 +121,7 @@ export class Categorie implements OnInit {
     this.cuisine = cuisine;
     this.cuisineTitle = header.title;
     this.headerImage = header.image;
+    this.mobileHeaderImage = header.mobileImage;
     return true;
   }
 
@@ -250,8 +265,8 @@ export class Categorie implements OnInit {
   /**
  * Clears the previous recipe request and opens the ingredient form.
  */
-startNewRecipe(): void {
-  this.recipeData.clear();
-  this.router.navigate(['/generate-recipe']);
-}
+  startNewRecipe(): void {
+    this.recipeData.clear();
+    this.router.navigate(['/generate-recipe']);
+  }
 }

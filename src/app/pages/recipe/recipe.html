@@ -73,8 +73,9 @@
                     </aside>
                 </header>
                 <section class="recipe-ingredients-content">
-                    <img src="./assets/img/ingredients.svg" alt="ingredients">
-                    <div class="ingredients">
+                    <img class="header-img ingredient-img" src="./assets/img/ingredients.svg" alt="ingredients">
+                    @if (ingredientsOpen) {
+                    <div class="ingredients" animate.enter="content-enter" animate.leave="content-leave">
                         <section>
                             <p>Your ingredients</p>
                             <ul>
@@ -100,9 +101,21 @@
                             </ul>
                         </section>
                     </div>
+                    }
+                    <div class="hide-div">
+                        <span role="button" tabindex="0" [attr.aria-expanded]="ingredientsOpen"
+                            (click)="toggleIngredients()" (keydown.enter)="toggleIngredients()"
+                            (keydown.space)="toggleIngredients(); $event.preventDefault()">
+                            {{ ingredientsOpen ? 'Hide ingredients' : 'Show ingredients' }} <img
+                                src="./assets/img/arrow_drop_down-light.svg" alt="" aria-hidden="true"
+                                [class.arrow-open]="ingredientsOpen">
+                        </span>
+                    </div>
                     <div class="recipe-directions-content">
-                        <img src="./assets/img/directions.svg" alt="directions">
-                        <div class="directions">
+                        <img class="header-img directions-img" src="./assets/img/directions.svg" alt="directions">
+                        @if (directionsOpen) {
+                        <div class="directions" animate.enter="content-enter" animate.leave="content-leave">
+
                             @for (direction of recipe.directions; track direction.step) {
                             <span class="direction">
                                 <header class="directions-header">
@@ -133,6 +146,16 @@
                             </span>
                             }
                         </div>
+                        }
+                    </div>
+                    <div class="hide-div">
+                        <span role="button" tabindex="0" [attr.aria-expanded]="directionsOpen"
+                            (click)="toggleDirections()" (keydown.enter)="toggleDirections()"
+                            (keydown.space)="toggleDirections(); $event.preventDefault()">
+                            {{ directionsOpen ? 'Hide directions' : 'Show directions' }}
+                            <img src="./assets/img/arrow_drop_down-light.svg" alt="" aria-hidden="true"
+                                [class.arrow-open]="directionsOpen">
+                        </span>
                     </div>
                 </section>
                 <section class="like-meal-content">
