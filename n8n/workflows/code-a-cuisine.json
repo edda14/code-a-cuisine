@@ -6,15 +6,17 @@
         "httpMethod": "POST",
         "path": "generate-recipes",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {
+          "allowedOrigins": "*"
+        }
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -800,
-        0
+        -1760,
+        64
       ],
-      "id": "2f26a9ab-0b5a-4928-90a5-4c0ae1c4e120",
+      "id": "1dde27ae-6f1c-49bd-a85f-aa2bf0076989",
       "name": "Webhook",
       "webhookId": "c7e578cc-ab5f-4d11-96e5-0ddd71277392"
     },
@@ -27,7 +29,7 @@
             "entries": [
               {
                 "name": "Access-Control-Allow-Origin",
-                "value": "http://localhost:4200"
+                "value": "*"
               }
             ]
           }
@@ -36,10 +38,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1280,
-        112
+        320,
+        176
       ],
-      "id": "49bc145b-40a6-4c92-8047-d61bf95e7a73",
+      "id": "b773d63f-d5b4-4303-89d5-d2ed37a14769",
       "name": "Respond to Webhook"
     },
     {
@@ -49,16 +51,16 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        512,
-        -48
+        -448,
+        16
       ],
-      "id": "1269b89d-1f7e-47fc-b991-2e8cdb90765d",
+      "id": "a74813c1-e903-4c9e-af78-99e2650fb4c9",
       "name": "Validate Recipe Request"
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a professional recipe generator.\n\nFirst validate whether the supplied ingredients are compatible with the requested diet. Only create exactly 3 distinct recipes when the request is valid.\n\nRequest:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\nDIET VALIDATION RULES — HIGHEST PRIORITY:\n\n- Perform this validation before selecting ingredients or creating recipes.\n- Validate every ingredient supplied by the user against the requested diet.\n- An ingredient must be validated even when it would not be used in a recipe.\n- If any supplied ingredient conflicts with the requested diet, the complete request is invalid.\n- Never resolve a diet conflict by omitting, ignoring, replacing, or moving the conflicting ingredient.\n- Do not generate recipes when a diet conflict exists.\n- These validation rules have priority over every recipe-generation and ingredient-usage rule.\n\n- For a vegetarian diet, reject meat, poultry, fish, seafood, animal fat, gelatin, and other clearly non-vegetarian ingredients.\n- For a vegan diet, reject meat, poultry, fish, seafood, dairy products, eggs, honey, animal fat, gelatin, and other clearly animal-derived ingredients.\n- Eggs and all egg products always conflict with a vegan diet.\n- Mozzarella, cheese, milk, cream, butter, yoghurt, and other dairy products always conflict with a vegan diet.\n- Plant-based alternatives such as oat milk, soy milk, vegan cheese, vegan mozzarella, vegan meat substitutes, and egg substitutes are compatible with a vegan diet.\n- Consider the complete ingredient name before deciding whether it conflicts.\n- If the diet is \"no preferences\", skip diet-conflict validation.\n\nIf at least one conflict exists, return exactly:\n\n- valid: false\n- errorCode: \"DIET_CONFLICT\"\n- message: \"Some ingredients do not match the selected diet.\"\n- conflictingIngredients: all conflicting user-provided ingredient names\n- recipes: an empty array\n\nIf no conflict exists, return:\n\n- valid: true\n- errorCode: an empty string\n- message: an empty string\n- conflictingIngredients: an empty array\n- recipes: exactly 3 recipes following all remaining rules\n\nGENERAL RULES:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count, and cooking time.\n- If valid is true, create exactly 3 genuinely distinct recipes.\n- If valid is false, do not create any recipes.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n\nINGREDIENT USAGE RULES:\n\n- Use at least 70 percent of the ingredient types supplied by the user in every recipe.\n- The provided ingredient amounts represent the maximum amounts available.\n- A recipe does not need to use every provided ingredient, but it must use at least 70 percent of the provided ingredient types.\n- Use only ingredients and quantities that are appropriate for the dish and the requested portion count.\n- A recipe may use only part of an available ingredient amount.\n- Never use more than the amount provided by the user.\n- In the recipe output, list only the amount actually used, not the full available amount.\n- Any unused quantity remains unused and must not appear in the recipe.\n- For example, if 100 tomatoes are available but the recipe requires only 4 tomatoes, return an amount of 4 tomatoes.\n- Do not force excessive quantities into a recipe merely to increase ingredient usage.\n- Adjust all used ingredient amounts to the requested portion count.\n- Calculate ingredientUsagePercent from the number of provided ingredient types actually used, not from the quantities consumed.\n- ingredientUsagePercent must be a number from 70 to 100.\n- The ingredients array must contain only user-provided ingredients that are actually used.\n- providedByUser must always be true for every entry in the ingredients array.\n- Do not list user-provided ingredients in extraIngredients.\n- Additional ingredients must appear only in extraIngredients.\n- Ingredients must not be duplicated between ingredients and extraIngredients.\n- Add no more than 3 extra basic ingredients per recipe.\n\nCOOKING-TIME RULES:\n\n- cookingTimeMinutes must match the requested cooking-time category:\n  - quick: maximum 20 minutes\n  - medium: 21 to 45 minutes\n  - complex: more than 45 minutes\n\nCOOKING-DIRECTION RULES:\n\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be an integer between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Directions must be listed in a logical chronological order.\n- Steps that can happen simultaneously must use the same parallelGroup number.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks.\n- If cookCount is 1, every step must have a different parallelGroup.\n\nNUTRITION RULES:\n\n- Provide realistic estimated nutrition values per portion and for the complete recipe.\n- Total nutrition values must correspond to the requested portion count.\n- Macro percentages must describe the approximate calorie distribution.\n- The protein, carbohydrate, and fat percentages should total approximately 100.",
+        "text": "=You are a professional recipe generator.\n\nFirst validate whether the supplied ingredients are compatible with the requested diet. Only create exactly 3 distinct recipes when the request is valid.\n\nRequest:\n\n{{ JSON.stringify($json.request) }}\n\nFollow these rules:\n\nDIET VALIDATION RULES — HIGHEST PRIORITY:\n\n- Perform this validation before selecting ingredients or creating recipes.\n- Validate every ingredient supplied by the user against the requested diet.\n- An ingredient must be validated even when it would not be used in a recipe.\n- If any supplied ingredient conflicts with the requested diet, the complete request is invalid.\n- Never resolve a diet conflict by omitting, ignoring, replacing, or moving the conflicting ingredient.\n- Do not generate recipes when a diet conflict exists.\n- These validation rules have priority over every recipe-generation and ingredient-usage rule.\n\n- For a vegetarian diet, reject meat, poultry, fish, seafood, animal fat, gelatin, and other clearly non-vegetarian ingredients.\n- For a vegan diet, reject meat, poultry, fish, seafood, dairy products, eggs, honey, animal fat, gelatin, and other clearly animal-derived ingredients.\n- Eggs and all egg products always conflict with a vegan diet.\n- Mozzarella, cheese, milk, cream, butter, yoghurt, and other dairy products always conflict with a vegan diet.\n- Plant-based alternatives such as oat milk, soy milk, vegan cheese, vegan mozzarella, vegan meat substitutes, and egg substitutes are compatible with a vegan diet.\n- Consider the complete ingredient name before deciding whether it conflicts.\n- If the diet is \"no preferences\", skip diet-conflict validation.\n\nIf at least one conflict exists, return exactly:\n\n- valid: false\n- errorCode: \"DIET_CONFLICT\"\n- message: \"Some ingredients do not match the selected diet.\"\n- conflictingIngredients: all conflicting user-provided ingredient names\n- recipes: an empty array\n\nQUANTITY VALIDATION RULES — HIGH PRIORITY:\n\n- Perform this validation after diet validation and before creating recipes.\n- Check whether the available ingredient quantities are sufficient for the requested portionCount.\n- Evaluate each recipe separately. The 3 recipes are alternatives, so do not add their required quantities together.\n- The provided amounts are the maximum quantities available.\n- Each recipe may use less than the provided amount, but must never use more.\n- The quantities used must create realistic full portions for the requested portionCount.\n- Do not create unrealistically small portions merely to make the available quantities appear sufficient.\n- Up to 3 extra basic ingredients may support a recipe, but they must not replace insufficient main ingredients.\n- Every recipe must still use at least 70 percent of the user-provided ingredient types.\n- If the available quantities cannot produce exactly 3 realistic recipes for the requested portionCount, the complete request is invalid.\n- Diet conflicts have priority. If a diet conflict exists, return the DIET_CONFLICT error instead.\n\nIf the ingredient quantities are insufficient, return exactly:\n\n- valid: false\n- errorCode: \"INSUFFICIENT_QUANTITIES\"\n- message: \"The available ingredient quantities are insufficient for the selected number of portions.\"\n- conflictingIngredients: all user-provided ingredient names whose quantities are insufficient\n- recipes: an empty array\n\nIf no diet conflict or insufficient quantity exists, return:\n\n- valid: true\n- errorCode: an empty string\n- message: an empty string\n- conflictingIngredients: an empty array\n- recipes: exactly 3 recipes following all remaining rules\n\nGENERAL RULES:\n\n- Write all recipe content in English.\n- Respect the requested cuisine, diet, portion count, cook count, and cooking time.\n- If valid is true, create exactly 3 genuinely distinct recipes.\n-the fully recipe, include the ingredients must bbe come back in english.\n-the recipe title must be as short as it can, use max 7 words.\n- If valid is false, do not create any recipes.\n- Return exactly the structure required by the Structured Output Parser.\n- Return only the structured result without Markdown or additional explanations.\n\nINGREDIENT USAGE RULES:\n\n- Use at least 70 percent of the ingredient types supplied by the user in every recipe.\n- The provided ingredient amounts represent the maximum amounts available.\n- A recipe does not need to use every provided ingredient, but it must use at least 70 percent of the provided ingredient types.\n- Use only ingredients and quantities that are appropriate for the dish and the requested portion count.\n- A recipe may use only part of an available ingredient amount.\n- Never use more than the amount provided by the user.\n- In the recipe output, list only the amount actually used, not the full available amount.\n- Any unused quantity remains unused and must not appear in the recipe.\n- For example, if 100 tomatoes are available but the recipe requires only 4 tomatoes, return an amount of 4 tomatoes.\n- Do not force excessive quantities into a recipe merely to increase ingredient usage.\n- Adjust all used ingredient amounts to the requested portion count.\n- Calculate ingredientUsagePercent from the number of provided ingredient types actually used, not from the quantities consumed.\n- ingredientUsagePercent must be a number from 70 to 100.\n- The ingredients array must contain only user-provided ingredients that are actually used.\n- providedByUser must always be true for every entry in the ingredients array.\n- Do not list user-provided ingredients in extraIngredients.\n- Additional ingredients must appear only in extraIngredients.\n- Ingredients must not be duplicated between ingredients and extraIngredients.\n- Add no more than 3 extra basic ingredients per recipe.\n\nCOOKING-TIME RULES:\n\n- cookingTimeMinutes must match the requested cooking-time category:\n  - quick: maximum 20 minutes\n  - medium: 21 to 45 minutes\n  - complex: more than 45 minutes\n\nCOOKING-DIRECTION RULES:\n\n- Assign every direction to a cook using assignedCook.\n- assignedCook must be an integer between 1 and the requested cookCount.\n- Distribute the work sensibly between all requested cooks.\n- Directions must be listed in a logical chronological order.\n- Steps that can happen simultaneously must use the same parallelGroup number.\n- Two steps may only share the same parallelGroup when they are assigned to different cooks.\n- If cookCount is 1, every step must have a different parallelGroup.\n\nNUTRITION RULES:\n\n- Provide realistic estimated nutrition values per portion and for the complete recipe.\n- Total nutrition values must correspond to the requested portion count.\n- Macro percentages must describe the approximate calorie distribution.\n- The protein, carbohydrate, and fat percentages should total approximately 100.",
         "hasOutputParser": true,
         "messages": {
           "messageValues": [
@@ -72,10 +74,10 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
       "position": [
-        736,
-        -48
+        -224,
+        16
       ],
-      "id": "396b6865-c986-4336-bbc0-09b04d29dbff",
+      "id": "e8d1f58d-8936-4f28-a133-c62655e45a02",
       "name": "Basic LLM Chain"
     },
     {
@@ -86,14 +88,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        672,
-        96
+        -288,
+        160
       ],
-      "id": "c15f4352-7789-4c0d-b52e-731b7856fe56",
+      "id": "22e6c139-a71f-4ebf-85fe-a9c014b32703",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "NZaMMxPhA51iwusj",
+          "id": "7ihEKoyqsVcHR9qw",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -106,10 +108,10 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        800,
-        144
+        -160,
+        208
       ],
-      "id": "3bd96418-78cc-47d1-b330-8b739cb9b896",
+      "id": "4dd07ba9-97cf-4317-9871-d06dc3b824b9",
       "name": "Structured Output Parser"
     },
     {
@@ -120,14 +122,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        928,
-        272
+        -32,
+        336
       ],
-      "id": "9b98fba6-f0ff-450e-9246-ce29c923559f",
+      "id": "6557df5d-5821-4998-828b-99ad1c149246",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
-          "id": "NZaMMxPhA51iwusj",
+          "id": "7ihEKoyqsVcHR9qw",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -156,10 +158,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        -608,
-        0
+        -1568,
+        64
       ],
-      "id": "0452483d-f4fe-42c9-a967-78c40f07cf49",
+      "id": "ff7421c5-5344-4d8b-86a3-01a4370cb98e",
       "name": "Prepare Limit Check"
     },
     {
@@ -167,10 +169,10 @@
         "operation": "get",
         "dataTableId": {
           "__rl": true,
-          "value": "Q7cVhJLu4XA9qmYf",
+          "value": "GRxbvdPEnvUfATpv",
           "mode": "list",
           "cachedResultName": "generation_limits",
-          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+          "cachedResultUrl": "/projects/VebfXYuP4M4Vlapw/datatables/GRxbvdPEnvUfATpv"
         },
         "matchType": "allConditions",
         "filters": {
@@ -189,10 +191,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        -448,
-        0
+        -1408,
+        64
       ],
-      "id": "f13df2ad-2c10-4af0-b03d-83f982707a65",
+      "id": "a8d24fcc-5462-4e8b-b827-3e15a299b050",
       "name": "Get IP Daily Usage",
       "alwaysOutputData": true
     },
@@ -223,10 +225,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -304,
-        16
+        -1264,
+        80
       ],
-      "id": "687a8ef1-f44c-4592-a16e-629babfb87a7",
+      "id": "6954b673-b3cc-4836-97eb-e723372d3930",
       "name": "IP Limit Reached?"
     },
     {
@@ -240,10 +242,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        -16,
-        -96
+        -976,
+        -32
       ],
-      "id": "6298bec9-25e3-47d5-9c8f-1c071f8c143a",
+      "id": "0172c825-485f-4dfc-abf3-ef07ebb2a000",
       "name": "Respond IP Limit Reached"
     },
     {
@@ -251,10 +253,10 @@
         "operation": "get",
         "dataTableId": {
           "__rl": true,
-          "value": "Q7cVhJLu4XA9qmYf",
+          "value": "GRxbvdPEnvUfATpv",
           "mode": "list",
           "cachedResultName": "generation_limits",
-          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+          "cachedResultUrl": "/projects/VebfXYuP4M4Vlapw/datatables/GRxbvdPEnvUfATpv"
         },
         "filters": {
           "conditions": [
@@ -268,10 +270,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        -208,
-        208
+        -1168,
+        272
       ],
-      "id": "6a414fa1-6da9-4cce-bec4-a9672603a688",
+      "id": "65442af7-16a3-43cc-9555-a4d709d278b0",
       "name": "Get Total Daily Usage",
       "alwaysOutputData": true
     },
@@ -282,10 +284,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -80,
-        352
+        -1040,
+        416
       ],
-      "id": "fbca77ae-2c0a-4df1-890b-5c14d8093dd5",
+      "id": "7d25c00c-915f-4ff6-8447-c1799b93fbe6",
       "name": "Calculate Total Daily Usage"
     },
     {
@@ -315,10 +317,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        128,
-        416
+        -832,
+        480
       ],
-      "id": "9e63adb2-fb18-4348-aaec-5e67b5661190",
+      "id": "9ae2e5cd-1418-47ce-be44-88ecdac7b3f9",
       "name": "Total Limit Reached?"
     },
     {
@@ -332,10 +334,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        272,
-        80
+        -688,
+        144
       ],
-      "id": "aafec687-3bfd-4ab8-aa0b-fa391726ae23",
+      "id": "aef48c5d-8ae3-4efb-9ffa-9e6926871afe",
       "name": "Respond Total Limit Reached"
     },
     {
@@ -343,10 +345,10 @@
         "operation": "upsert",
         "dataTableId": {
           "__rl": true,
-          "value": "Q7cVhJLu4XA9qmYf",
+          "value": "GRxbvdPEnvUfATpv",
           "mode": "list",
           "cachedResultName": "generation_limits",
-          "cachedResultUrl": "/projects/bsYmNW1dRN0CG23X/datatables/Q7cVhJLu4XA9qmYf"
+          "cachedResultUrl": "/projects/VebfXYuP4M4Vlapw/datatables/GRxbvdPEnvUfATpv"
         },
         "filters": {
           "conditions": [
@@ -408,10 +410,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        320,
-        352
+        -640,
+        416
       ],
-      "id": "9b96f8ef-578d-4270-a984-ac808396f403",
+      "id": "f9416da4-f396-4285-b472-45b42c19c96b",
       "name": "Increment IP Daily Usage"
     },
     {
@@ -442,10 +444,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1104,
-        -32
+        144,
+        32
       ],
-      "id": "b7a2487b-934a-4cfc-81db-40b7b59acb15",
+      "id": "5efa8075-188e-4feb-bb28-6986f299338e",
       "name": "Diet Conflict?"
     },
     {
@@ -459,10 +461,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1296,
-        -192
+        336,
+        -128
       ],
-      "id": "c87259da-6a56-4eab-af09-af60bb1425c0",
+      "id": "6c18b8b2-b83c-497f-9e41-3d4a686786ce",
       "name": "Respond Diet Conflict"
     }
   ],
@@ -477,11 +479,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Respond to Webhook": {
-      "main": [
-        []
       ]
     },
     "Validate Recipe Request": {
@@ -653,17 +650,14 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false,
-    "timeSavedMode": "fixed",
-    "errorWorkflow": "Fbwr9GoIqSU0p0QN",
-    "callerPolicy": "workflowsFromSameOwner"
+    "availableInMCP": false
   },
-  "versionId": "1acca5d1-7912-4912-ae8b-36784979dceb",
+  "versionId": "bae465cd-bd78-4fb5-9432-0a6e17a80164",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"
+    "instanceId": "a17d7476b651cddd04c7bf51b47df7b43f9b0230bee87fb5496653d7d913a1bd"
   },
   "nodeGroups": [],
-  "id": "IhSJGsZDlG0Z5kEL",
+  "id": "4jlACS2NJWDKCjR2",
   "tags": []
 }

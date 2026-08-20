@@ -52,7 +52,7 @@ export class Loading implements OnInit {
     const body = this.createRecipeRequestBody();
     forkJoin({
       response: this.http.post<GenerateRecipesResponse>(
-        '/webhook/generate-recipes',
+        'https://julsino.app.n8n.cloud/webhook/generate-recipes',
         body
       ),
       minimumLoadingTime: timer(7000),
