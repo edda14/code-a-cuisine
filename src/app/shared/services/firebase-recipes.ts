@@ -53,13 +53,13 @@ export class FirebaseRecipes {
   }
 
   /**
-* Loads the ten most-liked recipes from Firestore.
-*/
+   * Loads the five most-liked recipes from Firestore.
+   */
   async getMostLikedRecipes(): Promise<GeneratedRecipe[]> {
     const recipesQuery = query(
       collection(firestore, 'recipes'),
       orderBy('likes', 'desc'),
-      limit(10)
+      limit(4)
     );
     const snapshot = await getDocs(recipesQuery);
     return snapshot.docs.map((document) => ({

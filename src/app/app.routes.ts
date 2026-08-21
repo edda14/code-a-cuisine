@@ -29,8 +29,9 @@ export const routes: Routes = [
   },
   {
     path: 'results',
-    loadComponent: () =>
-      import('./pages/results/results').then((m) => m.Results)
+    component: Results,
+    // loadComponent: () =>
+    //   import('./pages/results/results').then((m) => m.Results)
   },
   {
     path: 'recipe',

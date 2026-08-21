@@ -23,9 +23,9 @@ export class Results implements OnInit {
    */
   ngOnInit(): void {
     this.recipes = this.recipeData.getGeneratedRecipes();
-    if (this.recipes.length !== 3) {
-      this.router.navigate(['/generate-recipe']);
-    }
+    // if (this.recipes.length !== 3) {
+    //   this.router.navigate(['/generate-recipe']);
+    // }
   }
 
   /**

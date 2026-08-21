@@ -155,11 +155,15 @@
 
         >header {
             width: 100%;
-            height: 136px;
+            height: 100%;
             display: flex;
             justify-content: start;
             align-items: center;
             gap: 32px;
+
+            .impressum-div {
+                margin-top: -40px;
+            }
 
             >div {
                 display: flex;
@@ -218,7 +222,7 @@
         align-items: center;
         gap: 10px;
 
-        > button {
+        >button {
             font-family: "Quicksand";
             font-weight: 500;
             font-size: 18px;
@@ -367,13 +371,14 @@
 @media (max-width: 1000px) {
     .categorie {
         &-section {
-            padding: 40px 20px;
 
             >header {
-                height: 100px;
-                margin-left: 40px;
+                height: 100%;
+                
+
                 >div {
                     gap: 18px;
+
                     >img {
                         width: 95px;
                     }
@@ -405,10 +410,10 @@
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 630px) {
     .categorie {
         &-section {
-            padding: 40px 10px;
+            padding: 20px 20px;
             gap: 20px;
 
             >header {
@@ -440,26 +445,24 @@
 @media (max-width: 500px) {
     .categorie {
         &-section {
-            width: 300px;
-            padding: 40px 10px;
+            padding: 20px 20px;
 
             >header {
-                height: 100px;
                 margin-left: 0px;
             }
 
             >article {
-                width: 300px;
+                width: 280px;
 
                 .recipe-list {
 
                     >span {
-
-                        width: 280px;
+                        width: 260px;
 
                         .recipe-title {
                             align-items: start;
                             justify-content: start;
+
                             .time {
                                 >p {
                                     font-size: 16px;
@@ -467,8 +470,9 @@
                             }
 
                             .title {
-                                 align-items: start;
-                            justify-content: start;
+                                align-items: start;
+                                justify-content: start;
+
                                 >p {
                                     font-size: 18px;
                                 }

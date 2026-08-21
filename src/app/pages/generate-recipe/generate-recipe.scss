@@ -11,7 +11,7 @@
         height: 100%;
         width: 100%;
         max-width: 1440px;
-        padding: 0px 40px;
+        padding: 40px 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -19,10 +19,15 @@
 
         >nav {
             width: 100%;
-            height: 136px;
+            height: 100%;
             display: flex;
             align-items: center;
             gap: 32px;
+            align-items: start;
+
+            >div {
+                margin-top: 15px;
+            }
 
             >img {
                 width: auto;
@@ -517,11 +522,16 @@ button:focus {
 @media (max-width: 1000px) {
     .generate-recipe {
         &-section {
-            max-width: 550px;
             gap: 42px;
 
             >nav {
-                height: 100px;
+                .impressum-div {
+                    margin-top: 0px;
+                }
+
+                >img {
+                    width: 95px;
+                }
             }
 
             >article {
@@ -551,21 +561,14 @@ button:focus {
 @media (max-width: 630px) {
     .generate-recipe {
         &-section {
-            width: 372px;
-            padding: 0px 20px;
+            padding: 20px 20px;
             gap: 32px;
-
-            >nav {
-                >img {
-                    width: 95px;
-                }
-            }
 
 
             >article {
                 height: 100%;
                 justify-content: space-between;
-                gap:inherit;
+                gap: inherit;
 
                 >h2 {
                     font-size: 32px;
@@ -604,39 +607,39 @@ button:focus {
         .one-ingerdient {
             width: 318px;
 
-        // Greift nur, während die Zutat bearbeitet wird
-        &:has(.amount-input) {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            grid-template-areas:
-                "ingredient actions";
-            align-items: start;
-            row-gap: 16px;
-
-            .ingredient-row {
-                grid-area: ingredient;
+            // Greift nur, während die Zutat bearbeitet wird
+            &:has(.amount-input) {
                 display: grid;
-                grid-template-columns: 1fr;
-                gap: 16px;
+                grid-template-columns: minmax(0, 1fr) auto;
+                grid-template-areas:
+                    "ingredient actions";
+                align-items: start;
+                row-gap: 16px;
 
-                // Name der Zutat oben
-                > span {
-                    grid-row: 1;
+                .ingredient-row {
+                    grid-area: ingredient;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+
+                    // Name der Zutat oben
+                    >span {
+                        grid-row: 1;
+                    }
+
+                    // Menge und Einheit darunter
+                    .ingredient-amount {
+                        grid-row: 2;
+                        min-width: 0;
+                        width: fit-content;
+                    }
                 }
 
-                // Menge und Einheit darunter
-                .ingredient-amount {
-                    grid-row: 2;
-                    min-width: 0;
-                    width: fit-content;
+                .edit-div {
+                    grid-area: actions;
+                    align-self: start;
                 }
             }
-
-            .edit-div {
-                grid-area: actions;
-                align-self: start;
-            }
-        }
         }
     }
 }
@@ -644,8 +647,7 @@ button:focus {
 @media(max-width: 430px) {
     .generate-recipe {
         &-section {
-            width: 320px;
-            padding: 0px 0px;
+            padding: 20px 20px;
 
             >article {
                 align-items: start;
@@ -664,26 +666,26 @@ button:focus {
                         align-items: center;
 
                         .input-list {
-                            width: 290px;
+                            width: 260px;
                             padding: 10px;
                         }
 
                         .input-form {
                             padding: 10px;
-                            width: 290px;
+                            width: 260px;
                             height: fit-content;
 
                             .ingredient {
                                 .input-field {
                                     >input {
-                                        width: 260px;
+                                        width: 220px;
                                     }
 
                                 }
 
                                 .suggestion {
                                     >button {
-                                        width: 260px;
+                                        width: 220px;
                                     }
                                 }
                             }
@@ -699,11 +701,11 @@ button:focus {
             }
         }
     }
-    
+
 
     .added-ingredients {
         .one-ingerdient {
-            width: 285px;
+            width: 250px;
         }
     }
 

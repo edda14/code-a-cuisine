@@ -11,8 +11,7 @@
         min-height: 100%;
         width: 100%;
         box-sizing: border-box;
-        max-width: 1440px;
-        padding-left: 40px;
+        max-width: 1520px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -20,6 +19,7 @@
 
         .left {
             min-height: 90vh;
+            padding: 40px 0px 40px 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -102,10 +102,16 @@
 
             >nav {
                 width: 100%;
-                height: 136px;
+                height: 100%;
                 display: flex;
                 align-items: center;
                 gap: 32px;
+                align-items: start;
+
+                >div {
+                    margin-top: 15px;
+                    height: 100%;
+                }
 
                 >img {
                     width: auto;
@@ -114,15 +120,13 @@
         }
 
         .right {
-            flex: 0 1 30%;
-            min-width: 0;
+            flex: 0 1 40%;
+            width: fit-content;
             overflow: hidden;
 
             .example {
-                display: block;
                 height: 100vh;
                 width: auto;
-                max-width: none;
             }
         }
     }
@@ -156,26 +160,23 @@
 
 @media (min-width: 1440px) {
     .example {
+        padding-right: 40px;
         content: url('/assets/img/Visuals-big.png');
-    }
-}
-
-@media (max-width: 1440px) {
-    .right {
-        overflow: hidden !important;
     }
 }
 
 @media (max-width: 1000px) {
     .home-section {
         .home {
-            padding-left: 20px;
-
             .right {
                 width: auto;
+                
+                margin: 0px;
+            
             }
 
             .left {
+
                 .get-started {
                     flex-wrap: wrap;
                     width: 220px;
@@ -204,11 +205,11 @@
                     gap: 16px;
 
                     >h3 {
-                        margin-left: 16px;
                         font-size: 24px;
                     }
 
                     >button {
+                        margin-left: -16px;
                         display: flex;
                         font-size: 18px;
                         align-items: center;
@@ -219,6 +220,10 @@
                 }
 
                 >nav {
+                    .impressum-div {
+                        margin-top: 0px;
+                    }
+
                     >img {
                         width: 95px;
                     }
@@ -228,12 +233,28 @@
     }
 }
 
+@media (max-width: 630px) {
+    .home-section {
+        .home {
+            .right {
+                margin: 0px;
+            }
+
+            .left {
+                padding: 20px 0px 20px 20px;
+
+            }
+        }
+    }
+}
+
+
 @media (max-width: 400px) {
     .home-section {
         .home {
-            padding-left: 16px;
 
             .left {
+
                 .get-started {
                     width: 190px;
 
@@ -252,6 +273,11 @@
                     >h3 {
                         margin-left: 0;
                         font-size: 20px;
+                    }
+
+                    >button {
+                        margin-left: 0px;
+                        padding: 4px 0px;
                     }
                 }
             }

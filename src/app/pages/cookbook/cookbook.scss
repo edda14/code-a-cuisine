@@ -170,11 +170,14 @@
 
         >header {
             width: 100%;
-            height: 136px;
+            height: 100%;
             display: flex;
             justify-content: start;
             align-items: center;
             gap: 32px;
+            .impressum-div {
+                margin-top: -40px;
+            }
 
             >div {
                 display: flex;
@@ -370,7 +373,6 @@
 @media (max-width: 1000px) {
     .cookbook {
         &-section {
-            padding: 40px 20px;
             &-content {
                 .upper-section {
                     width: 450px;
@@ -396,15 +398,12 @@
             }
 
             >header {
-                height: 100px;
-                margin-left: 40px;
+                height: 100%;
                 >div {
                     gap: 18px;
                     >img {
                         width: 95px
                     }
-
-                    >div {}
                 }
             }
         }
@@ -414,17 +413,18 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 630px) {
     .cookbook {
         &-section {
-            padding: 40px 10px;
+            padding: 20px 20px;
             gap: 34px;
 
             &-content {
+                width: 275px;
                 gap: 34px;
 
                 .upper-section {
-                    width: 280px;
+                    width: 260px;
                     padding: 30px 10px;
 
                     .title {
@@ -436,15 +436,15 @@
                     .most-liked-content {
                         justify-content: start;
                         align-items: start;
-                        width: 280px;
+                        width: 260px;
 
                         .most-liked-recipes {
-                            width: 280px;
+                            width: 260px;
                             align-items: start;
 
                             .most-liked {
-                                width: 250px;
-                                height: 180px;
+                                width: 220px;
+                                min-height: 180px;
                                 gap: 12px;
                                 flex: 0 0 250px;
                             }
@@ -464,6 +464,10 @@
                     .img-wrapper {
                         width: 290px;
                         height: 290px;
+                        >img {
+                            width: 290px;
+                            height: 290px;
+                        }
                     }
                 }
             }
