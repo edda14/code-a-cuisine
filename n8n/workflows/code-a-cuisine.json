@@ -7,7 +7,7 @@
         "path": "generate-recipes",
         "responseMode": "responseNode",
         "options": {
-          "allowedOrigins": "*"
+          "allowedOrigins": "https://julia-schaeffer.developerakademie.net"
         }
       },
       "type": "n8n-nodes-base.webhook",
@@ -29,7 +29,7 @@
             "entries": [
               {
                 "name": "Access-Control-Allow-Origin",
-                "value": "*"
+                "value": "https://julia-schaeffer.developerakademie.net"
               }
             ]
           }
@@ -652,7 +652,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "bae465cd-bd78-4fb5-9432-0a6e17a80164",
+  "versionId": "ce42c408-3ecc-43f7-99bc-c3ba65060749",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a17d7476b651cddd04c7bf51b47df7b43f9b0230bee87fb5496653d7d913a1bd"
