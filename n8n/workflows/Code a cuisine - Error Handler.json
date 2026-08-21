@@ -9,7 +9,7 @@
         0,
         0
       ],
-      "id": "ab0d75aa-fab7-48ee-947e-1c9c17c7baf0",
+      "id": "49fe34e5-c41f-4fb9-802a-702903eb3d68",
       "name": "Error Trigger"
     },
     {
@@ -57,7 +57,7 @@
         208,
         0
       ],
-      "id": "d6c57465-c5c9-46a9-85e7-333ebfce598b",
+      "id": "d5d90067-e394-4c0e-8e2b-d9c37224fa94",
       "name": "Prepare Error Details"
     },
     {
@@ -74,12 +74,12 @@
         416,
         0
       ],
-      "id": "a4a6bcd5-9b94-4a60-84c6-edeb8d750a3d",
+      "id": "d6f74fce-623b-47f3-b486-24220a364835",
       "name": "Send Error Notification",
       "webhookId": "1d85a53b-b101-4439-9bc6-739d1816127c",
       "credentials": {
         "gmailOAuth2": {
-          "id": "uYrBtVJdchc1mOEs",
+          "id": "kRczHftROroillsf",
           "name": "Gmail account"
         }
       }
@@ -116,12 +116,12 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "941fddc0-d4fb-45f7-8b16-76f94e4374f2",
+  "versionId": "189005c4-1e7a-42d6-a3c3-6f96b13bedf6",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "fcebeac660ed00fd52d7f25f69bdbc25b113ee24bddb9bbe5008283d42876817"
+    "instanceId": "a17d7476b651cddd04c7bf51b47df7b43f9b0230bee87fb5496653d7d913a1bd"
   },
   "nodeGroups": [],
-  "id": "Fbwr9GoIqSU0p0QN",
+  "id": "IDi1QJrZ8oTdoL1S",
   "tags": []
 }
