@@ -11,7 +11,7 @@
         height: 100%;
         width: 100%;
         max-width: 1440px;
-        padding: 0px 40px;
+        padding: 40px 40px 200px 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -212,6 +212,7 @@
             justify-content: start;
             align-items: center;
             gap: 32px;
+
             .impressum-div {
                 margin-top: -40px;
             }
@@ -312,13 +313,15 @@
 @media(max-width:1000px) {
     .preferences {
         &-section {
-            max-width: 550px;
-            padding: 0px 20px 100px 20px;
-
             >nav {
-                height: 120px;
-
+                .impressum-div {
+                    margin-top: -40px;
+                    margin-left: -22px;
+                }
                 >div {
+                    >img {
+                        width: 95px;
+                    }
                     gap: 16px;
                 }
             }
@@ -352,12 +355,25 @@
     }
 }
 
+@media (max-width: 630px) {
+    .preferences {
+        &-section {
+            padding: 20px 20px 200px 20px;
+            >nav {
+                .impressum-div {
+                  margin-top: -30px;
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 500px) {
     .preferences {
         &-section {
+            padding: 20px 20px 100px 20px;
             gap: 32px;
-            max-width: 300px;
-            padding: 0px 0px 40px 0px;
+
             >nav {
                 >div {
                     >img {
@@ -369,15 +385,19 @@
             >article {
                 >section {
                     gap: 32px;
-                    width: 300px;
+                    width: 280px;
+
                     .preferences-form {
                         >section {
                             width: 100%;
                         }
+
                         .preference {
-                            width: 272px;
+                            padding: 20px 12px;
+                            width: 256px;
+
                             .set {
-                                >span {}
+
                                 >div {
                                     flex-wrap: wrap;
                                 }
